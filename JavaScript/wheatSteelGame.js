@@ -7,9 +7,10 @@ document.addEventListener("DOMContentLoaded", () => {
     let steelTime = 2; // Default production time for steel
     let wheatGoal = 200; // Default consumption goal for wheat
     let steelGoal = 150; // Default consumption goal for steel
+    let gameId; // Store the game ID after creation
 
     // Start Game Button
-    document.getElementById('startButton').onclick = function() {
+    document.getElementById('startButton').onclick = async function() {
         const teamData = document.getElementById('teamSelect').value.split(',');
         totalTime = parseInt(teamData[0]);
         wheatTime = parseInt(teamData[1]);
@@ -19,6 +20,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Disable the team selection dropdown
         document.getElementById('teamSelect').disabled = true;
+
+        // Start the game and save to the database
+        const response = await fetch('/api/wheat-steel-game', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                teamName: document.getElementById('teamSelect').selectedOptions[0].text,
+                totalTime,
+                wheatTime,
+                steelTime,
+                wheatGoal,
+                steelGoal
+            })
+        });
+        const data = await response.json();
+        gameId = data.id; // Store the game ID
 
         document.getElementById('timeRemaining').innerText = totalTime;
         document.getElementById('wheatGoal').innerText = wheatGoal;
@@ -36,7 +55,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // Wheat and Steel Production
-    document.getElementById('produceButton').onclick = function() {
+    document.getElementById('produceButton').onclick = async function() {
         const wheatAmount = parseInt(document.getElementById('wheatAmount').value);
         const steelAmount = parseInt(document.getElementById('steelAmount').value);
 
@@ -56,6 +75,19 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById('wheatConsumed').innerText = totalWheatConsumed;
         document.getElementById('steelConsumed').innerText = totalSteelConsumed;
         document.getElementById('timeRemaining').innerText = totalTime;
+
+        // Save updated data to the database
+        await fetch(`/api/wheat-steel-game/${gameId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                wheatConsumed: wheatAmount,
+                steelConsumed: steelAmount,
+                totalTime
+            })
+        });
 
         // Reset input fields
         document.getElementById('wheatAmount').value = 0;
