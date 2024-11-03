@@ -11,9 +11,9 @@ app.use(bodyParser.json());
 // MySQL connection
 const db = mysql.createConnection({
     host: 'localhost',
-    user: 'your_username',
-    password: 'your_password',
-    database: 'your_database'
+    user: 'root',
+    password: 'j&hghasfdk(&5H53HG&^8&*%^$&jnb%&*(&^%$hFGHJKJHGFCV234567%&%',
+    database: 'css_game_theory'
 });
 
 // Connect to the database
