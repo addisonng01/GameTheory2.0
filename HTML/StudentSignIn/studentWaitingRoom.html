@@ -6,90 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Centered Usernames</title>
     <link rel="stylesheet" type="text/css" href="../../css/studentWaitingRoom.css">
-    <style>
-        @keyframes floatEffect {
-    0% {
-        transform: translateY(0px);
-    }
-    50% {
-        transform: translateY(-10px);
-    }
-    100% {
-        transform: translateY(0px);
-    }
-}
-
-.username {
-    animation: floatEffect 3s infinite;
-    transition-timing-function: ease-in-out;
-}
-
-        .usernames-container {
-            display: flex;
-            justify-content: space-evenly;
-            align-items: center;
-            height: 50vh;
-            flex-direction: row;
-        }
-
-        .column {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .username {
-            margin: 10px;
-            color: black;
-            font-size: 24px;
-            font-family: Roboto;
-            font-weight: 400;
-            text-align: center;
-            box-shadow: 0px 10px 15px -10px rgba(0, 0, 0, 1);
-        }
-
-        .header {
-            text-align: center;
-            color: #00447C;
-            font-size: 40px;
-            font-family: 'Roboto Condensed', sans-serif;
-            font-weight: 400;
-            margin-bottom: 20px;
-        }
-    </style>
 </head>
 <body>
-    <iframe scrolling="no" style="border:none; height: 100px; width: 100%;" src="..\header.html"></iframe>
+    <iframe scrolling="no" style="border:none; height: 100px; width: 100%;" src="../header.html"></iframe>
     <div style="display: flex; justify-content: center; align-items: center; height: 20vh;">
         <div class="header">Students in Room</div>
     </div>
     <div class="usernames-container">
-        <div class="column">
-            <div class="username">{Username1}</div>
-            <div class="username">{Username2}</div>
-            <div class="username">{Username3}</div>
-            <div class="username">{Username4}</div>
-            <div class="username">{Username5}</div>
-            <div class="username">{Username6}</div>
-            <div class="username">{Username7}</div>
-        </div>
-        <div class="column">
-            <div class="username">{Username8}</div>
-            <div class="username">{Username9}</div>
-            <div class="username">{Username10}</div>
-            <div class="username">{Username11}</div>
-            <div class="username">{Username12}</div>
-            <div class="username">{Username13}</div>
-            <div class="username">{Username14}</div>
-        </div>
-        <div class="column">
-            <div class="username">{Username15}</div>
-            <div class="username">{Username16}</div>
-            <div class="username">{Username17}</div>
-            <div class="username">{Username18}</div>
-            <div class="username">{Username19}</div>
-            <div class="username">{Username20}</div>
-        </div>
+        <div class="column" id="usernameColumn"></div>
     </div>
+
+    <script src="../../javascript/studentWaitingRoom.js" defer></script> <!-- Link to your JavaScript file -->
 </body>
 </html>

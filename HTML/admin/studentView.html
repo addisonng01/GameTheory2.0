@@ -1,53 +1,41 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <link rel="stylesheet" href="..\..\css\header.css">
-        <link rel="stylesheet" href="..\..\css\admin.css">
-        <script src="..\..\javascript\studentRetrieve.js" defer></script>
-        <!--<script src="..\..\javascript\createGame.js" defer></script>--> <!-- test -->
-    <iframe scrolling="no" style="border:none;" width="100%" src="..\..\HTML\header.html"></iframe>
-    <body>
-        <h1 id="studentHeader">Student ()</h1>
-        <div id ="userInfo">
-            First Name: <span id="firstNameDisplay">Susan</span> <br>
-            Last Name: <span id="lastNameDisplay">Sample</span> <br>
-            Email: <span id="emailDisplay">ssample@css.edu</span> <br>
-        </div>
-        <br>
-        <div id ="redBlackInfo">
-            Number of Red/Black Games Played: <span id="redBlackNum">0</span> <br>
-            Highest Final Score: <span id="redBlackHigh">0</span> <br>
-            Lowest Final Score: <span id="redBlackLow">0</span> <br>
-            Game Point Average: <span id="redBlackGPA">0</span> <br>
-        </div>
-        <br>
-        <div id ="wheatSteelInfo">
-            Number of Wheat & Steel Games Played: <span id="wheatSteelNum">0</span> <br>
-            Highest Total Wheat Production: <span id="wheatHigh">0</span> <br>
-            Wheat Consumption Goals Met: <span id="wheatGoalNum">0</span> <br>
-            Highest Total Steel Production: <span id="steelHigh">0</span> <br>
-            Steel Consumption Goals Met: <span id="steelGoalNum">0</span> <br>
-        </div>
-        <br>
-        <!--table w/ links-->
-        <!-- TODO: consider making row of links an admin footer -->
-        <table id="links">
-            <tr>
-                <td>
-                    <a href="allStudents.html">All Students</a>
-                </td>
-                <td>
-                    <a href="index.html">Back to Home</a> <!--admin index-->
-                </td>
-                <td>
-                    <a href="allGames.html">All Games</a>
-                </td>
-            </tr>
-        </table>
-    </body>
-    <script language="javascript">
-        window.onload = function(e){ 
-            displayInfo();
-        }
-    </script>
+<head>
+    <link rel="stylesheet" href="../../css/header.css">
+    <link rel="stylesheet" href="../../css/admin.css">
+    <script src="../../javascript/studentInfo.js" defer></script> <!-- Include the new JS file -->
+    <iframe scrolling="no" style="border:none;" width="100%" src="../../HTML/header.html"></iframe>
+</head>
+<body>
+    <h1 id="studentHeader">Student ()</h1>
+    <div id="userInfo">
+        First Name: <span id="firstNameDisplay">Susan</span> <br>
+        Last Name: <span id="lastNameDisplay">Sample</span> <br>
+        Email: <span id="emailDisplay">ssample@css.edu</span> <br>
+    </div>
+    <br>
+    <div id="redBlackInfo">
+        Number of Red/Black Games Played: <span id="redBlackNum">0</span> <br>
+        Highest Final Score: <span id="redBlackHigh">0</span> <br>
+        Lowest Final Score: <span id="redBlackLow">0</span> <br>
+        Game Point Average: <span id="redBlackGPA">0</span> <br>
+    </div>
+    <br>
+    <div id="wheatSteelInfo">
+        Number of Wheat & Steel Games Played: <span id="wheatSteelNum">0</span> <br>
+        Highest Total Wheat Production: <span id="wheatHigh">0</span> <br>
+        Wheat Consumption Goals Met: <span id="wheatGoalNum">0</span> <br>
+        Highest Total Steel Production: <span id="steelHigh">0</span> <br>
+        Steel Consumption Goals Met: <span id="steelGoalNum">0</span> <br>
+    </div>
+    <br>
+    <!-- Navigation Links -->
+    <table id="links">
+        <tr>
+            <td><a href="allStudents.html">All Students</a></td>
+            <td><a href="index.html">Back to Home</a></td>
+            <td><a href="allGames.html">All Games</a></td>
+        </tr>
+    </table>
+</body>
 </html>
