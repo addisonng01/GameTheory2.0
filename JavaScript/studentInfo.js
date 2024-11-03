@@ -4,7 +4,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
 async function displayInfo() {
     try {
-        const response = await fetch('/api/student-info'); // Adjust the endpoint as needed
+        // Adjust the endpoint to match your API that retrieves student information from the MySQL database
+        const response = await fetch('/api/student-info'); 
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
         const studentInfo = await response.json();
 
         // Update student information
@@ -25,6 +29,7 @@ async function displayInfo() {
         document.getElementById("wheatGoalNum").textContent = studentInfo.wheatGoalsMet;
         document.getElementById("steelHigh").textContent = studentInfo.steelHighProduction;
         document.getElementById("steelGoalNum").textContent = studentInfo.steelGoalsMet;
+
     } catch (error) {
         console.error("Error fetching student info:", error);
     }

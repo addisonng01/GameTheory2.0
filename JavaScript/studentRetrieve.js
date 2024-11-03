@@ -4,7 +4,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
 async function fetchStudents() {
     try {
-        const response = await fetch('/api/students'); // Adjust the endpoint as needed
+        // Adjust the endpoint to match your API that retrieves student information from the MySQL database
+        const response = await fetch('/api/students');
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
         const students = await response.json();
         const studentNamesDiv = document.getElementById("studentNames");
         const table = document.createElement("table");

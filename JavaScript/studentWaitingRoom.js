@@ -1,12 +1,28 @@
-document.addEventListener("DOMContentLoaded", function() {
-    const totalUsernames = 20; // Set the total number of usernames you want to create
-    const usernameColumn = document.getElementById('usernameColumn');
-
-    // Dynamically create username elements based on index
-    for (let i = 1; i <= totalUsernames; i++) {
-        const usernameDiv = document.createElement('div');
-        usernameDiv.className = 'username';
-        usernameDiv.textContent = `Username${i}`; // Create usernames based on the index
-        usernameColumn.appendChild(usernameDiv);
-    }
+document.addEventListener("DOMContentLoaded", () => {
+    fetchUsernames();
 });
+
+async function fetchUsernames() {
+    try {
+        const response = await fetch('/api/usernames'); // Adjust the endpoint as needed
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const usernames = await response.json();
+        const usernameColumn = document.getElementById('usernameColumn');
+
+        // Clear existing usernames in case this function is called multiple times
+        usernameColumn.innerHTML = '';
+
+        // Dynamically create username elements based on fetched data
+        usernames.forEach((username, index) => {
+            const usernameDiv = document.createElement('div');
+            usernameDiv.className = 'username';
+            usernameDiv.textContent = username; // Create usernames from the fetched data
+            usernameColumn.appendChild(usernameDiv);
+        });
+    } catch (error) {
+        console.error("Error fetching usernames:", error);
+    }
+}

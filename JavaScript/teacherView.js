@@ -5,6 +5,10 @@ document.addEventListener("DOMContentLoaded", () => {
 async function fetchGameData() {
     try {
         const response = await fetch('/api/game-data'); // Adjust the endpoint to your server
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
         const gameData = await response.json();
 
         // Update game information in the HTML

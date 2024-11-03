@@ -1,11 +1,16 @@
+const axios = require('axios');
+require('dotenv').config();
+
+const BASE_URL = process.env.BASE_URL || 'http://localhost:3000/api'; // Adjust the base URL if needed
+
 document.addEventListener("DOMContentLoaded", () => {
     displayInfoRedBlack();
 });
 
 async function displayInfoRedBlack() {
     try {
-        const response = await fetch('/api/red-black-game-info'); // Adjust the endpoint as needed
-        const gameInfo = await response.json();
+        const response = await axios.get(`${BASE_URL}/red-black-game-info`); // Adjust the endpoint as needed
+        const gameInfo = response.data; // Axios automatically parses JSON responses
 
         // Update game information
         document.getElementById("gameDate_1").textContent = new Date(gameInfo.date).toLocaleDateString("en-US");

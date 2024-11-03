@@ -4,12 +4,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
 async function fetchGameData() {
     try {
-        const response = await fetch('/api/game-data'); // Adjust the endpoint as needed
+        const response = await fetch('/api/wheat-steel-game/data'); // Adjust the endpoint as needed
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
         const gameData = await response.json();
 
         // Update game information in the HTML
         document.getElementById('gameName_2').textContent = gameData.name;
-        document.getElementById('gameDate_2').textContent = gameData.date;
+        document.getElementById('gameDate_2').textContent = new Date(gameData.date).toLocaleDateString();
 
         // Update team information
         document.getElementById('playerNum_2').textContent = gameData.playerCount || 0;
@@ -39,5 +42,6 @@ async function fetchGameData() {
 
     } catch (error) {
         console.error("Error fetching game data:", error);
+        alert("There was an error fetching the game data. Please try again later.");
     }
 }

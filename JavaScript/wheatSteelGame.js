@@ -83,8 +83,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                wheatConsumed: wheatAmount,
-                steelConsumed: steelAmount,
+                wheatConsumed: totalWheatConsumed,
+                steelConsumed: totalSteelConsumed,
                 totalTime
             })
         });
@@ -133,6 +133,15 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         alert(`Game Over! You scored ${points} points.`);
+
+        // Save final score to the database
+        fetch(`/api/wheat-steel-game/${gameId}/score`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ score: points })
+        });
     }
 
     // Attach input change event for dynamic time update

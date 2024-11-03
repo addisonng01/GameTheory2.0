@@ -1,9 +1,22 @@
-function displayInfoInformation(){
-    let gameName1 = localStorage.getItem("firstNameDisplay");
-    let gameDate1 = localStorage.getItem("lastNameDisplay");
-    let playerNum1 = localStorage.getItem("emailDisplay");
+document.addEventListener("DOMContentLoaded", () => {
+    displayStudentInformation();
+});
 
-    if(gameName1) document.getElementById('firstNameDisplay').innerHTML = gameName1;
-    if(gameDate1) document.getElementById('lastNameDisplay').innerHTML = gameDate1;
-    if(playerNum1) document.getElementById('emailDisplay').innerHTML = playerNum1;
+async function displayStudentInformation() {
+    try {
+        // Fetch the student info from the API
+        const response = await fetch('/api/student-info'); // Adjust the endpoint as needed
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const studentInfo = await response.json();
+
+        // Update the DOM elements with the student information
+        if (studentInfo.firstName) document.getElementById('firstNameDisplay').innerHTML = studentInfo.firstName;
+        if (studentInfo.lastName) document.getElementById('lastNameDisplay').innerHTML = studentInfo.lastName;
+        if (studentInfo.email) document.getElementById('emailDisplay').innerHTML = studentInfo.email;
+    } catch (error) {
+        console.error("Error fetching student information:", error);
+    }
 }
