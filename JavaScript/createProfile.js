@@ -1,49 +1,55 @@
+const axios = require('axios');
+require('dotenv').config();
+
+const BASE_URL = process.env.BASE_URL || 'http://localhost:3000/api'; // Adjust the base URL if needed
+
 let firstNameValue = "";
 let lastNameValue = "";
 let emailValue = "";
-let numRecords = (localStorage.length / 3); // three fields per record
 
-// is there a better spot than sessionStorage to put this information?
-    // once we get a DB, insert it there
-// should there be a unique ID in the session storage as well?
-    // could use numRecords
+// Function to submit the form and save data to the database
+async function submitForm() {
+    // Get values from input fields
+    const firstNameInput = document.getElementById('firstName');
+    const lastNameInput = document.getElementById('lastName');
+    const emailInput = document.getElementById('email');
 
-function submitForm(){ // rewrites any values previously stored
-    // make sure at least one is not null
-    if (document.getElementById("firstName") != null || document.getElementById("lastName") != null || document.getElementById("email") != null){
-        if(document.getElementById("firstName") != null){
-            firstNameValue = document.getElementById('firstName').value;
+    if (firstNameInput && lastNameInput && emailInput) {
+        firstNameValue = firstNameInput.value || "n/a";
+        lastNameValue = lastNameInput.value || "n/a";
+        emailValue = emailInput.value || "n/a";
+
+        try {
+            const response = await axios.post(`${BASE_URL}/students`, {
+                first_name: firstNameValue,
+                last_name: lastNameValue,
+                email: emailValue
+            });
+            console.log('User data submitted successfully:', response.data);
+        } catch (error) {
+            console.error('Error submitting user data:', error.message);
         }
-        else{
-            firstNameValue = "n/a";
-        }
-        if(document.getElementById("lastName") != null){
-            lastNameValue = document.getElementById('lastName').value;
-        }
-        else{
-            lastNameValue = "n/a";
-        }
-        if(document.getElementById("email") != null){
-            emailValue = document.getElementById('email').value;
-        }
-        else{
-            emailValue = "n/a";
-        }
-        localStorage.setItem("firstName", firstNameValue); 
-        localStorage.setItem("lastName", lastNameValue);
-        localStorage.setItem("email", emailValue);
     }
-    // sessionStorage saves in the current session
-        // localStorage saves between sessions
 }
 
-function displayInfo(){
-    // automatically returns empty string if no value, null if field does not exist
-    let firstName = localStorage.getItem("firstName"); // retrieves it from the current session
-    let lastName = localStorage.getItem("lastName");
-    let email = localStorage.getItem("email");
+// Function to display user information
+async function displayInfo() {
+    try {
+        const response = await axios.get(`${BASE_URL}/students`); // Fetches the student information from the server
+        const students = response.data;
 
-    document.getElementById('firstNameDisplay').innerHTML = "First Name: " + firstName;
-    document.getElementById('lastNameDisplay').innerHTML = "Last Name: " + lastName;
-    document.getElementById('emailDisplay').innerHTML = "CSS Email: " + email;
+        // Assuming the server returns an array of students and you want to display the first one
+        if (students.length > 0) {
+            const student = students[0]; // Display first student's info for example
+            document.getElementById('firstNameDisplay').innerHTML = "First Name: " + student.first_name;
+            document.getElementById('lastNameDisplay').innerHTML = "Last Name: " + student.last_name;
+            document.getElementById('emailDisplay').innerHTML = "CSS Email: " + student.email;
+        } else {
+            document.getElementById('firstNameDisplay').innerHTML = "First Name: N/A";
+            document.getElementById('lastNameDisplay').innerHTML = "Last Name: N/A";
+            document.getElementById('emailDisplay').innerHTML = "CSS Email: N/A";
+        }
+    } catch (error) {
+        console.error('Error fetching user data:', error.message);
+    }
 }

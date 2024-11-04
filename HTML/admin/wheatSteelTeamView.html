@@ -1,99 +1,95 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <link rel="stylesheet" href="..\..\css\header.css">
-        <link rel="stylesheet" href="..\..\css\admin.css">
-        <script src="..\..\javascript\teamRetrieve.js" defer></script>
-        <script src="..\..\javascript\createGame.js" defer></script> <!-- test -->
-    <iframe scrolling="no" style="border:none;" width="100%" src="..\..\HTML\header.html"></iframe>
-    <body>
-        <h1 id="studentHeader">Team (<span id="teamName">Susan</span>)</h1>
-        <div id ="userInfo">
-            Game Name: Wheat & Steel <br>
-            Game Date: <span id="gameDate">{Game Date}</span> <br>
-            Team Members: <span id="playerOneName">Susan</span>, <span id="playerTwoName">Bob</span>, <span id="playerThreeName">Joe</span>, <span id="playerFourName">Jane</span> <br>
-        </div>
-        <br>
-        <div id ="wheatSteelPeriods"> <!---5 periods--->
-            <table>
-                <tr>
-                    <th class="resourceCol">Resource</th>
-                    <th class="tableHeader roundHeader">Period 1</th>
-                    <th class="tableHeader roundHeader">Period 2</th>
-                    <th class="tableHeader roundHeader">Period 3</th>
-                    <th class="tableHeader roundHeader">Period 4</th>
-                    <th class="tableHeader roundHeader">Period 5</th>
-                </tr>
-                <tr>
-                    <td class="blueBack">Wheat</td>
-                    <td id="roundOneWheat" class="amount">0</td>
-                    <td id="roundTwoWheat" class="amount blueBack">0</td>
-                    <td id="roundThreeWheat" class="amount">0</td>
-                    <td id="roundFourWheat" class="amount blueBack">0</td>
-                    <td id="roundFiveWheat" class="amount">0</td>
-                </tr>
-                <tr>
-                    <td class="blueBack">Steel</td>
-                    <td id="roundOneSteel" class="amount blueBack">0</td>
-                    <td id="roundTwoSteel" class="amount">0</td>
-                    <td id="roundThreeSteel" class="amount blueBack">0</td>
-                    <td id="roundFourSteel" class="amount">0</td>
-                    <td id="roundFiveSteel" class="amount blueBack">0</td>
-                </tr>
-                <tr>
-                    <td class="blueBack">Wheat Trade</td>
-                    <td id="roundOneWheatTrade" class="amount">0</td>
-                    <td id="roundTwoWheatTrade" class="amount blueBack">0</td>
-                    <td id="roundThreeWheatTrade" class="amount">0</td>
-                    <td id="roundFourWheatTrade" class="amount blueBack">0</td>
-                    <td id="roundFiveWheatTrade" class="amount">0</td>
-                </tr>
-                <tr>
-                    <td class="blueBack">Steel Trade</td>
-                    <td id="roundOneSteelTrade" class="amount blueBack">0</td>
-                    <td id="roundTwoSteelTrade" class="amount">0</td>
-                    <td id="roundThreeSteelTrade" class="amount blueBack">0</td>
-                    <td id="roundFourSteelTrade" class="amount">0</td>
-                    <td id="roundFiveSteelTrade" class="amount blueBack">0</td>
-                </tr>
-                <tr>
-                    <td class="blueBack">Wheat Consumed</td>
-                    <td id="roundOneWheatConsumed" class="amount">0</td>
-                    <td id="roundTwoWheatConsumed" class="amount blueBack">0</td>
-                    <td id="roundThreeWheatConsumed" class="amount">0</td>
-                    <td id="roundFourWheatConsumed" class="amount blueBack">0</td>
-                    <td id="roundFiveWheatConsumed" class="amount">0</td>
-                </tr>
-                <tr>
-                    <td class="blueBack">Steel Consumed</td>
-                    <td id="roundOneSteelConsumed" class="amount blueBack">0</td>
-                    <td id="roundTwoSteelConsumed" class="amount">0</td>
-                    <td id="roundThreeSteelConsumed" class="amount blueBack">0</td>
-                    <td id="roundFourSteelConsumed" class="amount">0</td>
-                    <td id="roundFiveSteelConsumed" class="amount blueBack">0</td>
-                </tr>
-            </table>
-        </div>
-        <br>
-        <!--table w/ links-->
-        <!-- TODO: consider making row of links an admin footer -->
-        <table id="links">
+<head>
+    <link rel="stylesheet" href="../../css/header.css">
+    <link rel="stylesheet" href="../../css/admin.css">
+    <script src="../../javascript/teamRetrieve.js" defer></script>
+    <script src="../../javascript/createGame.js" defer></script> <!-- test -->
+    <script src="../../javascript/wheatSteel.js" defer></script> <!-- Include the new JS file -->
+</head>
+<body>
+    <iframe scrolling="no" style="border:none;" width="100%" src="../../HTML/header.html"></iframe>
+    <h1 id="studentHeader">Team (<span id="teamName">Team Name</span>)</h1>
+    <div id ="userInfo">
+        Game Name: Wheat & Steel <br>
+        Game Date: <span id="gameDate">{Game Date}</span> <br>
+        Team Members: <span id="playerOneName">Player One</span>, <span id="playerTwoName">Player Two</span>, <span id="playerThreeName">Player Three</span>, <span id="playerFourName">Player Four</span><br>
+    </div>
+    <br>
+    <div id ="wheatSteelPeriods"> 
+        <table>
             <tr>
-                <td>
-                    <a href="allStudents.html">All Students</a>
-                </td>
-                <td>
-                    <a href="index.html">Back to Home</a> <!--admin index-->
-                </td>
-                <td>
-                    <a href="allGames.html">All Games</a>
-                </td>
+                <th class="resourceCol">Resource</th>
+                <th class="tableHeader roundHeader">Period 1</th>
+                <th class="tableHeader roundHeader">Period 2</th>
+                <th class="tableHeader roundHeader">Period 3</th>
+                <th class="tableHeader roundHeader">Period 4</th>
+                <th class="tableHeader roundHeader">Period 5</th>
+            </tr>
+            <tr>
+                <td class="blueBack">Wheat</td>
+                <td id="roundOneWheat" class="amount">0</td>
+                <td id="roundTwoWheat" class="amount blueBack">0</td>
+                <td id="roundThreeWheat" class="amount">0</td>
+                <td id="roundFourWheat" class="amount blueBack">0</td>
+                <td id="roundFiveWheat" class="amount">0</td>
+            </tr>
+            <tr>
+                <td class="blueBack">Steel</td>
+                <td id="roundOneSteel" class="amount blueBack">0</td>
+                <td id="roundTwoSteel" class="amount">0</td>
+                <td id="roundThreeSteel" class="amount blueBack">0</td>
+                <td id="roundFourSteel" class="amount">0</td>
+                <td id="roundFiveSteel" class="amount blueBack">0</td>
+            </tr>
+            <tr>
+                <td class="blueBack">Wheat Trade</td>
+                <td id="roundOneWheatTrade" class="amount">0</td>
+                <td id="roundTwoWheatTrade" class="amount blueBack">0</td>
+                <td id="roundThreeWheatTrade" class="amount">0</td>
+                <td id="roundFourWheatTrade" class="amount blueBack">0</td>
+                <td id="roundFiveWheatTrade" class="amount">0</td>
+            </tr>
+            <tr>
+                <td class="blueBack">Steel Trade</td>
+                <td id="roundOneSteelTrade" class="amount blueBack">0</td>
+                <td id="roundTwoSteelTrade" class="amount">0</td>
+                <td id="roundThreeSteelTrade" class="amount blueBack">0</td>
+                <td id="roundFourSteelTrade" class="amount">0</td>
+                <td id="roundFiveSteelTrade" class="amount">0</td>
+            </tr>
+            <tr>
+                <td class="blueBack">Wheat Consumed</td>
+                <td id="roundOneWheatConsumed" class="amount">0</td>
+                <td id="roundTwoWheatConsumed" class="amount blueBack">0</td>
+                <td id="roundThreeWheatConsumed" class="amount">0</td>
+                <td id="roundFourWheatConsumed" class="amount">0</td>
+                <td id="roundFiveWheatConsumed" class="amount">0</td>
+            </tr>
+            <tr>
+                <td class="blueBack">Steel Consumed</td>
+                <td id="roundOneSteelConsumed" class="amount blueBack">0</td>
+                <td id="roundTwoSteelConsumed" class="amount">0</td>
+                <td id="roundThreeSteelConsumed" class="amount blueBack">0</td>
+                <td id="roundFourSteelConsumed" class="amount">0</td>
+                <td id="roundFiveSteelConsumed" class="amount blueBack">0</td>
             </tr>
         </table>
-    </body>
-    <script language="javascript">
-        window.onload = function(e){ 
-            displayInfoWheatSteel();
-        }
-    </script>
+    </div>
+    <br>
+    <!--table w/ links-->
+    <table id="links">
+        <tr>
+            <td>
+                <a href="allStudents.html">All Students</a>
+            </td>
+            <td>
+                <a href="index.html">Back to Home</a> <!--admin index-->
+            </td>
+            <td>
+                <a href="allGames.html">All Games</a>
+            </td>
+        </tr>
+    </table>
+</body>
 </html>
