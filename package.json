@@ -17,5 +17,8 @@
   },
   "author": "",
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "devDependencies": {
+    "supertest": "^7.0.0"
+  }
 }
