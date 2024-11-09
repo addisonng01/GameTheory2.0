@@ -7,6 +7,7 @@
     "express": "^4.18.2",
     "fs": "^0.0.1-security",
     "mysql2": "^3.11.4",
+    "path": "^0.12.7",
     "socket.io": "^4.7.2"
   },
   "name": "css_game_theory",

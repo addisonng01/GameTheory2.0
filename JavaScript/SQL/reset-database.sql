@@ -1,9 +1,3 @@
-/*
-    Game Theory tables and initialization data
-    NOTE: Run this once the application is ready to go live
-*/
-
--- Drop tables
 DROP TABLE IF EXISTS session_partner;
 DROP TABLE IF EXISTS partner_pairing;
 DROP TABLE IF EXISTS question_submission;
@@ -27,13 +21,11 @@ DROP TABLE IF EXISTS wheat_steel_param;
 DROP TABLE IF EXISTS game_catalog;
 DROP TABLE IF EXISTS teacher_profile;
 
--- Game catalog table to store the game's title
 CREATE TABLE game_catalog (
     game_id INT PRIMARY key AUTO_INCREMENT,
     game_title VARCHAR(50)
 );
 
--- Red/Black Card Parameters
 CREATE TABLE red_black_card_param (
     red_black_id INT PRIMARY key AUTO_INCREMENT,
     game_id INT,
@@ -45,7 +37,6 @@ CREATE TABLE red_black_card_param (
     FOREIGN KEY (game_id) REFERENCES game_catalog(game_id) ON DELETE SET NULL
 );
 
--- Questions for students
 CREATE TABLE question_for_student (
     question_id INT PRIMARY KEY AUTO_INCREMENT,
     game_id INT,
@@ -55,7 +46,6 @@ CREATE TABLE question_for_student (
     FOREIGN KEY (game_id) REFERENCES game_catalog(game_id) ON DELETE SET NULL
 );
 
--- Wheat/Steel Parameters
 CREATE TABLE wheat_steel_param (
     wheat_steel_id INT PRIMARY KEY AUTO_INCREMENT,
     game_id INT,
@@ -65,7 +55,6 @@ CREATE TABLE wheat_steel_param (
     FOREIGN KEY (game_id) REFERENCES game_catalog(game_id) ON DELETE SET NULL
 );
 
--- Teacher Profile
 CREATE TABLE teacher_profile (
     teacher_id INT PRIMARY KEY AUTO_INCREMENT,
     first_nm VARCHAR(30),
@@ -74,7 +63,6 @@ CREATE TABLE teacher_profile (
     organization_nm VARCHAR(100)
 );
 
--- Game Session
 CREATE TABLE game_session (
     game_session_id INT PRIMARY KEY AUTO_INCREMENT,
     teacher_id INT,
@@ -91,7 +79,6 @@ CREATE TABLE game_session (
     FOREIGN KEY (wheat_steel_param) REFERENCES wheat_steel_param(wheat_steel_id)
 );
 
--- Red/Black Session
 CREATE TABLE red_black_session (
     rb_session_id INT PRIMARY KEY AUTO_INCREMENT,
     game_session_id INT,
@@ -100,7 +87,6 @@ CREATE TABLE red_black_session (
     FOREIGN KEY (game_session_id) REFERENCES game_session(game_session_id) ON DELETE SET NULL
 );
 
--- Login Credential
 CREATE TABLE login_credential (
     credential_id INT PRIMARY KEY AUTO_INCREMENT,
     teacher_id INT,
@@ -109,7 +95,6 @@ CREATE TABLE login_credential (
     FOREIGN KEY (teacher_id) REFERENCES teacher_profile(teacher_id) ON DELETE SET NULL
 );
 
--- Student Profile
 CREATE TABLE student_profile (
     student_id INT PRIMARY KEY AUTO_INCREMENT,
     first_nm VARCHAR(30),
@@ -119,7 +104,6 @@ CREATE TABLE student_profile (
     mod_dt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
--- Session Instance
 CREATE TABLE session_instance (
     session_id INT PRIMARY KEY AUTO_INCREMENT,
     student_id INT,
@@ -132,7 +116,6 @@ CREATE TABLE session_instance (
     FOREIGN KEY (student_id) REFERENCES student_profile(student_id) ON DELETE SET NULL
 );
 
--- Student Game Session
 CREATE TABLE student_game_session (
     link_id INT PRIMARY KEY AUTO_INCREMENT,
     game_session_id INT,
@@ -144,7 +127,6 @@ CREATE TABLE student_game_session (
     FOREIGN KEY (user_id) REFERENCES session_instance(student_id) ON DELETE SET NULL
 );
 
--- Question Submission
 CREATE TABLE question_submission (
     reflection_id INT PRIMARY KEY AUTO_INCREMENT,
     session_id INT,
@@ -158,14 +140,12 @@ CREATE TABLE question_submission (
     FOREIGN KEY (game_session_id) REFERENCES game_session(game_session_id)
 );
 
--- Partner Pairing
 CREATE TABLE partner_pairing (
     pairing_id INT PRIMARY KEY AUTO_INCREMENT,
     round_num TINYINT,
     create_dt TIMESTAMP DEFAULT CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP
 );
 
--- Session Partner
 CREATE TABLE session_partner (
     session_partner_id INT PRIMARY KEY AUTO_INCREMENT,
     link_id INT,
@@ -175,7 +155,6 @@ CREATE TABLE session_partner (
     FOREIGN KEY (pairing_id) REFERENCES partner_pairing(pairing_id)
 );
 
--- Player Round History
 CREATE TABLE player_round_history (
     round_history_id INT PRIMARY KEY AUTO_INCREMENT,
     user_id INT,
@@ -189,7 +168,6 @@ CREATE TABLE player_round_history (
     FOREIGN KEY (link_id) REFERENCES student_game_session(link_id)
 );
 
--- Red/Black Player Score
 CREATE TABLE rb_player_score (
     score_id INT PRIMARY KEY AUTO_INCREMENT,
     session_id INT,
@@ -199,11 +177,6 @@ CREATE TABLE rb_player_score (
     FOREIGN KEY (session_id) REFERENCES session_instance(session_id)
 );
 
-/*
-    Wheat & Steel Tables
-*/
-
--- Production Goal Profile
 CREATE TABLE prod_goal_profile (
     profile_id INT PRIMARY KEY AUTO_INCREMENT,
     profile_nm VARCHAR(30),
@@ -214,7 +187,6 @@ CREATE TABLE prod_goal_profile (
     steel_rec_resource_num SMALLINT
 );
 
--- Group Pairing
 CREATE TABLE group_pairing (
     group_id INT PRIMARY KEY AUTO_INCREMENT,
     profile_id INT,
@@ -225,7 +197,6 @@ CREATE TABLE group_pairing (
     FOREIGN KEY (profile_id) REFERENCES prod_goal_profile(profile_id)
 );
 
--- Group Student
 CREATE TABLE group_student (
     gs_id INT PRIMARY KEY AUTO_INCREMENT,
     session_id INT,
@@ -237,7 +208,6 @@ CREATE TABLE group_student (
     FOREIGN KEY (group_id) REFERENCES group_pairing(group_id)
 );
 
--- Round Score
 CREATE TABLE round_score (
     round_score_id INT PRIMARY KEY AUTO_INCREMENT,
     group_id INT,
@@ -251,7 +221,6 @@ CREATE TABLE round_score (
     FOREIGN KEY (group_id) REFERENCES group_pairing(group_id)
 );
 
--- Trade Partnership
 CREATE TABLE trade_partnership (
     partnership_id INT PRIMARY KEY AUTO_INCREMENT,
     round_num TINYINT,
@@ -259,26 +228,17 @@ CREATE TABLE trade_partnership (
     sent_type VARCHAR(10)
 );
 
--- Group Trade
 CREATE TABLE group_trade (
-    group_trade_id INT PRIMARY KEY AUTO_INCREMENT,
+    trade_id INT PRIMARY KEY AUTO_INCREMENT,
     group_id INT,
-    partnership_id INT,
-    trade_role CHAR(1),
-    FOREIGN KEY (group_id) REFERENCES group_pairing(group_id),
-    FOREIGN KEY (partnership_id) REFERENCES trade_partnership(partnership_id)
+    trade_detail VARCHAR(255),
+    FOREIGN KEY (group_id) REFERENCES group_pairing(group_id)
 );
 
-/*
-    Import Required Data
-*/
-
--- Game Catalog
 INSERT INTO game_catalog (game_title)
     VALUES ('Class Simulation: Red Card Black Card'),
            ('Class Simulation: Wheat & Steel');
 
--- Game Parameters/Ruleset
 INSERT INTO red_black_card_param (game_id, game_instruction_txt, red_point_value, black_point_value, total_round_num, hidden_round_num)
     VALUES (1, 'You have a red card and a black card. 
 In the first four rounds you will first pick a card and then you will find out who you are paired up with. You will then reveal the card to the other person. 
@@ -288,7 +248,6 @@ In all rounds, if you play a red card you receive $50 and the other person recei
 If you play a black card you receive nothing and the other person receives $150. 
 Participating in this exercise and answering the questions at the end of this is worth ten points. The person who has the greatest total receives 10 additional points and $10, and the person who has the second greatest total receives 5 additional points and $5.', 50, 150, 12, 4);
 
--- Questions for students
 INSERT INTO question_for_student (game_id, question_txt)
     VALUES (1, 'Describe your strategy at the beginning of this exercise'),
            (1, 'Describe how it changed near the end of the exercise');

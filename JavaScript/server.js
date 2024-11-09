@@ -3,6 +3,7 @@ const mysql = require('mysql2');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const fs = require('fs');
+const path = require('path');
 dotenv.config();
 
 const app = express();
@@ -95,23 +96,30 @@ app.post('/api/teachers', (req, res) => {
 });
 
 // Reset database endpoint
-app.get('/reset-database', (req, res) => {
-    // Read the SQL script from a file
-    fs.readFile('./SQL/reset-database.sql', 'utf8', (err, sqlResetScript) => {
-        if (err) {
-            console.error('Error reading SQL file:', err);
-            return res.status(500).send('Error reading SQL file');
+app.get('/reset-database', async (req, res) => {
+    try {
+        const sqlDir = path.resolve('./SQL', ''); // Directory where SQL files are located
+        const sqlFiles = await fs.promises.readdir(sqlDir); // List all files in the SQL directory
+
+        // Loop through each SQL file and execute its contents
+        for (const file of sqlFiles) {
+            try {
+                console.log('Executing SQL file:', file); // Debug log
+                const sqlText = await fs.promises.readFile(path.resolve(sqlDir, file), 'utf8'); // Read SQL file content
+
+                // Execute SQL using mysql2's promise-based API
+                await db.query(sqlText.trim()); // Ensure SQL is trimmed to avoid trailing spaces or newlines
+                console.log(`Successfully executed ${file}`); // Debug log
+            } catch (err) {
+                console.error(`Error executing SQL file ${file}:`, err.message); // Log any errors
+            }
         }
 
-        // Execute the SQL script
-        db.query(sqlResetScript, (err, result) => {
-            if (err) {
-                console.error('Error executing SQL script:', err);
-                return res.status(500).send('Failed to reset database');
-            }
-            res.send('Database has been reset successfully');
-        });
-    });
+        res.send('Database has been reset successfully');
+    } catch (err) {
+        console.error('Error reading SQL directory or files:', err.message); // Log any directory or file errors
+        res.status(500).send('Error reading SQL directory or files');
+    }
 });
 
 // Start server
