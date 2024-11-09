@@ -66,23 +66,31 @@ app.post('/api/redblackparams', (req, res) => {
     });
 });
 
+// GET /api/teachers - Fetch all teacher profiles
 app.get('/api/teachers', (req, res) => {
-    db.query('SELECT * FROM teachers', (error, results) => {
-        if (error) return res.status(500).json({ error });
+    db.query('SELECT * FROM teacher_profile', (err, results) => {
+        if (err) {
+            console.error('Database query error:', err);  // Log error for debugging
+            return res.status(500).send('Database query failed');
+        }
         res.status(200).json(results);
     });
 });
 
+// POST /api/teachers - Insert a new teacher profile
 app.post('/api/teachers', (req, res) => {
     const { first_nm, last_nm, email, organization_nm } = req.body;
-    db.query(
-        'INSERT INTO teachers (first_nm, last_nm, email, organization_nm) VALUES (?, ?, ?, ?)',
-        [first_nm, last_nm, email, organization_nm],
-        (error, results) => {
-            if (error) return res.status(500).json({ error });
-            res.status(201).json({ teacherId: results.insertId });
+    const query = `
+        INSERT INTO teacher_profile (first_nm, last_nm, email, organization_nm)
+        VALUES (?, ?, ?, ?)
+    `;
+    db.query(query, [first_nm, last_nm, email, organization_nm], (err, results) => {
+        if (err) {
+            console.error('Database insert error:', err);  // Log error for debugging
+            return res.status(500).send('Failed to insert teacher profile');
         }
-    );
+        res.status(201).json({ teacherId: results.insertId });
+    });
 });
 
 // Reset database endpoint
