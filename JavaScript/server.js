@@ -45,22 +45,25 @@ app.post('/api/games', (req, res) => {
 
 // Additional endpoints for Red/Black card parameters, Wheat/Steel parameters, and teacher profiles
 app.get('/api/redblackparams', (req, res) => {
-    db.query('SELECT * FROM red_black_params', (error, results) => {
-        if (error) return res.status(500).json({ error });
+    db.query('SELECT * FROM red_black_card_param', (err, results) => {
+        if (err) {
+            console.error('Database query error:', err);
+            return res.status(500).send('Database query failed');
+        }
         res.status(200).json(results);
     });
 });
 
 app.post('/api/redblackparams', (req, res) => {
     const { game_id, game_instruction_txt, red_point_value, black_point_value, total_round_num, hidden_round_num } = req.body;
-    db.query(
-        'INSERT INTO red_black_params (game_id, game_instruction_txt, red_point_value, black_point_value, total_round_num, hidden_round_num) VALUES (?, ?, ?, ?, ?, ?)',
-        [game_id, game_instruction_txt, red_point_value, black_point_value, total_round_num, hidden_round_num],
-        (error, results) => {
-            if (error) return res.status(500).json({ error });
-            res.status(201).json({ redBlackId: results.insertId });
+    const query = 'INSERT INTO red_black_card_param (game_id, game_instruction_txt, red_point_value, black_point_value, total_round_num, hidden_round_num) VALUES (?, ?, ?, ?, ?, ?)';
+    db.query(query, [game_id, game_instruction_txt, red_point_value, black_point_value, total_round_num, hidden_round_num], (err, results) => {
+        if (err) {
+            console.error('Database insert error:', err);
+            return res.status(500).send('Failed to insert Red/Black card parameters');
         }
-    );
+        res.status(201).json({ redBlackId: results.insertId });
+    });
 });
 
 app.get('/api/teachers', (req, res) => {

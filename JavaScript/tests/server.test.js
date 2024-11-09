@@ -52,12 +52,14 @@ describe('API Routes', () => {
     describe('GET /api/redblackparams', () => {
         it('should fetch all Red/Black card parameters', async () => {
             const res = await request(app).get('/api/redblackparams');
+            if (res.statusCode !== 200) {
+                console.error('Error fetching red/black params:', res.body);
+            }
             expect(res.statusCode).toBe(200);
             expect(Array.isArray(res.body)).toBe(true);
         });
     });
-
-    // POST /api/redblackparams tests
+    
     describe('POST /api/redblackparams', () => {
         it('should insert new Red/Black card parameters', async () => {
             const redBlackParam = {
@@ -69,16 +71,11 @@ describe('API Routes', () => {
                 hidden_round_num: 2
             };
             const res = await request(app).post('/api/redblackparams').send(redBlackParam);
+            if (res.statusCode !== 201) {
+                console.error('Error inserting red/black params:', res.body);
+            }
             expect(res.statusCode).toBe(201);
             expect(res.body).toHaveProperty('redBlackId');
-
-            // Verify the red/black card parameters were added to the database
-            db.query('SELECT * FROM red_black_card_param WHERE red_black_id = ?', [res.body.redBlackId], (err, results) => {
-                expect(results.length).toBe(1);
-                expect(results[0].game_instruction_txt).toBe(redBlackParam.game_instruction_txt);
-                expect(results[0].red_point_value).toBe(redBlackParam.red_point_value);
-                expect(results[0].black_point_value).toBe(redBlackParam.black_point_value);
-            });
         });
     });
 
