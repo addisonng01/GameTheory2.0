@@ -15,7 +15,7 @@ app.use(express.json());
 const db = mysql.createConnection({
     host: process.env.DB_HOST || 'localhost',
     user: process.env.DB_USER || 'root',
-    password: process.env.DB_PASSWORD || 'your_password_here',
+    password: process.env.DB_PASSWORD || 'j&hghasfdk(&5H53HG&^8&*%^$&jnb%&*(&^%$hFGHJKJHGFCV234567%&%',
     database: process.env.DB_NAME || 'css_game_theory'
 });
 
