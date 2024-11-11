@@ -2,18 +2,29 @@
   "dependencies": {
     "axios": "^1.7.7",
     "cors": "^2.8.5",
+    "css_game_theory": "file:",
     "dotenv": "^16.4.5",
     "express": "^4.18.2",
-    "node.js": "^0.0.1-security",
+    "fs": "^0.0.1-security",
+    "mysql2": "^3.11.4",
+    "path": "^0.12.7",
     "socket.io": "^4.7.2"
   },
-  "name": "package.json",
+  "name": "css_game_theory",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "author": "",
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "supertest": "^7.0.0"
+  },
+  "jest": {
+    "testEnvironment": "jest-environment-jsdom"
+  }
 }

@@ -1,237 +1,130 @@
 const express = require('express');
 const mysql = require('mysql2');
-const bodyParser = require('body-parser');
+const cors = require('cors');
+const dotenv = require('dotenv');
+const fs = require('fs');
+const path = require('path');
+dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Middleware
-app.use(bodyParser.json());
+app.use(cors());
+app.use(express.json());
 
-// MySQL connection
+// MySQL connection setup
 const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: 'j&hghasfdk(&5H53HG&^8&*%^$&jnb%&*(&^%$hFGHJKJHGFCV234567%&%',
-    database: 'css_game_theory'
+    host: process.env.DB_HOST || 'localhost',
+    user: process.env.DB_USER || 'root',
+    password: process.env.DB_PASSWORD || 'j&hghasfdk(&5H53HG&^8&*%^$&jnb%&*(&^%$hFGHJKJHGFCV234567%&%',
+    database: process.env.DB_NAME || 'css_game_theory'
 });
 
-// Connect to the database
 db.connect(err => {
     if (err) {
-        console.error('Database connection failed:', err);
-        return;
+        console.error('Error connecting to the database:', err);
+        process.exit(1);
     }
-    console.log('Connected to the MySQL database.');
+    console.log('Connected to the MySQL database');
 });
 
-// Game Catalog Routes
+// API endpoints
 app.get('/api/games', (req, res) => {
-    db.query('SELECT * FROM game_catalog', (err, results) => {
-        if (err) return res.status(500).send(err);
-        res.json(results);
+    db.query('SELECT * FROM game_catalog', (error, results) => {
+        if (error) return res.status(500).json({ error });
+        res.status(200).json(results);
     });
 });
 
 app.post('/api/games', (req, res) => {
     const { game_title } = req.body;
-    db.query('INSERT INTO game_catalog (game_title) VALUES (?)', [game_title], (err, results) => {
-        if (err) return res.status(500).send(err);
+    db.query('INSERT INTO game_catalog (game_title) VALUES (?)', [game_title], (error, results) => {
+        if (error) return res.status(500).json({ error });
         res.status(201).json({ gameId: results.insertId });
     });
 });
 
-// Red/Black Card Parameters Routes
+// Additional endpoints for Red/Black card parameters, Wheat/Steel parameters, and teacher profiles
 app.get('/api/redblackparams', (req, res) => {
     db.query('SELECT * FROM red_black_card_param', (err, results) => {
-        if (err) return res.status(500).send(err);
-        res.json(results);
+        if (err) {
+            console.error('Database query error:', err);
+            return res.status(500).send('Database query failed');
+        }
+        res.status(200).json(results);
     });
 });
 
 app.post('/api/redblackparams', (req, res) => {
     const { game_id, game_instruction_txt, red_point_value, black_point_value, total_round_num, hidden_round_num } = req.body;
-    db.query('INSERT INTO red_black_card_param (game_id, game_instruction_txt, red_point_value, black_point_value, total_round_num, hidden_round_num) VALUES (?, ?, ?, ?, ?, ?)',
-        [game_id, game_instruction_txt, red_point_value, black_point_value, total_round_num, hidden_round_num],
-        (err, results) => {
-            if (err) return res.status(500).send(err);
-            res.status(201).json({ redBlackId: results.insertId });
+    const query = 'INSERT INTO red_black_card_param (game_id, game_instruction_txt, red_point_value, black_point_value, total_round_num, hidden_round_num) VALUES (?, ?, ?, ?, ?, ?)';
+    db.query(query, [game_id, game_instruction_txt, red_point_value, black_point_value, total_round_num, hidden_round_num], (err, results) => {
+        if (err) {
+            console.error('Database insert error:', err);
+            return res.status(500).send('Failed to insert Red/Black card parameters');
         }
-    );
-});
-
-// Wheat/Steel Parameters Routes
-app.get('/api/wheatsteelparams', (req, res) => {
-    db.query('SELECT * FROM wheat_steel_param', (err, results) => {
-        if (err) return res.status(500).send(err);
-        res.json(results);
+        res.status(201).json({ redBlackId: results.insertId });
     });
 });
 
-app.post('/api/wheatsteelparams', (req, res) => {
-    const { game_id, game_instruction_txt, total_round_num, no_trade_round_num } = req.body;
-    db.query('INSERT INTO wheat_steel_param (game_id, game_instruction_txt, total_round_num, no_trade_round_num) VALUES (?, ?, ?, ?)',
-        [game_id, game_instruction_txt, total_round_num, no_trade_round_num],
-        (err, results) => {
-            if (err) return res.status(500).send(err);
-            res.status(201).json({ wheatSteelId: results.insertId });
-        }
-    );
-});
-
-// Teacher Profile Routes
+// GET /api/teachers - Fetch all teacher profiles
 app.get('/api/teachers', (req, res) => {
     db.query('SELECT * FROM teacher_profile', (err, results) => {
-        if (err) return res.status(500).send(err);
-        res.json(results);
+        if (err) {
+            console.error('Database query error:', err);  // Log error for debugging
+            return res.status(500).send('Database query failed');
+        }
+        res.status(200).json(results);
     });
 });
 
+// POST /api/teachers - Insert a new teacher profile
 app.post('/api/teachers', (req, res) => {
     const { first_nm, last_nm, email, organization_nm } = req.body;
-    db.query('INSERT INTO teacher_profile (first_nm, last_nm, email, organization_nm) VALUES (?, ?, ?, ?)',
-        [first_nm, last_nm, email, organization_nm],
-        (err, results) => {
-            if (err) return res.status(500).send(err);
-            res.status(201).json({ teacherId: results.insertId });
+    const query = `
+        INSERT INTO teacher_profile (first_nm, last_nm, email, organization_nm)
+        VALUES (?, ?, ?, ?)
+    `;
+    db.query(query, [first_nm, last_nm, email, organization_nm], (err, results) => {
+        if (err) {
+            console.error('Database insert error:', err);  // Log error for debugging
+            return res.status(500).send('Failed to insert teacher profile');
         }
-    );
-});
-
-// Game Session Routes
-app.get('/api/gamesessions', (req, res) => {
-    db.query('SELECT * FROM game_session', (err, results) => {
-        if (err) return res.status(500).send(err);
-        res.json(results);
+        res.status(201).json({ teacherId: results.insertId });
     });
 });
 
-app.post('/api/gamesessions', (req, res) => {
-    const { teacher_id, game_id, red_black_param, wheat_steel_param, expiration_dt, join_game_code } = req.body;
-    db.query('INSERT INTO game_session (teacher_id, game_id, red_black_param, wheat_steel_param, is_active, expiration_dt, join_game_code) VALUES (?, ?, ?, ?, "Y", ?, ?)',
-        [teacher_id, game_id, red_black_param, wheat_steel_param, expiration_dt, join_game_code],
-        (err, results) => {
-            if (err) return res.status(500).send(err);
-            res.status(201).json({ sessionId: results.insertId });
+// Reset database endpoint
+app.get('/reset-database', async (req, res) => {
+    try {
+        const sqlDir = path.resolve('./SQL', ''); // Directory where SQL files are located
+        const sqlFiles = await fs.promises.readdir(sqlDir); // List all files in the SQL directory
+
+        // Loop through each SQL file and execute its contents
+        for (const file of sqlFiles) {
+            try {
+                console.log('Executing SQL file:', file); // Debug log
+                const sqlText = await fs.promises.readFile(path.resolve(sqlDir, file), 'utf8'); // Read SQL file content
+
+                // Execute SQL using mysql2's promise-based API
+                await db.query(sqlText.trim()); // Ensure SQL is trimmed to avoid trailing spaces or newlines
+                console.log(`Successfully executed ${file}`); // Debug log
+            } catch (err) {
+                console.error(`Error executing SQL file ${file}:`, err.message); // Log any errors
+            }
         }
-    );
+
+        res.send('Database has been reset successfully');
+    } catch (err) {
+        console.error('Error reading SQL directory or files:', err.message); // Log any directory or file errors
+        res.status(500).send('Error reading SQL directory or files');
+    }
 });
 
-// Red/Black Session Routes
-app.get('/api/redblacksessions', (req, res) => {
-    db.query('SELECT * FROM red_black_session', (err, results) => {
-        if (err) return res.status(500).send(err);
-        res.json(results);
-    });
+// Start server
+const server = app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
 });
 
-app.post('/api/redblacksessions', (req, res) => {
-    const { game_session_id, rounds_complete, round_concluded } = req.body;
-    db.query('INSERT INTO red_black_session (game_session_id, rounds_complete, round_concluded) VALUES (?, ?, ?)',
-        [game_session_id, rounds_complete, round_concluded],
-        (err, results) => {
-            if (err) return res.status(500).send(err);
-            res.status(201).json({ rbSessionId: results.insertId });
-        }
-    );
-});
-
-// Login Credential Routes
-app.get('/api/logins', (req, res) => {
-    db.query('SELECT * FROM login_credential', (err, results) => {
-        if (err) return res.status(500).send(err);
-        res.json(results);
-    });
-});
-
-app.post('/api/logins', (req, res) => {
-    const { teacher_id, username, user_password } = req.body;
-    db.query('INSERT INTO login_credential (teacher_id, username, user_password) VALUES (?, ?, ?)',
-        [teacher_id, username, user_password],
-        (err, results) => {
-            if (err) return res.status(500).send(err);
-            res.status(201).json({ credentialId: results.insertId });
-        }
-    );
-});
-
-// Student Profile Routes
-app.get('/api/students', (req, res) => {
-    db.query('SELECT * FROM student_profile', (err, results) => {
-        if (err) return res.status(500).send(err);
-        res.json(results);
-    });
-});
-
-app.post('/api/students', (req, res) => {
-    const { first_nm, last_nm, email } = req.body;
-    db.query('INSERT INTO student_profile (first_nm, last_nm, email) VALUES (?, ?, ?)',
-        [first_nm, last_nm, email],
-        (err, results) => {
-            if (err) return res.status(500).send(err);
-            res.status(201).json({ studentId: results.insertId });
-        }
-    );
-});
-
-// Session Instance Routes
-app.get('/api/sessions', (req, res) => {
-    db.query('SELECT * FROM session_instance', (err, results) => {
-        if (err) return res.status(500).send(err);
-        res.json(results);
-    });
-});
-
-app.post('/api/sessions', (req, res) => {
-    const { student_id, teacher_id, login_attempts, active_session, expiration_dt } = req.body;
-    db.query('INSERT INTO session_instance (student_id, teacher_id, login_attempts, active_session, expiration_dt) VALUES (?, ?, ?, ?, ?)',
-        [student_id, teacher_id, login_attempts, active_session, expiration_dt],
-        (err, results) => {
-            if (err) return res.status(500).send(err);
-            res.status(201).json({ sessionId: results.insertId });
-        }
-    );
-});
-
-// Student Game Session Routes
-app.get('/api/studentgamesessions', (req, res) => {
-    db.query('SELECT * FROM student_game_session', (err, results) => {
-        if (err) return res.status(500).send(err);
-        res.json(results);
-    });
-});
-
-app.post('/api/studentgamesessions', (req, res) => {
-    const { game_session_id, session_id, user_id, active_participant } = req.body;
-    db.query('INSERT INTO student_game_session (game_session_id, session_id, user_id, active_participant) VALUES (?, ?, ?, ?)',
-        [game_session_id, session_id, user_id, active_participant],
-        (err, results) => {
-            if (err) return res.status(500).send(err);
-            res.status(201).json({ linkId: results.insertId });
-        }
-    );
-});
-
-// Question Submission Routes
-app.get('/api/questionSubmissions', (req, res) => {
-    db.query('SELECT * FROM question_submission', (err, results) => {
-        if (err) return res.status(500).send(err);
-        res.json(results);
-      });
-  });
-  
-  app.post('/api/questionSubmissions', (req, res) => {
-      const { student_id, session_id, question_text, submission_time } = req.body;
-      db.query('INSERT INTO question_submission (student_id, session_id, question_text, submission_time) VALUES (?, ?, ?, ?)',
-          [student_id, session_id, question_text, submission_time],
-          (err, results) => {
-              if (err) return res.status(500).send(err);
-              res.status(201).json({ submissionId: results.insertId });
-          }
-      );
-  });
-  
-  // Server start
-  app.listen(PORT, () => {
-      console.log(`Server is running on port ${PORT}`);
-  });
+module.exports = { app, server };
