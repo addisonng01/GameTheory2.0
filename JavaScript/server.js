@@ -56,6 +56,46 @@ app.get('/api/redblackparams', (req, res) => {
     });
 });
 
+const gameUpdates = {};
+
+// Game update endpoint, waits for page refresh and tracks them for change
+app.get('/api/wheatSteel/:gameId/updates', (req, res) => {
+    const gameId = req.params.gameId;
+    //Retrieves updates
+    const updates = gameUpdates[gameId] || [];
+    res.json({ updates });
+    //Clear list
+    gameUpdates[gameId] = [];
+});
+
+//adds updates from polling to list
+function addTradeUpdate(gameId, update) {
+    if (!gameUpdates[gameId]) {
+        gameUpdates[gameId] = [];
+    }
+    gameUpdates[gameId].push(update);
+}
+
+// Trade endpoint
+app.post('/api/wheat-steel-game/:gameId/trade', (req, res) => {
+    const { tradeTeamId, tradeWheat, tradeSteel } = req.body;
+    const gameId = req.params.gameId;
+
+    // Validate trade and add update (this probably needs to be changed to match values from game)
+    if (tradeWheat && tradeSteel) {
+        addTradeUpdate(gameId, {
+            type: 'tradeRequest',
+            fromTeamId: req.teamId,
+            toTeamId: tradeTeamId,
+            tradeWheat,
+            tradeSteel
+        });
+        res.json({ success: true });
+    } else {
+        res.json({ success: false, error: 'Invalid trade request' });
+    }
+});
+
 app.post('/api/redblackparams', (req, res) => {
     const { game_id, game_instruction_txt, red_point_value, black_point_value, total_round_num, hidden_round_num } = req.body;
     const query = 'INSERT INTO red_black_card_param (game_id, game_instruction_txt, red_point_value, black_point_value, total_round_num, hidden_round_num) VALUES (?, ?, ?, ?, ?, ?)';
