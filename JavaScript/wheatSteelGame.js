@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let wheatGoal = 200; // Default consumption goal for wheat
     let steelGoal = 150; // Default consumption goal for steel
     let gameId; // Store the game ID after creation
+    let teamId; // Store the team ID after creation
 
     // Start Game Button
     document.getElementById('startButton').onclick = async function() {
@@ -21,30 +22,57 @@ document.addEventListener("DOMContentLoaded", () => {
         // Disable the team selection dropdown
         document.getElementById('teamSelect').disabled = true;
 
-        // Start the game and save to the database
-        const response = await fetch('/api/wheat-steel-game', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                teamName: document.getElementById('teamSelect').selectedOptions[0].text,
-                totalTime,
-                wheatTime,
-                steelTime,
-                wheatGoal,
-                steelGoal
-            })
-        });
-        const data = await response.json();
-        gameId = data.id; // Store the game ID
-
         document.getElementById('timeRemaining').innerText = totalTime;
         document.getElementById('wheatGoal').innerText = wheatGoal;
         document.getElementById('steelGoal').innerText = steelGoal;
         document.getElementById('gameSection').style.display = 'block';
         document.getElementById('startButton').style.display = 'none';
     };
+
+    // Trade Buttons
+    document.getElementById('tradeWheatForSteel').onclick = () => initiateTrade('wheat', 'steel', 10);
+    document.getElementById('tradeSteelForWheat').onclick = () => initiateTrade('steel', 'wheat', 10);
+
+    // Function to handle trades
+    async function initiateTrade(giveResource, receiveResource, amount) {
+        if (giveResource === 'wheat' && totalWheatConsumed < amount) {
+            alert("Not enough wheat to trade!");
+            return;
+        }
+        if (giveResource === 'steel' && totalSteelConsumed < amount) {
+            alert("Not enough steel to trade!");
+            return;
+        }
+
+        // Adjust resources locally
+        if (giveResource === 'wheat') {
+            totalWheatConsumed -= amount;
+            totalSteelConsumed += amount;  // Received steel
+        } else {
+            totalSteelConsumed -= amount;
+            totalWheatConsumed += amount;  // Received wheat
+        }
+
+        // Update the displayed values
+        document.getElementById('wheatConsumed').innerText = totalWheatConsumed;
+        document.getElementById('steelConsumed').innerText = totalSteelConsumed;
+
+        // Sync the trade with the backend
+        await fetch(`/api/wheat-steel-game/${gameId}/trade`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                teamId: teamId,
+                trade: {
+                    give: giveResource,
+                    receive: receiveResource,
+                    amount: amount
+                }
+            })
+        });
+    }
 
     // Update Time Spent
     function updateTimeSpent() {
@@ -54,96 +82,7 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById('timeSpent').innerText = timeSpent;
     }
 
-    // Wheat and Steel Production
-    document.getElementById('produceButton').onclick = async function() {
-        const wheatAmount = parseInt(document.getElementById('wheatAmount').value);
-        const steelAmount = parseInt(document.getElementById('steelAmount').value);
-
-        // Calculate time spent and consumption
-        const timeSpent = (wheatAmount * wheatTime) + (steelAmount * steelTime);
-        if (timeSpent > totalTime) {
-            alert("Not enough time! You have " + totalTime + " hours.");
-            return;
-        }
-
-        // Update consumption
-        totalWheatConsumed += wheatAmount;
-        totalSteelConsumed += steelAmount;
-        totalTime -= timeSpent;
-
-        // Update displayed values
-        document.getElementById('wheatConsumed').innerText = totalWheatConsumed;
-        document.getElementById('steelConsumed').innerText = totalSteelConsumed;
-        document.getElementById('timeRemaining').innerText = totalTime;
-
-        // Save updated data to the database
-        await fetch(`/api/wheat-steel-game/${gameId}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                wheatConsumed: totalWheatConsumed,
-                steelConsumed: totalSteelConsumed,
-                totalTime
-            })
-        });
-
-        // Reset input fields
-        document.getElementById('wheatAmount').value = 0;
-        document.getElementById('steelAmount').value = 0;
-        updateTimeSpent(); // Reset the time spent display
-    };
-
-    // Next Period Button
-    document.getElementById('nextPeriodButton').onclick = function() {
-        if (totalTime < parseInt(document.getElementById('teamSelect').value.split(',')[0])) {
-            if (period < 5) {
-                period++;
-                document.getElementById('periodCounter').innerText = period;
-                resetPeriod();
-            } else {
-                calculatePoints();
-            }
-        } else {
-            alert("You must produce in this period before moving to the next.");
-        }
-    };
-
-    // Reset Period
-    function resetPeriod() {
-        totalTime = parseInt(document.getElementById('teamSelect').value.split(',')[0]);
-        document.getElementById('timeRemaining').innerText = totalTime;
-        updateTimeSpent(); // Reset time spent display
-    }
-
-    // Calculate Points
-    function calculatePoints() {
-        let points = 5;
-
-        if (totalWheatConsumed >= wheatGoal && totalSteelConsumed >= steelGoal) {
-            points = 10; // Base points for meeting goals
-            const excessWheat = totalWheatConsumed - wheatGoal;
-            const excessSteel = totalSteelConsumed - steelGoal;
-            const totalExcess = excessWheat + excessSteel;
-
-            if (totalExcess > 0) {
-                points += 10; // Bonus points for exceeding goals
-            }
-        }
-
-        alert(`Game Over! You scored ${points} points.`);
-
-        // Save final score to the database
-        fetch(`/api/wheat-steel-game/${gameId}/score`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ score: points })
-        });
-    }
-
+    // Production and period code here...
     // Attach input change event for dynamic time update
     document.getElementById('wheatAmount').onchange = updateTimeSpent;
     document.getElementById('steelAmount').onchange = updateTimeSpent;

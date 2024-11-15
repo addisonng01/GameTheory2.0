@@ -50,22 +50,28 @@
 
         <button id="produceButton">Produce</button>
         <button id="nextPeriodButton">Next Period</button>
-        
-        <div class="section">
-            <strong>Total Wheat Consumed: </strong><span id="wheatConsumed">0</span>
-        </div>
-        <div class="section">
-            <strong>Total Steel Consumed: </strong><span id="steelConsumed">0</span>
-        </div>
-        <div class="section" id="consumptionGoals">
-            <strong>Consumption Goals:</strong><br>
-            Wheat: <span id="wheatGoal">200</span> units<br>
-            Steel: <span id="steelGoal">150</span> units
+
+        <!-- New section for total consumed and goals -->
+        <div class="consumption-section">
+            <div class="section">
+                <strong>Total Wheat Consumed: </strong><span id="wheatConsumed">0</span>
+            </div>
+            <div class="section">
+                <strong>Total Steel Consumed: </strong><span id="steelConsumed">0</span>
+            </div>
+            <div class="section" id="consumptionGoals">
+                <strong>Consumption Goals:</strong><br>
+                Wheat: <span id="wheatGoal">200</span> units<br>
+                Steel: <span id="steelGoal">150</span> units
+            </div>
+            <div id="tradeSection">
+                <button id="tradeWheatForSteel">Trade 10 Wheat for 10 Steel</button>
+                <button id="tradeSteelForWheat">Trade 10 Steel for 10 Wheat</button>
+            </div>
         </div>
     </div>
 </div>
 
-<script src="../../javascript/game.js" defer></script> <!-- Link to your JavaScript file -->
-
+<script src="../../javascript/wheatSteelGame.js" defer></script>
 </body>
 </html>
