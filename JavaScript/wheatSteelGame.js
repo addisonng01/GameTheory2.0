@@ -86,4 +86,159 @@ document.addEventListener("DOMContentLoaded", () => {
     // Attach input change event for dynamic time update
     document.getElementById('wheatAmount').onchange = updateTimeSpent;
     document.getElementById('steelAmount').onchange = updateTimeSpent;
+
+
+    //Poll page updates
+    function pollUpdates() {
+        fetch(`/api/wheatSteel/${gameId}/updates`)
+            .then(response => response.json())
+            .then(data => {
+                data.updates.forEach(update => {
+                    //any other functions that require updates can be added here
+                    //trade request updates
+                    if (update.type === 'tradeRequest') {
+                        handleTradeRequest(update);
+                    } else if (update.type === 'tradeAccepted') {
+                        alert(`Trade accepted by Team ${update.byTeamId}`);
+                        updateResources(update.tradeWheat, update.tradeSteel);
+                    }
+                });
+            })
+            .catch(error => console.error('Polling error:', error));
+    }
+
+    // Start polling every 5 seconds
+    setInterval(pollUpdates, 5000);
+    
+    // Trade functionality. change if needed
+    document.getElementById('tradeButton').onclick = async function() {
+        const tradeWheat = parseInt(document.getElementById('tradeWheat').value);
+        const tradeSteel = parseInt(document.getElementById('tradeSteel').value);
+        const tradeTeamId = document.getElementById('tradeTeamSelect').value;
+
+        if (tradeWheat > totalWheatConsumed || tradeSteel > totalSteelConsumed) {
+            alert("Insufficient resources for this trade.");
+            return;
+        }
+
+        const response = await fetch(`/api/wheat-steel-game/${gameId}/trade`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                tradeTeamId,
+                tradeWheat,
+                tradeSteel
+            })
+        });
+        const data = await response.json();
+
+        // Update local resources if trade is successful
+        if (data.success) {
+            totalWheatConsumed -= tradeWheat;
+            totalSteelConsumed -= tradeSteel;
+            document.getElementById('wheatConsumed').innerText = totalWheatConsumed;
+            document.getElementById('steelConsumed').innerText = totalSteelConsumed;
+            alert("Trade successful!");
+        } else {
+            alert("Trade failed.");
+        }
+    };
+
+    // Reset Period
+    function resetPeriod() {
+        totalTime = parseInt(document.getElementById('teamSelect').value.split(',')[0]);
+        document.getElementById('timeRemaining').innerText = totalTime;
+        updateTimeSpent(); // Reset time spent display
+    }
+
+    // Calculate Points
+    function calculatePoints() {
+        let points = 5;
+
+        if (totalWheatConsumed >= wheatGoal && totalSteelConsumed >= steelGoal) {
+            points = 10; // Base points for meeting goals
+            const excessWheat = totalWheatConsumed - wheatGoal;
+            const excessSteel = totalSteelConsumed - steelGoal;
+            const totalExcess = excessWheat + excessSteel;
+
+            if (totalExcess > 0) {
+                points += 10; // Bonus points for exceeding goals
+            }
+        }
+
+        alert(`Game Over! You scored ${points} points.`);    
+        // Save final score to the database
+        fetch(`/api/wheat-steel-game/${gameId}/score`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ score: points })
+        });
+    }
+
+    // Attach input change event for dynamic time update
+    document.getElementById('wheatAmount').onchange = updateTimeSpent;
+    document.getElementById('steelAmount').onchange = updateTimeSpent;
+
+
+    //Poll page updates
+    function pollUpdates() {
+        fetch(`/api/wheatSteel/${gameId}/updates`)
+            .then(response => response.json())
+            .then(data => {
+                data.updates.forEach(update => {
+                    //any other functions that require updates can be added here
+                    //trade request updates
+                    if (update.type === 'tradeRequest') {
+                        handleTradeRequest(update);
+                    } else if (update.type === 'tradeAccepted') {
+                        alert(`Trade accepted by Team ${update.byTeamId}`);
+                        updateResources(update.tradeWheat, update.tradeSteel);
+                    }
+                });
+            })
+            .catch(error => console.error('Polling error:', error));
+    }
+
+    // Start polling every 5 seconds
+    setInterval(pollUpdates, 5000);
+    
+    // Trade functionality. change if needed
+    document.getElementById('tradeButton').onclick = async function() {
+        const tradeWheat = parseInt(document.getElementById('tradeWheat').value);
+        const tradeSteel = parseInt(document.getElementById('tradeSteel').value);
+        const tradeTeamId = document.getElementById('tradeTeamSelect').value;
+
+        if (tradeWheat > totalWheatConsumed || tradeSteel > totalSteelConsumed) {
+            alert("Insufficient resources for this trade.");
+            return;
+        }
+
+        const response = await fetch(`/api/wheat-steel-game/${gameId}/trade`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                tradeTeamId,
+                tradeWheat,
+                tradeSteel
+            })
+        });
+        const data = await response.json();
+
+        // Update local resources if trade is successful
+        if (data.success) {
+            totalWheatConsumed -= tradeWheat;
+            totalSteelConsumed -= tradeSteel;
+            document.getElementById('wheatConsumed').innerText = totalWheatConsumed;
+            document.getElementById('steelConsumed').innerText = totalSteelConsumed;
+            alert("Trade successful!");
+        } else {
+            alert("Trade failed.");
+        }
+    };
 });
