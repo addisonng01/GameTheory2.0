@@ -8,10 +8,10 @@ describe('API Routes', () => {
     beforeAll(done => {
         // Initialize database connection for testing
         db = mysql.createConnection({
-            host: 'localhost',
-            user: 'root',
-            password: 'j&hghasfdk(&5H53HG&^8&*%^$&jnb%&*(&^%$hFGHJKJHGFCV234567%&%',
-            database: 'css_game_theory'
+            host: "50.6.154.248",
+            user: "kfrdqmmy_root",
+            password: "j&hghasfdk(&5H53HG&^8&*%^$&jnb%&*(&^%$hFGHJKJHGFCV234567%&%",
+            database: "kfrdqmmy_cssgametheory"
         });
 
         db.connect(done);
