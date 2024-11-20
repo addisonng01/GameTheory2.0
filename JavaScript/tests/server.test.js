@@ -1,26 +1,26 @@
 const request = require('supertest');
 const { app, server } = require('../server');
-const mysql = require('mysql2');
+const mysql = require('mysql2/promise');
+const fs = require('fs');
+const path = require('path'); 
 
 describe('API Routes', () => {
     let db;
 
-    beforeAll(done => {
-        // Initialize database connection for testing
-        db = mysql.createConnection({
-            host: 'localhost',
-            user: 'root',
-            password: 'j&hghasfdk(&5H53HG&^8&*%^$&jnb%&*(&^%$hFGHJKJHGFCV234567%&%',
-            database: 'css_game_theory'
+    beforeAll(async () => {
+        // Initialize database connection for testing using promises
+        db = await mysql.createConnection({
+            host: process.env.DB_HOST,
+            user: process.env.DB_USER,
+            password: process.env.DB_PASSWORD,
+            database: process.env.DB_NAME
         });
-
-        db.connect(done);
     });
 
-    afterAll(done => {
+    afterAll(async () => {
         // Close database and server connections after tests
-        db.end();
-        server.close(done);
+        await db.end();
+        server.close();
     });
 
     // GET /api/games tests
@@ -105,6 +105,15 @@ describe('API Routes', () => {
             }
             expect(res.statusCode).toBe(201);
             expect(res.body).toHaveProperty('teacherId');
+        });
+    });
+
+    describe ('loaded .env vars', () => {
+        it ('should load environment variables', () =>
+        {
+            expect(process.env.BASE_URL).toBe('50.6.154.248/api');
+            expect(process.env.PORT).toBe('3000');
+
         });
     });
 

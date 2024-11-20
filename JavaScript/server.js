@@ -1,10 +1,9 @@
 const express = require('express');
 const mysql = require('mysql2');
 const cors = require('cors');
-const dotenv = require('dotenv');
+const dotenv = require('dotenv').config();;
 const fs = require('fs');
 const path = require('path');
-dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -15,10 +14,10 @@ app.use(express.json());
 
 // MySQL connection setup
 const db = mysql.createConnection({
-    host: process.env.DB_HOST || 'localhost',
-    user: process.env.DB_USER || 'root',
-    password: process.env.DB_PASSWORD || 'j&hghasfdk(&5H53HG&^8&*%^$&jnb%&*(&^%$hFGHJKJHGFCV234567%&%',
-    database: process.env.DB_NAME || 'css_game_theory'
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME
 });
 
 db.connect(err => {

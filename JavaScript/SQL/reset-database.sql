@@ -1,24 +1,24 @@
+DROP TABLE IF EXISTS trade_partnership;
+DROP TABLE IF EXISTS group_trade;
+DROP TABLE IF EXISTS round_score;
+DROP TABLE IF EXISTS group_student;
+DROP TABLE IF EXISTS group_pairing;
+DROP TABLE IF EXISTS prod_goal_profile;
+DROP TABLE IF EXISTS rb_player_score;
+DROP TABLE IF EXISTS player_round_history;
 DROP TABLE IF EXISTS session_partner;
 DROP TABLE IF EXISTS partner_pairing;
 DROP TABLE IF EXISTS question_submission;
-DROP TABLE IF EXISTS rb_player_score;
-DROP TABLE IF EXISTS player_round_history;
 DROP TABLE IF EXISTS student_game_session;
-DROP TABLE IF EXISTS red_black_session;
-DROP TABLE IF EXISTS question_for_student;
-DROP TABLE IF EXISTS login_credential;
-DROP TABLE IF EXISTS group_student;
-DROP TABLE IF EXISTS round_score;
-DROP TABLE IF EXISTS group_trade;
-DROP TABLE IF EXISTS trade_partnership;
-DROP TABLE IF EXISTS group_pairing;
-DROP TABLE IF EXISTS prod_goal_profile;
 DROP TABLE IF EXISTS session_instance;
-DROP TABLE IF EXISTS student_profile;
+DROP TABLE IF EXISTS login_credential;
+DROP TABLE IF EXISTS red_black_session;
 DROP TABLE IF EXISTS game_session;
-DROP TABLE IF EXISTS red_black_card_param;
 DROP TABLE IF EXISTS wheat_steel_param;
+DROP TABLE IF EXISTS question_for_student;
+DROP TABLE IF EXISTS red_black_card_param;
 DROP TABLE IF EXISTS game_catalog;
+DROP TABLE IF EXISTS student_profile;
 DROP TABLE IF EXISTS teacher_profile;
 
 CREATE TABLE game_catalog (
