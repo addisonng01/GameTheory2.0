@@ -10,10 +10,10 @@ describe('API Routes', () => {
     beforeAll(async () => {
         // Initialize database connection for testing using promises
         db = await mysql.createConnection({
-            host: "50.6.154.248",
-            user: "kfrdqmmy_root",
-            password: "j&hghasfdk(&5H53HG&^8&*%^$&jnb%&*(&^%$hFGHJKJHGFCV234567%&%",
-            database: "kfrdqmmy_cssgametheory"
+            host: process.env.DB_HOST,
+            user: process.env.DB_USER,
+            password: process.env.DB_PASSWORD,
+            database: process.env.DB_NAME
         });
     });
 
@@ -113,7 +113,7 @@ describe('API Routes', () => {
         {
             expect(process.env.BASE_URL).toBe('50.6.154.248/api');
             expect(process.env.PORT).toBe('3000');
-            
+
         });
     });
 
