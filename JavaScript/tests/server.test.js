@@ -108,4 +108,13 @@ describe('API Routes', () => {
         });
     });
 
+    describe ('loaded .env vars', () => {
+        it ('should load environment variables', () =>
+        {
+            expect(process.env.BASE_URL).toBe('50.6.154.248/api');
+            expect(process.env.PORT).toBe('3000');
+            
+        });
+    });
+
 });
