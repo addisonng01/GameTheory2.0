@@ -15,8 +15,6 @@ describe('API Routes', () => {
             password: "j&hghasfdk(&5H53HG&^8&*%^$&jnb%&*(&^%$hFGHJKJHGFCV234567%&%",
             database: "kfrdqmmy_cssgametheory"
         });
-
-        executeResetScripts(db);
     });
 
     afterAll(async () => {
@@ -24,27 +22,6 @@ describe('API Routes', () => {
         await db.end();
         server.close();
     });
-
-    const executeResetScripts = async (db) => {
-        try {
-            const sqlDir = path.resolve('./JavaScript/SQL'); // Directory for SQL files
-            const sqlFiles = await fs.promises.readdir(sqlDir);
-    
-            for (const file of sqlFiles) {
-                try {
-                    const sqlText = await fs.promises.readFile(path.resolve(sqlDir, file), 'utf8');
-                    await db.query(sqlText.trim());
-                    console.log(`Executed ${file} successfully`);
-                } catch (err) {
-                    console.error(`Error executing ${file}: ${err.message}`);
-                    throw err; // Stop on critical errors
-                }
-            }
-        } catch (err) {
-            console.error('Error reading or executing SQL files:', err);
-            throw err;
-        }
-    };
 
     // GET /api/games tests
     describe('GET /api/games', () => {
