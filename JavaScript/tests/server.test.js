@@ -1,27 +1,50 @@
 const request = require('supertest');
 const { app, server } = require('../server');
-const mysql = require('mysql2');
+const mysql = require('mysql2/promise');
+const fs = require('fs');
+const path = require('path'); 
 
 describe('API Routes', () => {
     let db;
 
-    beforeAll(done => {
-        // Initialize database connection for testing
-        db = mysql.createConnection({
+    beforeAll(async () => {
+        // Initialize database connection for testing using promises
+        db = await mysql.createConnection({
             host: "50.6.154.248",
             user: "kfrdqmmy_root",
             password: "j&hghasfdk(&5H53HG&^8&*%^$&jnb%&*(&^%$hFGHJKJHGFCV234567%&%",
             database: "kfrdqmmy_cssgametheory"
         });
 
-        db.connect(done);
+        executeResetScripts(db);
     });
 
-    afterAll(done => {
+    afterAll(async () => {
         // Close database and server connections after tests
-        db.end();
-        server.close(done);
+        await db.end();
+        server.close();
     });
+
+    const executeResetScripts = async (db) => {
+        try {
+            const sqlDir = path.resolve('./JavaScript/SQL'); // Directory for SQL files
+            const sqlFiles = await fs.promises.readdir(sqlDir);
+    
+            for (const file of sqlFiles) {
+                try {
+                    const sqlText = await fs.promises.readFile(path.resolve(sqlDir, file), 'utf8');
+                    await db.query(sqlText.trim());
+                    console.log(`Executed ${file} successfully`);
+                } catch (err) {
+                    console.error(`Error executing ${file}: ${err.message}`);
+                    throw err; // Stop on critical errors
+                }
+            }
+        } catch (err) {
+            console.error('Error reading or executing SQL files:', err);
+            throw err;
+        }
+    };
 
     // GET /api/games tests
     describe('GET /api/games', () => {
