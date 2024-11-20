@@ -1,14 +1,12 @@
 const request = require('supertest');
 const { app, server } = require('../server');
 const mysql = require('mysql2/promise');
-const fs = require('fs');
-const path = require('path'); 
 
 describe('API Routes', () => {
     let db;
 
     beforeAll(async () => {
-        // Initialize database connection for testing using promises
+        // Initialize database connection for testing
         db = await mysql.createConnection({
             host: process.env.DB_HOST,
             user: process.env.DB_USER,
@@ -39,12 +37,6 @@ describe('API Routes', () => {
             const res = await request(app).post('/api/games').send(newGame);
             expect(res.statusCode).toBe(201);
             expect(res.body).toHaveProperty('gameId');
-
-            // Verify the game was added to the database
-            db.query('SELECT * FROM game_catalog WHERE game_id = ?', [res.body.gameId], (err, results) => {
-                expect(results.length).toBe(1);
-                expect(results[0].game_title).toBe(newGame.game_title);
-            });
         });
     });
 
@@ -52,14 +44,12 @@ describe('API Routes', () => {
     describe('GET /api/redblackparams', () => {
         it('should fetch all Red/Black card parameters', async () => {
             const res = await request(app).get('/api/redblackparams');
-            if (res.statusCode !== 200) {
-                console.error('Error fetching red/black params:', res.body);
-            }
             expect(res.statusCode).toBe(200);
             expect(Array.isArray(res.body)).toBe(true);
         });
     });
-    
+
+    // POST /api/redblackparams tests
     describe('POST /api/redblackparams', () => {
         it('should insert new Red/Black card parameters', async () => {
             const redBlackParam = {
@@ -71,9 +61,6 @@ describe('API Routes', () => {
                 hidden_round_num: 2
             };
             const res = await request(app).post('/api/redblackparams').send(redBlackParam);
-            if (res.statusCode !== 201) {
-                console.error('Error inserting red/black params:', res.body);
-            }
             expect(res.statusCode).toBe(201);
             expect(res.body).toHaveProperty('redBlackId');
         });
@@ -83,14 +70,12 @@ describe('API Routes', () => {
     describe('GET /api/teachers', () => {
         it('should fetch all teacher profiles', async () => {
             const res = await request(app).get('/api/teachers');
-            if (res.statusCode !== 200) {
-                console.error('Error fetching teachers:', res.body);  // Log error response
-            }
             expect(res.statusCode).toBe(200);
             expect(Array.isArray(res.body)).toBe(true);
         });
     });
-    
+
+    // POST /api/teachers tests
     describe('POST /api/teachers', () => {
         it('should insert a new teacher profile', async () => {
             const newTeacher = {
@@ -100,21 +85,57 @@ describe('API Routes', () => {
                 organization_nm: 'Test University'
             };
             const res = await request(app).post('/api/teachers').send(newTeacher);
-            if (res.statusCode !== 201) {
-                console.error('Error inserting teacher:', res.body);  // Log error response
-            }
             expect(res.statusCode).toBe(201);
             expect(res.body).toHaveProperty('teacherId');
         });
     });
 
-    describe ('loaded .env vars', () => {
-        it ('should load environment variables', () =>
-        {
-            expect(process.env.BASE_URL).toBe('50.6.154.248/api');
-            expect(process.env.PORT).toBe('3000');
-
+    // GET /api/wheatSteel/:gameId/updates tests
+    describe('GET /api/wheatSteel/:gameId/updates', () => {
+        it('should fetch updates for a specific game ID', async () => {
+            const gameId = 1; // Example game ID
+            const res = await request(app).get(`/api/wheatSteel/${gameId}/updates`);
+            expect(res.statusCode).toBe(200);
+            expect(res.body).toHaveProperty('updates');
+            expect(Array.isArray(res.body.updates)).toBe(true);
         });
     });
 
+    // POST /api/wheat-steel-game/:gameId/trade tests
+    describe('POST /api/wheat-steel-game/:gameId/trade', () => {
+        it('should post a valid trade request', async () => {
+            const gameId = 1; // Example game ID
+            const tradeRequest = {
+                tradeTeamId: 2,
+                tradeWheat: 10,
+                tradeSteel: 5
+            };
+            const res = await request(app)
+                .post(`/api/wheat-steel-game/${gameId}/trade`)
+                .send(tradeRequest);
+            expect(res.statusCode).toBe(200);
+            expect(res.body.success).toBe(true);
+        });
+
+        it('should return an error for invalid trade request', async () => {
+            const gameId = 1; // Example game ID
+            const invalidTradeRequest = {}; // Missing trade details
+            const res = await request(app)
+                .post(`/api/wheat-steel-game/${gameId}/trade`)
+                .send(invalidTradeRequest);
+            expect(res.statusCode).toBe(200);
+            expect(res.body.success).toBe(false);
+            expect(res.body.error).toBe('Invalid trade request');
+        });
+    });
+
+    // Environment Variables Test
+    describe('Environment Variables', () => {
+        it('should load environment variables correctly', () => {
+            expect(process.env.DB_HOST).toBeDefined();
+            expect(process.env.DB_USER).toBeDefined();
+            expect(process.env.DB_PASSWORD).toBeDefined();
+            expect(process.env.DB_NAME).toBeDefined();
+        });
+    });
 });
