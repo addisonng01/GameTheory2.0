@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Classroom Market Experiment</title>
+    <link rel="stylesheet" href="../../css/studentWSGameView.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Classroom Market Experiment</h1>
+        <div id="instructions">
+            <p>Welcome to the market experiment! For each round, make a production decision. Afterward, you'll see the market price and calculate your profits using:</p>
+            <p><strong>Profit = (P - 20)q</strong>, where \(P\) is the market price, and \(q\) is your output.</p>
+        </div>
+
+        <div id="controls">
+            <h2>Round <span id="roundNumber">1</span> of 12</h2>
+            <p><strong>Equilibrium Output (One Firm):</strong> <span id="equilibriumOutput">100</span></p>
+            <p><strong>Total Profits (One Firm):</strong> <span id="equilibriumProfits">$1000</span></p>
+
+            <div id="firmInputs">
+                <h3>Enter Your Outputs</h3>
+                <div class="firm-input">
+                    <label for="firm1">Firm 1 Output:</label>
+                    <input type="number" id="firm1" min="0" value="0">
+                </div>
+                <div class="firm-input">
+                    <label for="firm2">Firm 2 Output:</label>
+                    <input type="number" id="firm2" min="0" value="0">
+                </div>
+                <div class="firm-input">
+                    <label for="firm3">Firm 3 Output:</label>
+                    <input type="number" id="firm3" min="0" value="0">
+                </div>
+                <div class="firm-input">
+                    <label for="firm4">Firm 4 Output:</label>
+                    <input type="number" id="firm4" min="0" value="0">
+                </div>
+            </div>
+
+            <button id="submitRound">Submit Outputs</button>
+            <div id="feedback"></div>
+        </div>
+
+        <div id="results">
+            <h2>Round Results</h2>
+            <ul id="roundResults"></ul>
+        </div>
+    </div>
+    <script src="../../javascript/oliGame.js"></script>
+</body>
+</html>
