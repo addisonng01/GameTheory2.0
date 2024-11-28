@@ -32,6 +32,8 @@ async function fetchGameData() {
             Player with Highest Number of Red Cards: ${gameData.highestRed.name} - ${gameData.highestRed.count}<br/>
             Player with Lowest Number of Red Cards: ${gameData.lowestRed.name} - ${gameData.lowestRed.count}
         `;
+
+        
     } catch (error) {
         console.error("Error fetching game data:", error);
     }
