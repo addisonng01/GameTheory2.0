@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById('steelConsumed').innerText = totalSteelConsumed;
 
         // Sync the trade with the backend
-        await fetch(`/api/wheat-steel-game/${gameId}/trade`, {
+        await fetch(`/api/wheatSteel/${gameId}/trade`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -121,7 +121,7 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        const response = await fetch(`/api/wheat-steel-game/${gameId}/trade`, {
+        const response = await fetch(`/api/wheatSteel/${gameId}/trade`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -170,7 +170,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         alert(`Game Over! You scored ${points} points.`);    
         // Save final score to the database
-        fetch(`/api/wheat-steel-game/${gameId}/score`, {
+        fetch(`/api/wheatSteel/${gameId}/score`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -217,7 +217,7 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        const response = await fetch(`/api/wheat-steel-game/${gameId}/trade`, {
+        const response = await fetch(`/api/wheatSteel/${gameId}/trade`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Response Form</title>
+    <link rel="stylesheet" href="studentResponseForm.css">
+</head>
+<body>
+    <div id="container">
+        <div class="header">Submit Your Reflections</div>
+        <form id="responseForm" method="POST">
+            <div id="questionsContainer"></div>
+            <div class="form-group">
+                <button type="submit">Submit</button>
+            </div>
+        </form>
+    </div>
+</body>
+<script>
+    // Fetch all questions dynamically
+    fetch('/api/get-questions')
+        .then(res => res.json())
+        .then(data => {
+            const container = document.getElementById('questionsContainer');
+            data.forEach(question => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'form-group';
+                questionDiv.innerHTML = `
+                    <label>${question.question_txt}</label>
+                    <textarea name="response_${question.question_id}" required></textarea>
+                `;
+                container.appendChild(questionDiv);
+            });
+        });
+
+    document.getElementById('responseForm').onsubmit = async (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        const responses = [];
+        formData.forEach((value, key) => {
+            const questionId = key.split('_')[1];
+            responses.push({ question_id: questionId, response_txt: value });
+        });
+
+        const result = await fetch('/api/submit-responses', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ responses })
+        });
+
+        if (result.ok) alert("Responses submitted successfully!");
+        else alert("Error submitting responses.");
+    };
+</script>
+</html>
