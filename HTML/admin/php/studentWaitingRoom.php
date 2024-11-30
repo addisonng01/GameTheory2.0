@@ -50,6 +50,26 @@
 			$mysqli->real_escape_string($game_session_id));
 	}
 
+	//Checks if there is not a wheat_steel_session created
+	$sql = sprintf("SELECT * FROM wheat_steel_session WHERE game_session_id = '%s';",
+		$mysqli->real_escape_string($game_session_id));
+	$result = $mysqli->query($sql);
+	if ( $result->num_rows == 0) {
+		//Create a instance of wheat_steel_session
+		$sql = sprintf("INSERT INTO wheat_steel_session (game_session_id) VALUES ('%s');",
+			$mysqli->real_escape_string($game_session_id));
+	}
+
+	//Checks if there is not a oli_game_session created
+	$sql = sprintf("SELECT * FROM oli_game_session WHERE game_session_id = '%s';",
+		$mysqli->real_escape_string($game_session_id));
+	$result = $mysqli->query($sql);
+	if ( $result->num_rows == 0) {
+		//Create a instance of oli_game_session
+		$sql = sprintf("INSERT INTO oli_game_session (game_session_id) VALUES ('%s');",
+			$mysqli->real_escape_string($game_session_id));
+	}
+
 ?>
 
 <!DOCTYPE html>
