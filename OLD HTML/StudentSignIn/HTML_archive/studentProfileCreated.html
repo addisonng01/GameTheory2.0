@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="../../css/header.css">
+        <link rel="stylesheet" href="../../css/createProfile.css">
+        <script src="../../JavaScript/createProfile.js" defer></script>
+        <script src="../../JavaScript/studentSignOn.js" defer></script>
+    </head>
+    <link href="https://cssgametheory.com/CSSGametheory/css/header.css" rel="stylesheet" />
+    <div id="headerTop"></div>
+    <p><img id="logo" src="https://cssgametheory.com/CSSGametheory/Img/logo.svg"></p> 
+    <div id="headerLeft"></div>
+    <div id="linkRow">
+    <table>
+    	<tbody>
+    		<tr>
+    			<td class="links"><a href="/CSSGametheory/HTML/admin/index.html" target="_blank">Game Theory</a></td>
+    		</tr>
+    	</tbody>
+    </table>
+    </div>
+    <div id="headerBottom"></div>
+    <br><br><br><br><br><br>
+
+    <body>
+        <div id="createSuccess">
+            Profile Created!
+        </div>
+        <div id ="userInfo">
+            <p id="firstNameDisplay">
+                First Name:
+            </p>
+            <p id="lastNameDisplay">
+                Last Name:
+            </p>
+            <p id="emailDisplay">
+                Email:
+            </p>
+        </div>
+        <button id="studentSignOn"  onclick="window.location.href='studentSignOn.php';">
+            Sign In
+        </button>
+    </body>
+    <script language="javascript">
+        window.onload = function(e){ 
+            displayInfoInformation();
+        }
+        </script>
+</html>

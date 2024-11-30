@@ -1,0 +1,152 @@
+body {
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #ffffff; /* Changed to white to match the screenshot background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+#headerTop, #headerBottom, #headerLeft, #linkRow {
+  display: none;
+}
+
+
+
+#cards {
+  display: flex;
+  flex-direction: row; /* Changed to column based on the screenshot */
+  align-items: center;
+  justify-content: space-around; /* Adjust spacing between elements */
+  background-color: #f0f0f0; /* Card background */
+  border: 2px solid #000000; /* Black border like the cards */
+  box-shadow: 3px 3px 10px rgba(0,0,0,0.2); /* Add shadow to cards */
+  padding: 20px;
+  margin-right: 20px;
+}
+
+#cards h1 {
+  text-decoration: underline;
+  text-align: center; /* Center the heading text */
+  padding: 0; /* Adjust or remove padding as needed */
+  margin-bottom: 20px; /* Space between the heading and the cards */
+}
+h1{
+padding-left: 50px;
+
+}
+button {
+  border: none;
+  background: none;
+  padding: 0;
+  margin: 0 15px; /* Space between cards */
+}
+
+
+
+button img {
+  height: auto; /* Keep the original aspect ratio */
+  width: 350px; /* Width of the cards */
+}
+
+#instructions td {
+  border: none; /* No borders for cells */
+  padding: 5px; /* Padding inside cells */
+  text-align: left;
+}
+
+#instructions tr:first-child td {
+  background-color: #00447C; /* Yellow background for the first row */
+  color: #FFCB00; /* Dark blue text for the first row */
+  border-radius: 5px; /* Rounded corners for the first row cells */
+  border-bottom: 1px solid #FFCB00;
+}
+
+#instructions tr:nth-child(2) {
+  background-color: #00447C; /* Yellow background for the first row */
+  color: #FFCB00; /* Dark blue text for the first row */
+  border-radius: 5px; /* Rounded corners for the first row cells */
+  border-bottom: 1px solid #FFCB00;
+  /* Your styles for the 'Partner' row */
+}
+
+#instructions td:nth-child(3) {
+  width: 50px; /* Adjust the width as needed to match the design */
+}
+
+#instructions {
+  width: 300px; /* Fixed width for instructions */
+  height: auto; /* Adjust height automatically */
+  overflow-y: auto; /* Enable scrolling if needed */
+  margin-left: 20px; /* Space between the cards and instructions */
+  /* Remove border if .testing class is applied */
+}
+
+#instructions table {
+  width: 100%; /* Table should take the full width of its container */
+  border-collapse: collapse; /* Collapse borders */
+}
+
+html, body {
+  overflow: hidden;
+}
+
+.flex-container {
+  display: flex; /* Establish flex container */
+  flex-direction: row; /* Align children in a row */
+  justify-content: center; /* Center children horizontally */
+  align-items: flex-start; /* Align children to the start of the cross axis */
+  max-width: 900px; /* Max width of the flex container */
+  margin: auto; /* Center the container on the page */
+}
+
+.cardsFlex {
+  display: flex;
+  justify-content: center; /* Center the cards horizontally */
+}
+td{
+  width: 100%;
+}
+
+.testing {
+  border: 5px solid #FFCB00; /* Yellow border */
+  background-color: #00447C; /* Dark blue background */
+  border-radius: 10px; /* Rounded corners */
+  color: white; /* White text color */
+  padding: 10px;
+}
+
+@media screen and (max-width: 768px) {
+  html, body {
+    overflow: auto; /* Enable scrolling */
+    height: auto; /* Allow natural height */
+    display: block; /* Standard block layout for body */
+  }
+
+  body {
+    padding: 10px; /* Reduced padding */
+    font-size: 14px; /* Smaller font size */
+  }
+
+  #cards {
+    flex-direction: column; /* Stack cards vertically */
+    margin-right: 0;
+    padding: 10px;
+  }
+
+  button img {
+    width: 100%; /* Full width images */
+    max-width: 300px; /* Limit maximum size */
+  }
+
+  #instructions {
+    width: 100%; /* Full width instructions */
+    margin-left: 0; /* Remove left margin */
+  }
+
+  .flex-container, .cardsFlex {
+    display: block; /* Standard block layout for flex containers */
+  }
+}

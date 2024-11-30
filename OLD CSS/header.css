@@ -1,0 +1,10 @@
+#header{
+    background-color: white;
+    border: none;
+    width: 100%;
+    overflow:hidden;
+}
+#logo{
+    width: 200px;
+    margin: 0 auto;
+}

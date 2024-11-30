@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8">
+</head>
+<body>
+<p>STUDENTSIGNON</p>
+</body>
+</html>
+<title></title>
+<link rel="stylesheet" type="text/css" href="../../css/TeacherSignOn.css"><script type="text/javascript">
+            function submitForm() {
+                var email = document.getElementById("Email").value;
+               
+        
+                // Add your validation logic here if needed, e.g.,
+                if(email === "") {
+                    alert("Email is required!");
+                    return false;
+                }
+        
+                // If everything is OK, submit the form
+                return true;
+            }
+        </script><!---this design needs a definite update according to the wireframes--->
+<div id="studentSignOn" style="width: 100%; height: 100%; position: relative">
+<h1 id="signInHeader">Sign In</h1>
+
+<form action="/CSSGametheory/HTML/admin/studentWaitingRoom.html" method="POST">
+<div id="studentUsername"><label for="Email" id="email" name="emailLabel">&nbsp;&nbsp;Email</label> &nbsp; <input id="Email" name="Email" required="" /></div>
+<input id="signOnsubmit" name="signOnsubmit" onclick="return submitForm()" type="submit" value="Submit" /></form>
+<button onclick="window.location.href='studentCreateProfile.php';">Create New Profile</button></div>

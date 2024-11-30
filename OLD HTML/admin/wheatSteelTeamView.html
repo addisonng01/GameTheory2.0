@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Wheat & Steel Team View</title>
+	<meta charset="utf-8">
+	<link href="/CSSGametheory/css/admin.css" rel="stylesheet" />
+	<script src="/CSSGametheory/JavaScript/teamRetrieve.js" defer></script>
+	<script src="/CSSGametheory/JavaScript/createGame.js" defer></script> <!--- makes sure the values are in localStorage --->
+</head>
+<body>
+    
+<link href="https://cssgametheory.com/CSSGametheory/css/header.css" rel="stylesheet" />
+<p style="margin: 0 auto; width: 200px"><img id="logo" src="https://cssgametheory.com/CSSGametheory/Img/logo.svg"></p> 
+
+<h1 id="studentHeader">Team (<span id="teamName">Susan</span>)</h1>
+
+<div id="userInfo">
+	Game Name: Wheat &amp; Steel<br />
+	Game Date: <span id="gameDate">{Game Date}</span><br />
+	Team Members: 
+		<span id="playerOneName">Susan</span>, 
+		<span id="playerTwoName">Bob</span>, 
+		<span id="playerThreeName">Joe</span>, 
+		<span id="playerFourName">Jane</span>
+</div>
+<br>
+
+<div id="wheatSteelPeriods"><!---5 periods--->
+	<table>
+		<tbody>
+			<tr>
+				<th class="resourceCol">Resource</th>
+				<th class="tableHeader roundHeader">Period 1</th>
+				<th class="tableHeader roundHeader">Period 2</th>
+				<th class="tableHeader roundHeader">Period 3</th>
+				<th class="tableHeader roundHeader">Period 4</th>
+				<th class="tableHeader roundHeader">Period 5</th>
+			</tr>
+			<tr>
+				<td class="blueBack">Wheat</td>
+				<td class="amount" id="roundOneWheat">0</td>
+				<td class="amount blueBack" id="roundTwoWheat">0</td>
+				<td class="amount" id="roundThreeWheat">0</td>
+				<td class="amount blueBack" id="roundFourWheat">0</td>
+				<td class="amount" id="roundFiveWheat">0</td>
+			</tr>
+			<tr>
+				<td class="blueBack">Steel</td>
+				<td class="amount blueBack" id="roundOneSteel">0</td>
+				<td class="amount" id="roundTwoSteel">0</td>
+				<td class="amount blueBack" id="roundThreeSteel">0</td>
+				<td class="amount" id="roundFourSteel">0</td>
+				<td class="amount blueBack" id="roundFiveSteel">0</td>
+			</tr>
+		    <tr>
+			    <td class="blueBack">Wheat Trade</td>
+			    <td class="amount" id="roundOneWheatTrade">0</td>
+			    <td class="amount blueBack" id="roundTwoWheatTrade">0</td>
+			    <td class="amount" id="roundThreeWheatTrade">0</td>
+			    <td class="amount blueBack" id="roundFourWheatTrade">0</td>
+			    <td class="amount" id="roundFiveWheatTrade">0</td>
+		    </tr>
+		    <tr>
+			    <td class="blueBack">Steel Trade</td>
+			    <td class="amount blueBack" id="roundOneSteelTrade">0</td>
+			    <td class="amount" id="roundTwoSteelTrade">0</td>
+			    <td class="amount blueBack" id="roundThreeSteelTrade">0</td>
+			    <td class="amount" id="roundFourSteelTrade">0</td>
+			    <td class="amount blueBack" id="roundFiveSteelTrade">0</td>
+		    </tr>
+		    <tr>
+			    <td class="blueBack">Wheat Consumed</td>
+			    <td class="amount" id="roundOneWheatConsumed">0</td>
+			    <td class="amount blueBack" id="roundTwoWheatConsumed">0</td>
+			    <td class="amount" id="roundThreeWheatConsumed">0</td>
+			    <td class="amount blueBack" id="roundFourWheatConsumed">0</td>
+			    <td class="amount" id="roundFiveWheatConsumed">0</td>
+		    </tr>
+		    <tr>
+			    <td class="blueBack">Steel Consumed</td>
+			    <td class="amount blueBack" id="roundOneSteelConsumed">0</td>
+			    <td class="amount" id="roundTwoSteelConsumed">0</td>
+			    <td class="amount blueBack" id="roundThreeSteelConsumed">0</td>
+			    <td class="amount" id="roundFourSteelConsumed">0</td>
+			    <td class="amount blueBack" id="roundFiveSteelConsumed">0</td>
+		    </tr>
+	    </tbody>
+    </table>
+</div>
+
+<br />
+
+<table id="links">
+	<tbody>
+		<tr>
+			<td><a href="/CSSGametheory/HTML/admin/allStudents.php">All Students</a></td>
+			<td><a href="https://cssgametheory.com/">Back to Home</a></td>
+			<td><a href="/CSSGametheory/HTML/admin/allGames.php">All Games</a></td>
+		</tr>
+	</tbody>
+</table>
+</body>
+<script language="javascript">
+    window.onload = function(e){ 
+        displayInfoWheatSteel();
+    }
+</script>
+</html>

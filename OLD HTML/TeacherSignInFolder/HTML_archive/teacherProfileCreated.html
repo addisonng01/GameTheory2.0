@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta charset="utf-8">
+	<link href="/CSSGametheory/css/createProfile.css" rel="stylesheet" />
+</head>
+	<script src="/CSSGametheory/javascript/createProfile.js" defer></script>
+	<script src="/CSSGametheory/javascript/studentSignOn.js" defer></script> <!--- I don't think this .js file is used on this page --->
+<body>
+<iframe scrolling="no" src="/CSSGametheory/HTML/header.html" style="border:none;" width="100%"></iframe>
+
+<div id="createSuccess">
+	Profile Created!
+</div>
+<div id="userInfo">
+	<p id="firstNameDisplay">First Name:</p>
+	<p id="lastNameDisplay">Last Name:</p>
+	<p id="emailDisplay">Email:</p>
+</div>
+<p>
+	<button id="studentSignOn" onclick="window.location.href='/CSSGametheory/HTML/TeacherSignInFolder/teacherSignOn.html';">Sign In</button> 
+    <!--- should this be updated to say teacherSignOn? both here and in the createProfile.css file --->
+</p>
+</body>
+<script language="javascript">
+	window.onload = function(e){ 
+		displayInfo(); // this uses different keys in localStorage than teacherCreateProfile.html had inserted, which is why it's not displaying anything
+	}
+</script>
+</html>

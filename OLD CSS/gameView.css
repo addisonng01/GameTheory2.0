@@ -1,0 +1,41 @@
+body{
+    font-family: Arial;
+    height: fit-content;
+}
+h1{
+    text-align: center;
+    color: #00447C; /* CSS Blue */
+    width: 100%;
+    margin-top: 0px;
+    padding-bottom: 5px;
+    position: absolute;
+    top: 90px;
+
+}
+#gameInfo, #links{
+    text-align: center;
+    color: #00447C;
+    font-size: 24px;
+    width: 100%;
+    position: relative;
+}
+
+#teamInfo, #cardInfo, #playerInfo{
+    text-align: center;
+    color: #00447C;
+    font-size: 24px;
+    width: 100%;
+    position: relative;
+}
+
+#gameResults, #wheatInfo, #steelInfo{
+    text-align: center;
+    color: #00447C;
+    font-size: 24px;
+    width: 100%;
+    position: relative;
+}
+
+#userInfo{
+    margin-top: 0;
+}

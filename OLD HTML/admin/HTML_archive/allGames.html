@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>All Games</title>
+	<meta charset="utf-8">
+	<link href="/CSSGametheory/css/admin.css" rel="stylesheet" />
+	<!---<script src="/CSSGametheory/javascript/studentRetrieve.js" defer></script>--->
+	<script src="/CSSGametheory/javascript/createGame.js" defer></script> <!--- makes sure the values are in localStorage --->
+</head>
+<body>
+<iframe scrolling="no" src="/CSSGametheory/HTML/header.html" style="border:none;" width="100%"></iframe>
+
+<h1 id="gameHeader">All Games</h1>
+<!--- TODO: make game date links dynamic, pulling all game dates from DB sorted in chronological order--->
+<!--- TODO: make links dynamic with game dates --->
+
+<div id="redBlackGameDates">
+<table style="width: 50">
+	<caption style="font-size: 18px"><strong>Red Card Black Card</strong></caption>
+	<!--- make sure date in links matches DB format--->
+	<tbody>
+		<tr>
+			<td class="gameDateCell"><a href="/CSSGametheory/HTML/admin/redBlackView.html?date=3-17-23">3-17-23</a></td>
+			<td class="gameDateCell"><a href="/CSSGametheory/HTML/admin/redBlackView.html?date=5-5-23">5-5-23</a></td>
+		</tr>
+		<tr>
+			<td class="gameDateCell"><a href="/CSSGametheory/HTML/admin/redBlackView.html?date=3-24-23">3-24-23</a></td>
+			<td class="gameDateCell"><a href="/CSSGametheory/HTML/admin/redBlackView.html?date=9-8-23">9-8-23</a></td>
+		</tr>
+		<tr>
+			<td class="gameDateCell"><a href="/CSSGametheory/HTML/admin/redBlackView.html?date=3-31-23">3-31-23</a></td>
+			<td class="gameDateCell"><a href="/CSSGametheory/HTML/admin/redBlackView.html?date=9-15-23">9-15-23</a></td>
+		</tr>
+		<tr>
+			<td class="gameDateCell"><a href="/CSSGametheory/HTML/admin/redBlackView.html?date=4-7-23">4-7-23</a></td>
+			<td class="gameDateCell"><a href="/CSSGametheory/HTML/admin/redBlackView.html?date=9-22-23">9-22-23</a></td>
+		</tr>
+		<tr>
+			<td class="gameDateCell"><a href="/CSSGametheory/HTML/admin/redBlackView.html?date=4-14-23">4-14-23</a></td>
+			<td class="gameDateCell"><a href="/CSSGametheory/HTML/admin/redBlackView.html?date=9-29-23">9-29-23</a></td>
+		</tr>
+		<tr>
+			<td class="gameDateCell"><a href="/CSSGametheory/HTML/admin/redBlackView.html?date=4-21-23">4-21-23</a></td>
+			<td class="gameDateCell"><a href="/CSSGametheory/HTML/admin/redBlackView.html?date=10-6-23">10-6-23</a></td>
+		</tr>
+		<tr>
+			<td class="gameDateCell"><a href="/CSSGametheory/HTML/admin/redBlackView.html?date=4-28-23">4-28-23</a></td>
+			<td class="gameDateCell"><a href="/CSSGametheory/HTML/admin/redBlackView.html?date=10-13-23">10-13-23</a></td>
+		</tr>
+	</tbody>
+</table>
+</div>
+
+<div id="wheatSteelGameDates">
+	<table>
+		<caption style="font-size: 18px"><strong>Wheat &amp; Steel</strong></caption>
+		<!--- make sure date in links matches DB format--->
+		<tbody>
+			<tr>
+				<td class="gameDateCell"><a href="/CSSGametheory/HTML/admin/wheatSteelView.html?date=3-13-23">3-13-23</a></td>
+				<td class="gameDateCell"><a href="/CSSGametheory/HTML/admin/wheatSteelView.html?date=5-1-23">5-1-23</a></td>
+			</tr>
+			<tr>
+				<td class="gameDateCell"><a href="/CSSGametheory/HTML/admin/wheatSteelView.html?date=3-20-23">3-20-23</a></td>
+				<td class="gameDateCell"><a href="/CSSGametheory/HTML/admin/wheatSteelView.html?date=9-11-23">9-11-23</a></td>
+			</tr>
+			<tr>
+				<td class="gameDateCell"><a href="/CSSGametheory/HTML/admin/wheatSteelView.html?date=3-27-23">3-27-23</a></td>
+				<td class="gameDateCell"><a href="/CSSGametheory/HTML/admin/wheatSteelView.html?date=9-18-23">9-18-23</a></td>
+			</tr>
+			<tr>
+				<td class="gameDateCell"><a href="/CSSGametheory/HTML/admin/wheatSteelView.html?date=4-3-23">4-3-23</a></td>
+				<td class="gameDateCell"><a href="/CSSGametheory/HTML/admin/wheatSteelView.html?date=9-25-23">9-25-23</a></td>
+			</tr>
+			<tr>
+				<td class="gameDateCell"><a href="/CSSGametheory/HTML/admin/wheatSteelView.html?date=4-10-23">4-10-23</a></td>
+				<td class="gameDateCell"><a href="/CSSGametheory/HTML/admin/wheatSteelView.html?date=10-2-23">10-2-23</a></td>
+			</tr>
+			<tr>
+				<td class="gameDateCell"><a href="/CSSGametheory/HTML/admin/wheatSteelView.html?date=4-17-23">4-17-23</a></td>
+				<td class="gameDateCell"><a href="/CSSGametheory/HTML/admin/wheatSteelView.html?date=10-9-23">10-9-23</a></td>
+			</tr>
+			<tr>
+				<td class="gameDateCell"><a href="/CSSGametheory/HTML/admin/wheatSteelView.html?date=4-24-23">4-24-23</a></td>
+				<td class="gameDateCell"><a href="/CSSGametheory/HTML/admin/wheatSteelView.html?date=10-16-23">10-16-23</a></td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
+<br />
+<!--- TODO: create footer with iframe, making sure to include target=_blank attribute --->
+<!--table w/ links-->
+
+<table id="links">
+	<tbody>
+		<tr>
+			<td><a href="/CSSGametheory/HTML/admin/allStudents.html">All Students</a></td>
+			<td><a href="/CSSGametheory/HTML/admin/index.html">Back to Home</a> <!--admin index--></td>
+			<td><a href="/CSSGametheory/HTML/admin/allGames.html">All Games</a></td>
+		</tr>
+	</tbody>
+</table>
+</body>
+<!---
+<script language="javascript">
+    window.onload = function(e){ 
+        displayInfo();
+    }
+</script>
+--->
+</html>

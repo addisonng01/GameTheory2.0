@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8">
+	<title>Wheat &amp; Steel Game View</title>
+	<link href="/CSSGametheory/css/gameView.css" rel="stylesheet" />
+	<script src="/CSSGametheory/JavaScript/gameRetrieve.js" defer></script>
+	<script src="/CSSGametheory/JavaScript/createGame.js" defer></script><!--- makes sure the values are in localStorage --->
+</head>
+<body>
+    
+<link href="https://cssgametheory.com/CSSGametheory/css/header.css" rel="stylesheet" />
+<p style="margin: 0 auto; width: 200px"><img id="logo" src="https://cssgametheory.com/CSSGametheory/Img/logo.svg"></p> 
+<br><br>
+
+<h1 id="studentHeader_2">Game ()</h1>
+<br> <br>
+
+<div id="gameInfo">Game Name: <span id="gameName_2">Game Name</span><br />
+Game Date: <span id="gameDate_2">12-31-1969</span></div>
+
+<div id="teamInfo">Players: <span id="playerNum_2">0</span><br />
+Teams of Four: <span id="teamsFour">0</span><br />
+Periods: <span id="periodNum">0</span></div>
+
+<br />
+<!--- TODO: make team list dynamic, lead to team/pair view--><!--- difficult when the team name display is already dynamic ---><!--- but it would look something like ---><!--- <a href="/CSSGametheory/HTML/wheatSteelTeamView.html?d=12-31-1969&t=TheDealers">The Dealers</a> --->
+
+<div id="gameResults">Teams that Met Both Goals: <span id="bothGoalNames">Susan, Joe</span><br />
+Teams that Met One Goal: <span id="oneGoalNames">Susan, Joe</span><br />
+Teams that Met No Goals: <span id="noGoalNames">Susan, Joe</span></div>
+
+<div id="wheatInfo">Total Amount of Wheat Produced: <span id="wheatProduceTotal">0</span><br />
+Average Amount of Wheat Produced per Period: <span id="wheatProduceAverage">0</span><br />
+Total Amount of Wheat Consumed: <span id="wheatConsumeTotal">0</span><br />
+Average Amount of Wheat Consumed: <span id="wheatConsumeAverage">0</span><br />
+Total Amount of Wheat Traded: <span id="wheatTradeTotal">0</span><br />
+Average Amount of Wheat Traded: <span id="wheatTradeAverage">0</span></div>
+
+<div id="steelInfo">Total Amount of Steel Produced: <span id="steelProduceTotal">0</span><br />
+Average Amount of Steel Produced per Period: <span id="steelProduceAverage">0</span><br />
+Total Amount of Steel Consumed: <span id="steelConsumeTotal">0</span><br />
+Average Amount of Steel Consumed: <span id="steelConsumeAverage">0</span><br />
+Total Amount of Steel Traded: <span id="steelTradeTotal">0</span><br />
+Average Amount of Steel Traded: <span id="steelTradeAverage">0</span></div>
+
+<p><br />
+<!--- TODO: create footer with iframe, making sure to include target=_blank attribute ---><!--table w/ links--></p>
+
+<table id="links">
+	<tbody>
+		<tr>
+			<td><a href="/CSSGametheory/HTML/admin/allStudents.php">All Students</a></td>
+			<td><a href="https://cssgametheory.com/">Back to Home</a></td>
+			<td><a href="/CSSGametheory/HTML/admin/allGames.php">All Games</a></td>
+		</tr>
+	</tbody>
+</table>
+</body>
+<script language="javascript">
+    window.onload = function(e){ 
+        displayInfoWheatSteel();
+    }
+</script></html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Sign In</title>
+	<link href="/CSSGametheory/css/TeacherSignOn.css" rel="stylesheet" type="text/css" />
+</head>
+<body><!---
+	TODO:
+	These inputs need to be within a <form></form> so that the data gets sent somewhere - it looks like we also need a processing page
+		method=POST and action=name-of-processing-page
+        need a submit button
+--->
+<div class="container">
+<div class="background"></div>
+<!--- is this for the smaller rectangle --->
+
+<div class="signin">Sign In</div>
+<!--- would a header make more sense here? --->
+
+<div class="username-label">Username</div>
+<!--- we could use a <label></label> tag here ---><input class="username-input" type="text" />
+<div class="password-label">Password</div>
+<!--- we could use a label tag here too ---> <input class="password-input" type="password" />
+<div class="menu">
+<div class="home"><a href="teacherCreateProfile.php">Create a profile</a></div>
+</div>
+
+<div class="logo"></div>
+<!--- 
+		would an <img> tag make more sense here? This is the one from the header:
+		<img id="logo" src="https://cssgametheory.com/CSSGametheory/Img/logo.svg" style="width: 360px; height: 97px;" /> 
+		---></div>
+</body>
+</html>

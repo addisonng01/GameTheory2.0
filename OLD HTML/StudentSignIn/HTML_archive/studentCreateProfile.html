@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+</head>
+<body>
+<p>CreateAProfile</p>
+</body>
+</html>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="/CSSGametheory/css/style.css" rel="stylesheet" />
+<title>Create a Profile</title>
+<!--
+    <script type="text/javascript">
+        function validateForm() {
+            var email = document.getElementById("email").value;
+            var firstName = document.getElementById("firstName").value;
+            var lastName = document.getElementById("lastName").value;
+            var password = document.getElementById("password").value;
+            var verifyPassword = document.getElementById("verifyPassword").value;
+    
+            if(email === "" || firstName === "" || lastName === "" || password === "" || verifyPassword === "") {
+                alert("All fields are required!");
+                return false;
+            }
+    
+            if(password !== verifyPassword) {
+                alert("Passwords do not match!");
+                return false;
+            }
+    
+            // Saving the values to the local storage when the form is valid
+            localStorage.setItem("firstNameDisplay", firstName);
+            localStorage.setItem("lastNameDisplay", lastName);
+            localStorage.setItem("emailDisplay", email);
+    
+            return true;
+        }
+    </script>
+ This post action is crashing on live server, but working whrn copying path -->
+<div id="createProfile" style="width: 100%; height: 100%; position: relative">
+<h1>Create a Profile Student</h1>
+
+<!--- https://cssgametheory.com/CSSGametheory/HTML/StudentSignIn/studentCreateProfile.php --->
+<!--
+<form action="/CSSGametheory/HTML/StudentSignIn/studentCreateProfile.php" method="post">
+-->
+    <form action="/CSSGametheory/HTML/StudentSignIn/sprofile_validation.php" method="post">
+
+<div><label for="email">Email:</label> <input id="email" name="email" required="" type="email" /></div>
+
+<div><label for="firstName">First Name:</label> <input id="firstName" name="firstName" required="" type="text" /></div>
+
+<div><label for="lastName">Last Name:</label> <input id="lastName" name="lastName" required="" type="text" /></div>
+<input type="submit" value="Create Profile" /></form>
+</div>

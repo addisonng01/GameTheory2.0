@@ -1,0 +1,130 @@
+/* Additional styles */
+body, html {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f1f1f1;
+}
+
+.container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly; /* This will give equal space around the elements */
+  background-color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.instructions {
+  background-color: #013560;
+  color: white;
+  padding: 1rem;
+  flex-basis: 20%; /* Adjust the width of instructions */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 25%;
+  box-sizing: border-box;
+}
+
+.instructions h2 {
+  color: #FFCB00;
+  margin-bottom: 10px;
+}
+
+.cards {
+  flex-basis: 60%; /* Adjust the width of cards */
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly; /* Distribute cards evenly */
+}
+
+.cards img {
+  width: auto; /* Maintain the aspect ratio */
+  height: 40vh; /* Adjust height to fit the viewport */
+  margin: 0 1rem; /* Add some horizontal margin */
+}
+
+.game-info {
+  flex-basis: 20%; /* Adjust the width of game info */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+.game-info input[type="text"], .finish-round {
+  width: 100%;
+  padding: 0.5rem;
+  margin: 0.5rem 0;
+}
+
+.game-info input[type="text"] {
+  border: 2px solid #013560;
+  color: #013560;
+  font-weight: bold;
+  text-align: center;
+}
+
+.finish-round {
+  background-color: navy;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  box-sizing: border-box;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.card img {
+  width: auto; /* Maintain the aspect ratio */
+  height: 40vh; /* Adjust height to fit the viewport */
+  margin-bottom: 1rem; /* Space between card and text */
+}
+
+.card input[type="text"] {
+  width: auto; /* Let the input take the width of its content plus padding */
+  padding: 0.5rem;
+  border: 2px solid #013560;
+  color: #013560;
+  font-weight: bold;
+  text-align: center;
+  margin: 0; /* Remove margin to tighten the layout */
+}
+/* Handle smaller screens */
+@media (max-width: 480px) {
+  .container {
+    padding: 0.5rem;
+  }
+
+  .instructions, .cards, .game-info {
+    flex-basis: 100%; /* Take full width */
+    margin-bottom: 0.5rem;
+  }
+
+  .cards img {
+    height: 25vh; /* Adjust for smaller screens */
+    max-width: 90%; /* Prevent overflow */
+  }
+
+  .game-info input[type="text"], .finish-round {
+    padding: 0.7rem; /* Increase for better touch target */
+    font-size: 1.2rem; /* Larger text for readability */
+  }
+
+  .card input[type="text"] {
+    font-size: 1.1rem; /* Adjust text size for readability */
+  }
+}
