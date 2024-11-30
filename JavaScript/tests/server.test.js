@@ -101,8 +101,8 @@ describe('API Routes', () => {
         });
     });
 
-    // POST /api/wheat-steel-game/:gameId/trade tests
-    describe('POST /api/wheat-steel-game/:gameId/trade', () => {
+    // POST /api/wheatSteel/:gameId/trade tests
+    describe('POST /api/wheatSteel/:gameId/trade', () => {
         it('should post a valid trade request', async () => {
             const gameId = 1; // Example game ID
             const tradeRequest = {
@@ -111,7 +111,7 @@ describe('API Routes', () => {
                 tradeSteel: 5
             };
             const res = await request(app)
-                .post(`/api/wheat-steel-game/${gameId}/trade`)
+                .post(`/api/wheatSteel/${gameId}/trade`)
                 .send(tradeRequest);
             expect(res.statusCode).toBe(200);
             expect(res.body.success).toBe(true);
@@ -121,7 +121,7 @@ describe('API Routes', () => {
             const gameId = 1; // Example game ID
             const invalidTradeRequest = {}; // Missing trade details
             const res = await request(app)
-                .post(`/api/wheat-steel-game/${gameId}/trade`)
+                .post(`/api/wheatSteel/${gameId}/trade`)
                 .send(invalidTradeRequest);
             expect(res.statusCode).toBe(200);
             expect(res.body.success).toBe(false);

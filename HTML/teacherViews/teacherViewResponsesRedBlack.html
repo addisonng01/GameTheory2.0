@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher View Responses</title>
+    <link rel="stylesheet" href="teacherViewResponsesRedBlack.css">
+</head>
+<body>
+    <div id="container">
+        <div class="header">Red Card Black Card - Student Responses</div>
+        <div id="responsesContainer"></div>
+    </div>
+</body>
+<script>
+    // Fetch all responses for the game
+    fetch('/api/get-responses')
+        .then(res => res.json())
+        .then(data => {
+            const container = document.getElementById('responsesContainer');
+            let currentQuestion = null;
+            let questionDiv = null;
+
+            data.forEach(response => {
+                if (currentQuestion !== response.question_txt) {
+                    currentQuestion = response.question_txt;
+                    questionDiv = document.createElement('div');
+                    questionDiv.className = 'question-block';
+                    questionDiv.innerHTML = `
+                        <h3>${currentQuestion}</h3>
+                        <div class="responses"></div>
+                    `;
+                    container.appendChild(questionDiv);
+                }
+
+                const responsesDiv = questionDiv.querySelector('.responses');
+                const studentResponse = document.createElement('div');
+                studentResponse.className = 'response-item';
+                studentResponse.innerHTML = `
+                    <strong>${response.student_first_name} ${response.student_last_name}:</strong>
+                    <p>${response.response_txt}</p>
+                    <small>Submitted on: ${new Date(response.submit_dt).toLocaleString()}</small>
+                `;
+                responsesDiv.appendChild(studentResponse);
+            });
+        })
+        .catch(err => console.error('Error loading responses:', err));
+</script>
+</html>
