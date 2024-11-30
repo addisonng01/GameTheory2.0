@@ -6,3 +6,7 @@
       - /bin/cp -r HTML $DEPLOYPATH
       - /bin/cp -r css $DEPLOYPATH
       - /bin/cp -r Img $DEPLOYPATH
+      - /bin/cp .env $DEPLOYPATH
+      - /bin/cp .gitignore $DEPLOYPATH
+      - /bin/cp .cpanel.yml $DEPLOYPATH
+      - /bin/cp env.php $DEPLOYPATH
