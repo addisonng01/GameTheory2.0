@@ -161,6 +161,80 @@ app.get('/reset-database', async (req, res) => {
     }
 });
 
+// Get the question for the student
+app.get('/api/get-question', (req, res) => {
+    db.query('SELECT question_txt FROM question_for_student LIMIT 1', (err, results) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).send('Error retrieving question');
+        }
+        res.json(results[0]);
+    });
+});
+
+// Submit multiple student responses
+app.post('/api/submit-responses', (req, res) => {
+    const { responses } = req.body;
+    if (!responses || !Array.isArray(responses)) {
+        return res.status(400).send('Invalid request data');
+    }
+
+    const query = `
+        INSERT INTO question_submission (question_id, response_txt, session_id, user_id, game_session_id)
+        VALUES (?, ?, ?, ?, ?)
+    `;
+    const paramsArray = responses.map(({ question_id, response_txt }) => [
+        question_id,
+        response_txt,
+        1, // Replace with real `session_id`
+        1, // Replace with real `user_id`
+        1  // Replace with real `game_session_id`
+    ]);
+
+    const promises = paramsArray.map(params =>
+        new Promise((resolve, reject) => {
+            db.query(query, params, (err, results) => {
+                if (err) return reject(err);
+                resolve(results);
+            });
+        })
+    );
+
+    Promise.all(promises)
+        .then(() => res.status(200).send('Responses submitted successfully'))
+        .catch(err => {
+            console.error(err);
+            res.status(500).send('Error submitting responses');
+        });
+});
+
+// Get all responses for Red Card Black Card
+app.get('/api/get-responses', (req, res) => {
+    const redCardGameId = 1; // Replace with the actual game_id for Red Card Black Card
+
+    const query = `
+        SELECT 
+            q.question_txt,
+            s.first_nm AS student_first_name,
+            s.last_nm AS student_last_name,
+            qs.response_txt,
+            qs.submit_dt
+        FROM question_submission qs
+        JOIN question_for_student q ON qs.question_id = q.question_id
+        JOIN student_profile s ON qs.user_id = s.student_id
+        WHERE q.game_id = ?
+        ORDER BY q.question_id, s.last_nm, s.first_nm;
+    `;
+
+    db.query(query, [redCardGameId], (err, results) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).send('Error retrieving responses');
+        }
+        res.json(results);
+    });
+});
+
 // Start server
 const server = app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
