@@ -76,7 +76,7 @@ function addTradeUpdate(gameId, update) {
 }
 
 // Trade endpoint
-app.post('/api/wheat-steel-game/:gameId/trade', (req, res) => {
+app.post('/api/wheatSteel/:gameId/trade', (req, res) => {
     const { tradeTeamId, tradeWheat, tradeSteel } = req.body;
     const gameId = req.params.gameId;
 
