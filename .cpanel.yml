@@ -1,7 +1,7 @@
 ---
   deployment:
     tasks:
-      - export DEPLOYPATH=/home2/txlxmqol/public_html/
+      - export DEPLOYPATH=/home2/txlxmqol/public_html/CssGameTheory/
       - /bin/cp -r JavaScript $DEPLOYPATH
       - /bin/cp -r HTML $DEPLOYPATH
       - /bin/cp -r css $DEPLOYPATH
@@ -10,3 +10,6 @@
       - /bin/cp .gitignore $DEPLOYPATH
       - /bin/cp .cpanel.yml $DEPLOYPATH
       - /bin/cp env.php $DEPLOYPATH
+      - /bin/cp package.json
+      - /bin/cp package-lock.json
+      - /bin/cp index.js
