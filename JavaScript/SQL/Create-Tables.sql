@@ -1,33 +1,14 @@
-DROP TABLE IF EXISTS trade_partnership;
-DROP TABLE IF EXISTS group_trade;
-DROP TABLE IF EXISTS round_score;
-DROP TABLE IF EXISTS group_student;
-DROP TABLE IF EXISTS group_pairing;
-DROP TABLE IF EXISTS prod_goal_profile;
-DROP TABLE IF EXISTS rb_player_score;
-DROP TABLE IF EXISTS player_round_history;
-DROP TABLE IF EXISTS session_partner;
-DROP TABLE IF EXISTS partner_pairing;
-DROP TABLE IF EXISTS question_submission;
-DROP TABLE IF EXISTS student_game_session;
-DROP TABLE IF EXISTS session_instance;
-DROP TABLE IF EXISTS login_credential;
-DROP TABLE IF EXISTS red_black_session;
-DROP TABLE IF EXISTS game_session;
-DROP TABLE IF EXISTS wheat_steel_param;
-DROP TABLE IF EXISTS question_for_student;
-DROP TABLE IF EXISTS red_black_card_param;
-DROP TABLE IF EXISTS game_catalog;
-DROP TABLE IF EXISTS student_profile;
-DROP TABLE IF EXISTS teacher_profile;
+-- Create tables in dependency order
 
+-- Table: game_catalog
 CREATE TABLE game_catalog (
-    game_id INT PRIMARY key AUTO_INCREMENT,
+    game_id INT PRIMARY KEY AUTO_INCREMENT,
     game_title VARCHAR(50)
 );
 
-CREATE TABLE red_black_card_param (
-    red_black_id INT PRIMARY key AUTO_INCREMENT,
+-- Table: red_black_card_params
+CREATE TABLE red_black_card_params (
+    red_black_id INT PRIMARY KEY AUTO_INCREMENT,
     game_id INT,
     game_instruction_txt VARCHAR(4000),
     red_point_value SMALLINT,
@@ -37,24 +18,38 @@ CREATE TABLE red_black_card_param (
     FOREIGN KEY (game_id) REFERENCES game_catalog(game_id) ON DELETE SET NULL
 );
 
+-- Table: wheat_steel_params
+CREATE TABLE wheat_steel_params (
+    ws_param_id INT PRIMARY KEY AUTO_INCREMENT,
+    game_id INT,
+    total_rounds TINYINT,
+    max_trade_rounds TINYINT,
+    initial_wheat SMALLINT,
+    initial_steel SMALLINT,
+    FOREIGN KEY (game_id) REFERENCES game_catalog(game_id) ON DELETE SET NULL
+);
+
+-- Table: oligopoly_params
+CREATE TABLE oligopoly_params (
+    oligopoly_param_id INT PRIMARY KEY AUTO_INCREMENT,
+    game_id INT,
+    total_rounds TINYINT,
+    base_price DECIMAL(10,2),
+    max_competitors TINYINT,
+    FOREIGN KEY (game_id) REFERENCES game_catalog(game_id) ON DELETE SET NULL
+);
+
+-- Table: question_for_student
 CREATE TABLE question_for_student (
     question_id INT PRIMARY KEY AUTO_INCREMENT,
     game_id INT,
     question_txt VARCHAR(4000),
-    create_dt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    create_dt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     mod_dt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (game_id) REFERENCES game_catalog(game_id) ON DELETE SET NULL
 );
 
-CREATE TABLE wheat_steel_param (
-    wheat_steel_id INT PRIMARY KEY AUTO_INCREMENT,
-    game_id INT,
-    game_instruction_txt VARCHAR(4000),
-    total_round_num TINYINT,
-    no_trade_round_num TINYINT,
-    FOREIGN KEY (game_id) REFERENCES game_catalog(game_id) ON DELETE SET NULL
-);
-
+-- Table: teacher_profile
 CREATE TABLE teacher_profile (
     teacher_id INT PRIMARY KEY AUTO_INCREMENT,
     first_nm VARCHAR(30),
@@ -63,30 +58,17 @@ CREATE TABLE teacher_profile (
     organization_nm VARCHAR(100)
 );
 
-CREATE TABLE game_session (
-    game_session_id INT PRIMARY KEY AUTO_INCREMENT,
-    teacher_id INT,
-    game_id INT,
-    red_black_param INT,
-    wheat_steel_param INT,
-    is_active CHAR(1),
-    create_dt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    expiration_dt TIMESTAMP NOT NULL,
-    join_game_code VARCHAR(12),
-    FOREIGN KEY (teacher_id) REFERENCES teacher_profile(teacher_id),
-    FOREIGN KEY (game_id) REFERENCES game_catalog(game_id),
-    FOREIGN KEY (red_black_param) REFERENCES red_black_card_param(red_black_id),
-    FOREIGN KEY (wheat_steel_param) REFERENCES wheat_steel_param(wheat_steel_id)
+-- Table: student_profile
+CREATE TABLE student_profile (
+    student_id INT PRIMARY KEY AUTO_INCREMENT,
+    first_nm VARCHAR(30),
+    last_nm VARCHAR(30),
+    email VARCHAR(100) UNIQUE NOT NULL,
+    create_dt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    mod_dt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
-CREATE TABLE red_black_session (
-    rb_session_id INT PRIMARY KEY AUTO_INCREMENT,
-    game_session_id INT,
-    rounds_complete TINYINT,
-    round_concluded CHAR(1),
-    FOREIGN KEY (game_session_id) REFERENCES game_session(game_session_id) ON DELETE SET NULL
-);
-
+-- Table: login_credential
 CREATE TABLE login_credential (
     credential_id INT PRIMARY KEY AUTO_INCREMENT,
     teacher_id INT,
@@ -95,27 +77,76 @@ CREATE TABLE login_credential (
     FOREIGN KEY (teacher_id) REFERENCES teacher_profile(teacher_id) ON DELETE SET NULL
 );
 
-CREATE TABLE student_profile (
-    student_id INT PRIMARY KEY AUTO_INCREMENT,
-    first_nm VARCHAR(30),
-    last_nm VARCHAR(30),
-    email VARCHAR(100) UNIQUE NOT NULL,
-    create_dt TIMESTAMP DEFAULT CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
-    mod_dt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+-- Table: game_session
+CREATE TABLE game_session (
+    game_session_id INT PRIMARY KEY AUTO_INCREMENT,
+    teacher_id INT,
+    game_id INT,
+    red_black_param INT,
+    wheat_steel_param INT,
+    oligopoly_param INT,
+    is_active CHAR(1),
+    create_dt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    expiration_dt TIMESTAMP NOT NULL,
+    join_game_code VARCHAR(12),
+    FOREIGN KEY (teacher_id) REFERENCES teacher_profile(teacher_id),
+    FOREIGN KEY (game_id) REFERENCES game_catalog(game_id),
+    FOREIGN KEY (red_black_param) REFERENCES red_black_card_params(red_black_id),
+    FOREIGN KEY (wheat_steel_param) REFERENCES wheat_steel_params(ws_param_id),
+    FOREIGN KEY (oligopoly_param) REFERENCES oligopoly_params(oligopoly_param_id)
 );
 
+-- Creating the student_submission table with session_id column
+CREATE TABLE student_submission (
+    submission_id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    student_id INT(11) NOT NULL,
+    game_session_id INT(11) NOT NULL,
+    session_id INT(11) NULL,  -- Add this column if you want to track sessions
+    submission_content TEXT NOT NULL,
+    submitted_dt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Table: red_black_session
+CREATE TABLE red_black_session (
+    rb_session_id INT PRIMARY KEY AUTO_INCREMENT,
+    game_session_id INT,
+    rounds_complete TINYINT,
+    round_concluded CHAR(1),
+    FOREIGN KEY (game_session_id) REFERENCES game_session(game_session_id) ON DELETE SET NULL
+);
+
+-- Table: wheat_steel_session
+CREATE TABLE wheat_steel_session (
+    ws_session_id INT PRIMARY KEY AUTO_INCREMENT,
+    game_session_id INT,
+    rounds_complete TINYINT,
+    round_concluded CHAR(1),
+    FOREIGN KEY (game_session_id) REFERENCES game_session(game_session_id) ON DELETE SET NULL
+);
+
+-- Table: oligopoly_session
+CREATE TABLE oligopoly_session (
+    oligopoly_session_id INT PRIMARY KEY AUTO_INCREMENT,
+    game_session_id INT,
+    rounds_complete TINYINT,
+    round_concluded CHAR(1),
+    FOREIGN KEY (game_session_id) REFERENCES game_session(game_session_id) ON DELETE SET NULL
+);
+
+-- Table: session_instance
 CREATE TABLE session_instance (
     session_id INT PRIMARY KEY AUTO_INCREMENT,
     student_id INT,
     teacher_id INT,
     login_attempts TINYINT,
     active_session CHAR(1),
-    create_dt TIMESTAMP DEFAULT CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
+    create_dt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     expiration_dt TIMESTAMP NOT NULL,
     FOREIGN KEY (teacher_id) REFERENCES teacher_profile(teacher_id) ON DELETE SET NULL,
     FOREIGN KEY (student_id) REFERENCES student_profile(student_id) ON DELETE SET NULL
 );
 
+-- Table: student_game_session
 CREATE TABLE student_game_session (
     link_id INT PRIMARY KEY AUTO_INCREMENT,
     game_session_id INT,
@@ -127,25 +158,14 @@ CREATE TABLE student_game_session (
     FOREIGN KEY (user_id) REFERENCES session_instance(student_id) ON DELETE SET NULL
 );
 
-CREATE TABLE question_submission (
-    reflection_id INT PRIMARY KEY AUTO_INCREMENT,
-    session_id INT,
-    user_id INT,
-    game_session_id INT,
-    submit_dt TIMESTAMP  DEFAULT CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
-    question_txt VARCHAR(4000),
-    response_txt VARCHAR(4000),
-    FOREIGN KEY (session_id) REFERENCES session_instance(session_id),
-    FOREIGN KEY (user_id) REFERENCES session_instance(student_id),
-    FOREIGN KEY (game_session_id) REFERENCES game_session(game_session_id)
-);
-
+-- Table: partner_pairing
 CREATE TABLE partner_pairing (
     pairing_id INT PRIMARY KEY AUTO_INCREMENT,
     round_num TINYINT,
-    create_dt TIMESTAMP DEFAULT CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP
+    create_dt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+-- Table: session_partner
 CREATE TABLE session_partner (
     session_partner_id INT PRIMARY KEY AUTO_INCREMENT,
     link_id INT,
@@ -155,6 +175,7 @@ CREATE TABLE session_partner (
     FOREIGN KEY (pairing_id) REFERENCES partner_pairing(pairing_id)
 );
 
+-- Table: player_round_history
 CREATE TABLE player_round_history (
     round_history_id INT PRIMARY KEY AUTO_INCREMENT,
     user_id INT,
@@ -168,6 +189,7 @@ CREATE TABLE player_round_history (
     FOREIGN KEY (link_id) REFERENCES student_game_session(link_id)
 );
 
+-- Table: rb_player_score
 CREATE TABLE rb_player_score (
     score_id INT PRIMARY KEY AUTO_INCREMENT,
     session_id INT,
@@ -177,6 +199,7 @@ CREATE TABLE rb_player_score (
     FOREIGN KEY (session_id) REFERENCES session_instance(session_id)
 );
 
+-- Table: prod_goal_profile
 CREATE TABLE prod_goal_profile (
     profile_id INT PRIMARY KEY AUTO_INCREMENT,
     profile_nm VARCHAR(30),
@@ -187,6 +210,7 @@ CREATE TABLE prod_goal_profile (
     steel_rec_resource_num SMALLINT
 );
 
+-- Table: group_pairing
 CREATE TABLE group_pairing (
     group_id INT PRIMARY KEY AUTO_INCREMENT,
     profile_id INT,
@@ -197,6 +221,7 @@ CREATE TABLE group_pairing (
     FOREIGN KEY (profile_id) REFERENCES prod_goal_profile(profile_id)
 );
 
+-- Table: group_student
 CREATE TABLE group_student (
     gs_id INT PRIMARY KEY AUTO_INCREMENT,
     session_id INT,
@@ -208,6 +233,7 @@ CREATE TABLE group_student (
     FOREIGN KEY (group_id) REFERENCES group_pairing(group_id)
 );
 
+-- Table: round_score
 CREATE TABLE round_score (
     round_score_id INT PRIMARY KEY AUTO_INCREMENT,
     group_id INT,
@@ -221,6 +247,7 @@ CREATE TABLE round_score (
     FOREIGN KEY (group_id) REFERENCES group_pairing(group_id)
 );
 
+-- Table: trade_partnership
 CREATE TABLE trade_partnership (
     partnership_id INT PRIMARY KEY AUTO_INCREMENT,
     round_num TINYINT,
@@ -228,26 +255,10 @@ CREATE TABLE trade_partnership (
     sent_type VARCHAR(10)
 );
 
+-- Table: group_trade
 CREATE TABLE group_trade (
     trade_id INT PRIMARY KEY AUTO_INCREMENT,
     group_id INT,
     trade_detail VARCHAR(255),
     FOREIGN KEY (group_id) REFERENCES group_pairing(group_id)
 );
-
-INSERT INTO game_catalog (game_title)
-    VALUES ('Class Simulation: Red Card Black Card'),
-           ('Class Simulation: Wheat & Steel');
-
-INSERT INTO red_black_card_param (game_id, game_instruction_txt, red_point_value, black_point_value, total_round_num, hidden_round_num)
-    VALUES (1, 'You have a red card and a black card. 
-In the first four rounds you will first pick a card and then you will find out who you are paired up with. You will then reveal the card to the other person. 
-In the next eight rounds, you will be paired up with a person, and then you will, without showing the other person, pick one of the two cards. The other person, without showing you the card, will pick one of the two cards. 
-You will then show each other the cards. 
-In all rounds, if you play a red card you receive $50 and the other person receives nothing. 
-If you play a black card you receive nothing and the other person receives $150. 
-Participating in this exercise and answering the questions at the end of this is worth ten points. The person who has the greatest total receives 10 additional points and $10, and the person who has the second greatest total receives 5 additional points and $5.', 50, 150, 12, 4);
-
-INSERT INTO question_for_student (game_id, question_txt)
-    VALUES (1, 'Describe your strategy at the beginning of this exercise'),
-           (1, 'Describe how it changed near the end of the exercise');

@@ -134,33 +134,6 @@ app.post('/api/teachers', (req, res) => {
     });
 });
 
-// Reset database endpoint
-app.get('/reset-database', async (req, res) => {
-    try {
-        const sqlDir = path.resolve('./SQL', ''); // Directory where SQL files are located
-        const sqlFiles = await fs.promises.readdir(sqlDir); // List all files in the SQL directory
-
-        // Loop through each SQL file and execute its contents
-        for (const file of sqlFiles) {
-            try {
-                console.log('Executing SQL file:', file); // Debug log
-                const sqlText = await fs.promises.readFile(path.resolve(sqlDir, file), 'utf8'); // Read SQL file content
-
-                // Execute SQL using mysql2's promise-based API
-                await db.query(sqlText.trim()); // Ensure SQL is trimmed to avoid trailing spaces or newlines
-                console.log(`Successfully executed ${file}`); // Debug log
-            } catch (err) {
-                console.error(`Error executing SQL file ${file}:`, err.message); // Log any errors
-            }
-        }
-
-        res.send('Database has been reset successfully');
-    } catch (err) {
-        console.error('Error reading SQL directory or files:', err.message); // Log any directory or file errors
-        res.status(500).send('Error reading SQL directory or files');
-    }
-});
-
 // Get the question for the student
 app.get('/api/get-question', (req, res) => {
     db.query('SELECT question_txt FROM question_for_student LIMIT 1', (err, results) => {
