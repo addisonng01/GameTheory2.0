@@ -1,7 +1,7 @@
 ---
   deployment:
     tasks:
-      - export DEPLOYPATH=/home2/txlxmqol/public_html/CssGameTheory/
+      - export DEPLOYPATH=/home2/txlxmqol/public_html/
       - /bin/cp -r JavaScript $DEPLOYPATH
       - /bin/cp -r HTML $DEPLOYPATH
       - /bin/cp -r css $DEPLOYPATH
