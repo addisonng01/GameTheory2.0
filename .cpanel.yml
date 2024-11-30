@@ -10,3 +10,6 @@
       - /bin/cp .gitignore $DEPLOYPATH
       - /bin/cp .cpanel.yml $DEPLOYPATH
       - /bin/cp env.php $DEPLOYPATH
+      - /bin/cp package.json
+      - /bin/cp package-lock.json
+      - /bin/cp index.js
