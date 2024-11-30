@@ -33,8 +33,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
             currentRound++;
             if (currentRound > totalRounds) {
-                nextRoundButton.disabled = true;
-                nextRoundButton.textContent = "Game Over";
+                nextRoundButton.textContent = "Finish";
+                window.location.href = "";
             }
         } catch (error) {
             console.error("Error approving the next round:", error);
