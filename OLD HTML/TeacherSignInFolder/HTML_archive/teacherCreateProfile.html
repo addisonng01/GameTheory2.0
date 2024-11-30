@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/CSSGametheory/css/style.css" rel="stylesheet" />
+    <title>Create a Profile</title>
+</head>
+<script type="text/javascript">
+    function validateForm() {
+        var email = document.getElementById("email").value;
+        var firstName = document.getElementById("firstName").value;
+        var lastName = document.getElementById("lastName").value;
+        var password = document.getElementById("password").value;
+        var verifyPassword = document.getElementById("verifyPassword").value;
+    
+        if(email === "" || firstName === "" || lastName === "" || password === "" || verifyPassword === "") {
+            alert("All fields are required!");
+            return false;
+        }
+        if(password !== verifyPassword) {
+            alert("Passwords do not match!");
+            return false;
+        }
+
+        // it might make more sense to have this set up as an if-elseif-else
+        // I'm not sure if the lines below are taking effect whether or not the if statements above trigger
+             // submitForm() in createProfile.js submits similar values to localStorage, but with different names/keys
+             // could update submitForm() to have the input validation that we've written above and then call it onClick in the submit button
+        // Also, no longer need localStorage if form submits into database
+    
+        // Saving the values to the local storage when the form is valid
+        localStorage.setItem("firstNameDisplay", firstName);
+        localStorage.setItem("lastNameDisplay", lastName);
+        localStorage.setItem("emailDisplay", email);
+    
+        return true; // do want to keep this when we move from localStorage to database
+    }
+</script>
+<body>
+<p>CreateAProfile</p> <!--- are we planning on deleting this? It seems out of place --->
+
+<div id="createProfile" style="width: 100%; height: 100%; position: relative">
+    <h1>Create a Profile Teacher</h1> <!--- probably should update to say professor --->
+
+    <!--- good job with the labels and such here --->
+    <form action="/CSSGametheory/HTML/TeacherSignInFolder/teacherProfileCreated.html" method="POST" onsubmit="return validateForm()">
+        <div>
+            <label for="email">Email:</label> 
+            <input id="email" name="email" required type="email" />
+        </div>
+        <div>
+            <label for="firstName">First Name:</label> 
+            <input id="firstName" name="firstName" required type="text" />
+        </div>
+        <div>
+            <label for="lastName">Last Name:</label> 
+            <input id="lastName" name="lastName" required type="text" />
+        </div>
+        <div>
+            <label for="password">Password:</label> 
+            <input id="password" name="password" required type="password" />
+        </div>
+        <div>
+            <label for="verifyPassword">Verify Password:</label> 
+            <input id="verifyPassword" name="verifyPassword" required="" type="password" />
+        </div>
+        <input type="submit" value="Create Profile" />
+    </form>
+</div>
+
+</body>
+</html>

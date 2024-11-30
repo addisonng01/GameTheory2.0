@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8">
+	<title>All Students</title>
+	<link href="/CSSGametheory/css/admin.css" rel="stylesheet" /><!---<script src="/CSSGametheory/javascript/studentRetrieve.js" defer></script>---><script src="/CSSGametheory/javascript/createGame.js" defer></script><!--- makes sure the values are in localStorage --->
+</head>
+<body>
+<p><iframe scrolling="no" src="/CSSGametheory/HTML/header.html" style="border:none;" width="100%"></iframe></p>
+
+<h1 id="studentHeader">All Students</h1>
+<!--- TODO: make student names dynamic, pulling all student names from DB sorted in alphabetical order---><!--- TODO: make links dynamic with student names --->
+
+<div id="studentNames">
+<table>
+	<tbody>
+		<tr>
+			<td><a href="studentView.html?fname=Byron&amp;lname=Bishop">Byron Bishop</a></td>
+			<td><a href="studentView.html?fname=Miles&amp;lname=Liebren">Miles Liebren</a></td>
+			<td><a href="studentView.html?fname=Reece&amp;lname=Patten">Reece Patten</a></td>
+		</tr>
+		<tr>
+			<td><a href="studentView.html?fname=Vincent&amp;lname=Carlson">Vincent Carlson</a></td>
+			<td><a href="studentView.html?fname=Michael&amp;lname=Ludwig">Michael Ludwig</a></td>
+			<td><a href="studentView.html?fname=Christopher&amp;lname=Polingo">Christopher Polingo</a></td>
+		</tr>
+		<tr>
+			<td style="padding-right: 7px; padding-left: 7px"><a href="studentView.html?fname=Manuel&amp;lname=Gutierrez Cerezo">Manuel Gutierrez Cerezo</a></td>
+			<td style="padding-right: 7px; padding-left: 7px"><a href="studentView.html?fname=Abdulmateen&amp;lname=Mohamed">Abdulmateen Mohamed</a></td>
+			<td><a href="studentView.html?fname=Veronica&amp;lname=Poquette">Veronica Poquette</a></td>
+		</tr>
+		<tr>
+			<td><a href="studentView.html?fname=Briston&amp;lname=Domino">Briston Domino</a></td>
+			<td><a href="studentView.html?fname=Jade&amp;lname=Morrison">Jade Morrison</a></td>
+			<td><a href="studentView.html?fname=Kione&amp;lname=Roberson">Kione Roberson</a></td>
+		</tr>
+		<tr>
+			<td><a href="studentView.html?fname=Jack&amp;lname=Hipsag">Jack Hipsag</a></td>
+			<td><a href="studentView.html?fname=Zac&amp;lname=Murphy">Zac Murphy</a></td>
+			<td><a href="studentView.html?fname=Jad&amp;lname=Saouma">Jad</a></td>
+		</tr>
+		<tr>
+			<td><a href="studentView.html?fname=Jeffrey&amp;lname=Kayfes">Jeffrey Kayfes</a></td>
+			<td><a href="studentView.html?fname=Addison&amp;lname=Ng">Addison Ng</a></td>
+			<td><a href="studentView.html?fname=Hunter&amp;lname=Seabolt">Hunter Seabolt</a></td>
+		</tr>
+		<tr>
+			<td><a href="studentView.html?fname=Rylan&amp;lname=Klomp">Rylan Klomp</a></td>
+			<td><a href="studentView.html?fname=David&amp;lname=Obst">David Obst</a></td>
+			<td><a href="studentView.html?fname=Joe&amp;lname=Tschida">Joe Tschida</a></td>
+		</tr>
+		<tr>
+			<td><a href="studentView.html?fname=Max&amp;lname=Lasitsa">Max Lasitsa</a></td>
+			<td><a href="studentView.html?fname=Anna&amp;lname=Olson">Anna Olson</a></td>
+			<td><a href="studentView.html?fname=Joseph&amp;lname=Zins">Joseph Zins</a></td>
+		</tr>
+	</tbody>
+</table>
+</div>
+
+<p><br />
+<!--- TODO: create footer with iframe, making sure to include target=_blank attribute ---></p>
+
+<table id="links">
+	<tbody>
+		<tr>
+			<td><a href="/CSSGametheory/HTML/admin/allStudents.html">All Students</a></td>
+			<td><a href="/CSSGametheory/HTML/admin/index.html">Back to Home</a> <!--admin index--></td>
+			<td><a href="/CSSGametheory/HTML/admin/allGames.php">All Games</a></td>
+		</tr>
+	</tbody>
+</table>
+</body>
+<!---
+<script language="javascript">
+	window.onload = function(e){ 
+		displayInfo();
+	}
+</script>
+---></html>

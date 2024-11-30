@@ -1,0 +1,63 @@
+/* Main body styling */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  text-align: center; /* Centers content */
+}
+
+/* Container for the card and loading icon */
+.card-container {
+  display: flex; /* Enables Flexbox */
+  justify-content: center; /* Centers children horizontally */
+  align-items: center; /* Centers children vertically */
+  height: 100vh; /* Takes the full height of the viewport */
+}
+
+/* Styling for the card title */
+.card-title {
+  font-size: 2em; /* Adjust as needed */
+  margin: 0;
+  position: absolute;
+  top: 20px; /* Adjust as needed */
+  width: 100%;
+}
+
+#chosenCard {
+  width: 200px; /* Adjust as needed */
+  height: auto;
+  margin-right: 20px; /* Adjust space between card and loader */
+}
+
+/* Loader styling */
+.loader {
+  border: 16px solid #f3f3f3; /* Light grey */
+  border-top: 16px solid #3498db; /* Blue */
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  animation: spin 2s linear infinite;
+}
+
+.card-container {
+  display: flex; /* Enables Flexbox */
+  justify-content: center; /* Centers children horizontally */
+  align-items: center; /* Centers children vertically */
+  height: 100%; /* Takes the full height of the viewport */
+}
+
+#cards, #pleaseWait {
+  flex: 1; /* Allows each child to grow and shrink as needed */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Loader animation */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Additional styles... */

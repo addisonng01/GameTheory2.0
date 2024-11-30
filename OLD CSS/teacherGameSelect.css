@@ -1,0 +1,91 @@
+/* General Body Styles */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    overflow: hidden;
+}
+
+/* Header Styles */
+#headerTop, #headerLeft, #headerBottom {
+    /* Add your styles for the headers */
+}
+
+/* Navigation Links Styles */
+#linkRow {
+    text-align: center;
+    margin: 20px 0;
+}
+
+/* Main Container Styles */
+div.main-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+/* Game Selection Styles */
+.select-game {
+    font-size: 24px;
+    color: #333;
+    margin: 20px 0;
+    text-align: center; /* Center the 'Select Game' title */
+}
+
+.button-container {
+    display: flex;
+    justify-content: space-around; /* Distribute space around items */
+    align-items: flex-start; /* Align items to the top */
+    flex-wrap: wrap; /* Allow items to wrap */
+    max-width: 800px; /* Maximum width of the container */
+    margin: 0 auto; /* Center the container */
+}
+
+.game-wrapper {
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    align-items: center; /* Center items horizontally */
+    margin: 10px; /* Space between game wrappers */
+}
+
+.game-button {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    padding: 0;
+    display: block; /* Ensure button is a block-level element */
+    margin-bottom: 5px; /* Space between the button and the title */
+}
+
+.game-button img {
+    width: 100%; /* Make the image responsive within its container */
+    max-width: 300px; /* Maximum width for images */
+    height: auto; /* Maintain aspect ratio */
+}
+
+.game-title {
+    text-align: center; /* Center the title text */
+    width: 100%; /* Ensure title width matches the image */
+    max-width: 300px; /* Match the image width */
+    font-size: 18px; /* Font size for the title */
+    margin-top: 0; /* Adjust space above the title if needed */
+}
+
+@media (max-width: 768px) {
+    .button-container {
+        flex-direction: column;
+        align-items: center; /* Center items on small screens */
+    }
+
+    .game-wrapper {
+        width: auto; /* Width of game wrapper on small screens */
+    }
+
+    .game-button img {
+        max-width: 100%; /* Full width images on small screens */
+    }
+}

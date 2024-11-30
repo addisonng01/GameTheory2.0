@@ -1,0 +1,95 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+}
+
+#headerTop {
+    background-color: #003366;
+    height: 60px;
+}
+
+.flexing-tables{
+    display:flex;
+}
+
+#logo {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#playHistory {
+    background-color: #ffffff;
+    padding: 20px;
+    margin-top: -100px;
+}
+
+
+#playHistoryHeader,
+#reflectionQuestionsHeader {
+    text-align: center;
+    text-decoration: underline;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table, th, td {
+    border: 1px solid black;
+}
+
+th, td {
+    padding: 10px;
+    text-align: center;
+}
+
+th {
+    background-color: #007FFF;
+    color: #ffffff;
+}
+
+td {
+    background-color: #E0E0E0;
+}
+
+tr:nth-child(even) {
+    background-color: #D1E7FF;
+}
+
+/* Red and blue cells */
+.red {
+    background-color: #FFCCCC;
+}
+
+.blue {
+    background-color: #CCCCFF;
+}
+
+#reflectionQuestions {
+    background-color: #ffffff;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+textarea {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+input[type=submit] {
+    background-color: #007FFF;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+input[type=submit]:hover {
+    background-color: #0056b3;
+}

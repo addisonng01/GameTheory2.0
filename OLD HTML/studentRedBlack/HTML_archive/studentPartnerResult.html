@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title></title>
+	<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet" />
+	<link href="/CSSGametheory/css/studentRedBlack.css" rel="stylesheet" />
+</head>
+<body>
+<p><iframe scrolling="no" src="/CSSGametheory/HTML/header.html" style="border:none; height: 100px; width: 100%;"></iframe><!--- fix positioning with CSS ---></p>
+
+<div id="results">
+<table>
+	<tbody>
+		<tr>
+			<td colspan="2">
+			<h1 class="bottomHalf" id="roundNumHead">Round: <span id="roundNum">3</span></h1>
+			<!--- make dynamic ---></td>
+		</tr>
+		<tr>
+			<td>
+			<h1 class="short">You Played</h1>
+			</td>
+			<td>
+			<h1 class="short">Your Partner Played:</h1>
+			</td>
+		</tr>
+		<!--- the wireframes have an off-white filter over the cards ---><!--- might be difficult to display different image depending on round info-->
+		<tr>
+			<td class="card"><img id="youPlayed" src="/CSSGametheory/Img/kingHearts.svg" /></td>
+			<td class="card"><img id="partnerPlayed" src="/CSSGametheory/Img/kingSpades.svg" /></td>
+		</tr>
+	</tbody>
+</table>
+</div>
+<!--- make points dynamic ---><!--- fix styling with CSS --->
+
+<div id="roundResults">
+<table>
+	<tbody>
+		<tr>
+			<td colspan="2"><u>Returns:</u></td>
+		</tr>
+		<tr>
+			<td><strong>You:</strong></td>
+			<td><span id="youPoints">200</span></td>
+		</tr>
+		<tr>
+			<td><strong>Partner:</strong></td>
+			<td><span id="partnerPoints">0</span></td>
+		</tr>
+		<tr>
+		</tr>
+	</tbody>
+</table>
+</div>
+
+<div id="totalScores">
+<table>
+	<tbody>
+		<tr>
+			<td colspan="2"><u>Total Scores:</u></td>
+		</tr>
+		<tr>
+			<td><strong>You:</strong></td>
+			<td><span id="youTotal">550</span></td>
+		</tr>
+		<tr>
+			<td><strong>Partner:</strong></td>
+			<td><span id="partnerTotal">50</span></td>
+		</tr>
+		<tr>
+		</tr>
+	</tbody>
+</table>
+</div>
+</body>
+</html>

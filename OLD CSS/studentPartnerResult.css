@@ -1,0 +1,154 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background: #f9f9f9;
+    margin: 0;
+    padding: 0; /* Changed to 0 to remove padding that could cause scrolling */
+    font-size: 16px;
+    box-sizing: border-box; /* New addition to include padding and border in the width */
+}
+#logo {
+    display: block;
+    margin: 20px auto;
+    width: 120px; /* Adjust as needed */
+}
+
+#linkRow {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+#linkRow .links a {
+    color: #007bff; /* Blue color for links */
+    text-decoration: none;
+    font-size: 1.2em;
+}
+
+#results, #roundResults, #totalScores {
+    background: #fff;
+    border: 1px solid #ddd; /* Light grey border */
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* subtle shadow */
+    margin-bottom: 20px; /* Space between the blocks */
+    padding: 20px;
+    width: 80%;
+    margin: 20px auto;
+    min-width: 250px;
+    box-sizing: border-box;
+}
+
+#roundNumHead {
+    color: #333; /* Dark grey text */
+    font-size: 1.5em;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.short {
+    color: #007bff; /* Blue text for 'You Played' and 'Your Partner Played:' */
+    font-size: 1.2em;
+}
+
+.card img {
+    height: auto;
+    width: 150px; /* Adjust the size as needed */
+    margin: 10px auto; /* Center the card in the cell */
+    display: block;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed; /* To ensure equal width */
+}
+
+td {
+    text-align: center;
+    padding: 10px;
+    vertical-align: middle; /* Center content vertically */
+}
+
+strong {
+    font-weight: bold;
+}
+
+u {
+    text-decoration: underline;
+}
+
+#roundResults,
+#totalScores {
+    background: #007bff; /* The blue background color from the screenshot */
+    color: #ffffff; /* White text color */
+    border: none; /* Removing the light grey border */
+    box-shadow: none; /* Removing the shadow */
+    width: 10%; /* Adjust width to your preference */
+    margin: 20px auto; /* Center the box */
+    display: block; /* Display as block to enable margin to work */
+    
+     flex: 0 0 auto;
+}
+
+#roundResults table,
+#totalScores table {
+   width: 100%;
+}
+
+#roundResults td,
+#totalScores td {
+    padding: 10px 20px; /* Increase padding for better spacing */
+}
+
+.resultsContainer {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 100%; /* Ensure this container doesn't exceed the viewport width */
+    box-sizing: border-box; /* Include padding and border */
+}
+
+.everythingContainer {
+    display: flex;
+    justify-content: center; /* This centers the .everythingContainer */
+    flex-wrap: wrap;
+    width: 100%; /* Prevent this container from causing overflow */
+    box-sizing: border-box;
+}
+
+#roundResults u,
+#totalScores u {
+    text-decoration: none; /* Remove underline */
+    font-size: 1.2em; /* Increase font size for 'Returns' and 'Total Scores' */
+    font-weight: bold; /* Make the font bold */
+    display: block; /* Make it a block to take up its own line */
+    margin-bottom: 5px; /* Add margin below the 'Returns' and 'Total Scores' */
+}
+
+#roundResults td:first-child,
+#totalScores td:first-child {
+    text-align: left; /* Align the 'You:' and 'Partner:' text to the left */
+}
+
+#roundResults td:last-child,
+#totalScores td:last-child {
+    text-align: right; /* Align the numeric values to the right */
+    font-weight: bold; /* Make the numbers bold */
+}
+
+#roundResults td[colspan="2"],
+#totalScores td[colspan="2"] {
+    text-align: center; /* This centers the text horizontally */
+    padding: 10px 0; /* This adds vertical padding for better spacing */
+}
+
+@media (max-width: 768px) {
+    .resultsContainer {
+        flex-direction: column; /* Stack the elements on top of each other on small screens */
+    }
+    
+    #roundResults,
+    #totalScores {
+        /* existing styles */
+        width: auto; /* Allow the boxes to fill the available space */
+        min-width: 0; /* Reset min-width on small screens if needed */
+    }
+}

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Card Game</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link href="../../css/teacherRedBlack.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <div class="instructions">
+            <h2>Instructions:</h2>
+            <p>In all rounds, if you play a red card you receive $50 and the other person receives nothing. If you play
+                a black card you receive nothing and the other person receives $150. Participating in this exercise and
+                answering the questions at the end of this is worth ten points.</p>
+            <p>The person who has the greatest total receives 10 additional points and $10 and the person who has the
+                second greatest total receives 5 additional points and $5 dollars.</p>
+            <p>If you both have the same total, you will split the additional points and money.</p>
+        </div>
+        <div class="cards">
+            <div class="card">
+                <img src="../../Img/kingHearts.svg" alt="King of Hearts">
+                <input type="text" value="Red gives you 50 points" readonly>
+            </div>
+            <div class="card">
+                <img src="../../Img/kingSpades.svg" alt="King of Spades">
+                <input type="text" value="Black gives your partner 150 points" readonly>
+            </div>
+        </div>
+        <div class="game-info">
+            <form action="/CSSGametheory/HTML/teacherRedBlack/teacherCompleteRound.php" method="POST">
+                <button class="finish-round">Finish Round</button>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>

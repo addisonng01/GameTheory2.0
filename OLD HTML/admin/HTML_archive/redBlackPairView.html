@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Red Black Team View</title>
+	<meta charset="utf-8">
+	<link href="/CSSGametheory/css/admin.css" rel="stylesheet" />
+<script src="/CSSGametheory/JavaScript/teamRetrieve.js" defer></script>
+<script src="/CSSGametheory/JavaScript/createGame.js" defer></script><!--- makes sure the values are in localStorage --->
+</head>
+<body>
+<p><iframe scrolling="no" src="/CSSGametheory/HTML/header.html" style="border:none;" width="100%"></iframe></p>
+
+<h1 id="studentHeader">Pair (<span id="headerPlayerOne">Susan</span> &amp; <span id="headerPlayerTwo">Bob</span>)</h1>
+
+<div id="userInfo">Game Name: Red Card Black Card<br />
+Game Date: <span id="gameDate">{Game Date}</span><br />
+Pair: <span id="playerOneName">Susan</span> &amp; <span id="playerTwoName">Bob</span></div>
+
+<p></p>
+
+<div id="redBlackRounds"><!---8 rounds--->
+<table>
+	<tbody>
+		<tr>
+			<th class="roundCol">#</th>
+			<th class="tableHeader nameHeader" id="tablePlayerOneCard">Susan</th>
+			<th class="tableHeader nameHeader" id="tablePlayerTwoCard">Bob</th>
+			<th class="tableHeader nameHeader" id="tablePlayerOnePoints">Susan</th>
+			<th class="tableHeader nameHeader" id="tablePlayerTwoPoints">Bob</th>
+		</tr>
+		<!---TODO: make table cells dynamic (except round numbers) --->
+		<tr>
+			<td class="roundCol">1</td>
+			<td class="card" id="roundOnePlayerOneCard">R</td>
+			<td class="card" id="roundOnePlayerTwoCard">B</td>
+			<td class="point" id="roundOnePlayerOnePoints">200</td>
+			<td class="point" id="roundOnePlayerTwoPoints">0</td>
+		</tr>
+		<tr>
+			<td class="roundCol">2</td>
+			<td class="card" id="roundTwoPlayerOneCard">R</td>
+			<td class="card" id="roundTwoPlayerTwoCard">B</td>
+			<td class="point" id="roundTwoPlayerOnePoints">400</td>
+			<td class="point" id="roundTwoPlayerTwoPoints">0</td>
+		</tr>
+		<tr>
+			<td class="roundCol">3</td>
+			<td class="card" id="roundThreePlayerOneCard">R</td>
+			<td class="card" id="roundThreePlayerTwoCard">B</td>
+			<td class="point" id="roundThreePlayerOnePoints">600</td>
+			<td class="point" id="roundThreePlayerTwoPoints">0</td>
+		</tr>
+		<tr>
+			<td class="roundCol">4</td>
+			<td class="card" id="roundFourPlayerOneCard">R</td>
+			<td class="card" id="roundFourPlayerTwoCard">B</td>
+			<td class="point" id="roundFourPlayerOnePoints">800</td>
+			<td class="point" id="roundFourPlayerTwoPoints">0</td>
+		</tr>
+		<tr>
+			<td class="roundCol">5</td>
+			<td class="card" id="roundFivePlayerOneCard">R</td>
+			<td class="card" id="roundFivePlayerTwoCard">B</td>
+			<td class="point" id="roundFivePlayerOnePoints">1000</td>
+			<td class="point" id="roundFivePlayerTwoPoints">0</td>
+		</tr>
+		<tr>
+			<td class="roundCol">6</td>
+			<td class="card" id="roundSixPlayerOneCard">R</td>
+			<td class="card" id="roundSixPlayerTwoCard">B</td>
+			<td class="point" id="roundSixPlayerOnePoints">1200</td>
+			<td class="point" id="roundSixPlayerTwoPoints">0</td>
+		</tr>
+		<tr>
+			<td class="roundCol">7</td>
+			<td class="card" id="roundSevenPlayerOneCard">R</td>
+			<td class="card" id="roundSevenPlayerTwoCard">B</td>
+			<td class="point" id="roundSevenPlayerOnePoints">1400</td>
+			<td class="point" id="roundSevenPlayerTwoPoints">0</td>
+		</tr>
+		<tr>
+			<td class="roundCol">8</td>
+			<td class="card" id="roundEightPlayerOneCard">B</td>
+			<td class="card" id="roundEightlayerTwoCard">R</td>
+			<td class="point" id="roundEightPlayerOnePoints">1400</td>
+			<td class="point" id="roundEightPlayerTwoPoints">200</td>
+		</tr>
+	</tbody>
+</table>
+</div>
+
+<p><br />
+<!--table w/ links--><!-- TODO: consider making row of links an admin footer --></p>
+
+<table id="links">
+	<tbody>
+		<tr>
+			<td><a href="/CSSGametheory/HTML/admin/allStudents.html">All Students</a></td>
+			<td><a href="/CSSGametheory/HTML/admin/index.html">Back to Home</a> <!--admin index--></td>
+			<td><a href="/CSSGametheory/HTML/admin/allGames.html">All Games</a></td>
+		</tr>
+	</tbody>
+</table>
+</body>
+<script language="javascript">
+    window.onload = function(e){ 
+        displayInfoRedBlack();
+    }
+</script>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8">
+	<title>Red &amp; Black Game View</title>
+	<link href="/CSSGametheory/css/gameView.css" rel="stylesheet" />
+	<script src="/CSSGametheory/JavaScript/gameRetrieve.js" defer></script>
+	<script src="/CSSGametheory/JavaScript/createGame.js" defer></script><!--- makes sure the values are in localStorage --->
+</head>
+<body>
+<p><iframe scrolling="no" src="/CSSGametheory/HTML/header.html" style="border:none;" width="100%"></iframe></p>
+
+<h1>Game (Red Card Black Card)</h1>
+
+<div id="gameInfo">Game Name: Red Card Black Card<br />
+Game Date: <span id="gameDate_1">12-31-1969</span></div>
+
+<p></p>
+
+<div id="teamInfo">Players: <span id="playerNum_1">0</span><br />
+Pairs: <span id="pairNum_1">0</span><br />
+Rounds: <span id="roundNum_1">0</span><br />
+<br />
+<!---
+TODO: pass game date to this file (redBlackView.html) so that it can be passed to redBlackPairView.html, both via JavaScript; update d= in pair link as well
+ ---> <!---TODO: make pair links dynamic with names pulled from database - alphabetical by player 1 name in pair? --> <a href="/CSSGametheory/HTML/admin/redBlackPairView.html?d=12-31-1969&amp;p1=bob&amp;p2=larry">Bob &amp; Larry</a>, <a href="/CSSGametheory/HTML/admin/redBlackPairView.html?d=12-31-1969&amp;p1=billy&amp;p2=will">Billy &amp; Will</a>, <a href="/CSSGametheory/HTML/admin/redBlackPairView.html?d=12-31-1969&amp;p1=david&amp;p2=zack">David &amp; Zack</a>, <a href="/CSSGametheory/HTML/admin/redBlackPairView.html?d=12-31-1969&amp;p1=peter&amp;p2=carter">Peter &amp; Carter</a>, <a href="/CSSGametheory/HTML/admin/redBlackPairView.html?d=12-31-1969&amp;p1=john&amp;p2=richard">John &amp; Richard</a>, <a href="/CSSGametheory/HTML/admin/redBlackPairView.html?d=12-31-1969&amp;p1=michael&amp;p2=liam">Michael &amp; Liam</a>,<br />
+<a href="/CSSGametheory/HTML/admin/redBlackPairView.html?d=12-31-1969&amp;p1=jack&amp;p2=sam">Jack &amp; Sam</a>, <a href="/CSSGametheory/HTML/admin/redBlackPairView.html?d=12-31-1969&amp;p1=simon&amp;p2=owen">Simon &amp; Owen</a>, <a href="/CSSGametheory/HTML/admin/redBlackPairView.html?d=12-31-1969&amp;p1=thomas&amp;p2=ethan">Thomas &amp; Ethan</a>, <a href="/CSSGametheory/HTML/admin/redBlackPairView.html?d=12-31-1969&amp;p1=ben&amp;p2=kyle">Ben &amp; Kyle</a>, <a href="/CSSGametheory/HTML/admin/redBlackPairView.html?d=12-31-1969&amp;p1=chris&amp;p2=reece">Chris &amp; Reece</a>, <a href="/CSSGametheory/HTML/admin/redBlackPairView.html?d=12-31-1969&amp;p1=joe&amp;p2=jad">Joe &amp; Jad</a></div>
+
+<div id="cardInfo">Total Number of Black Cards Played: <span id="blackTotal">0</span><br />
+Average Number of Black Cards Played per Round: <span id="blackAverage">0</span><br />
+Total Number of Red Cards Played: <span id="redTotal">0</span><br />
+Average Number of Red Cards Played per Round: <span id="redAverage">0</span></div>
+
+<div id="playerInfo">Player with Highest Score: <span id="highestName">Susan</span> - <span id="highestScore">0</span><br />
+Player with Lowest Score: <span id="lowestName">Susan</span> - <span id="lowestScore">0</span><br />
+<br />
+Player with Highest Number of Black Cards: <span id="highestBlackName">Susan</span> - <span id="highestBlackScore">0</span><br />
+Player with Lowest Number of Black Cards: <span id="lowestBlackName">Susan</span> - <span id="lowestBlackScore">0</span><br />
+Player with Highest Number of Red Cards: <span id="highestRedName">Susan</span> - <span id="highestRedScore">0</span><br />
+Player with Lowest Number of Red Cards: <span id="lowestRedName">Susan</span> - <span id="lowestRedScore">0</span></div>
+
+<p><br />
+<!--- TODO: create footer with iframe, making sure to include target=_blank attribute ---></p>
+
+<table id="links">
+	<tbody>
+		<tr>
+			<td><a href="/CSSGametheory/HTML/admin/allStudents.html">All Students</a></td>
+			<td><a href="/CSSGametheory/HTML/admin/index.html">Back to Home</a> <!--admin index--></td>
+			<td><a href="/CSSGametheory/HTML/admin/allGames.html">All Games</a></td>
+		</tr>
+	</tbody>
+</table>
+</body>
+<script language="javascript">
+	window.onload = function(e){ 
+		displayInfoRedBlack();
+	}
+</script></html>

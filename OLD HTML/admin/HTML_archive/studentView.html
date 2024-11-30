@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8">
+	<title>Student View</title>
+	<link href="/CSSGametheory/css/admin.css" rel="stylesheet" /><script src="/CSSGametheory/JavaScript/studentRetrieve.js" defer></script><script src="/CSSGametheory/JavaScript/createGame.js" defer></script><!--- makes sure the values are in localStorage --->
+</head>
+<body>
+<p><iframe scrolling="no" src="/CSSGametheory/HTML/header.html" style="border:none;" width="100%"></iframe></p>
+
+<h1 id="studentHeader">Student ()</h1>
+
+<div id="userInfo">First Name: <span id="firstNameDisplay">Susan</span><br />
+Last Name: <span id="lastNameDisplay">Sample</span><br />
+Email: <span id="emailDisplay">ssample@css.edu</span></div>
+
+<p></p>
+
+<div id="redBlackInfo">Number of Red/Black Games Played: <span id="redBlackNum">0</span><br />
+Highest Final Score: <span id="redBlackHigh">0</span><br />
+Lowest Final Score: <span id="redBlackLow">0</span><br />
+Game Point Average: <span id="redBlackGPA">0</span></div>
+
+<p></p>
+
+<p></p>
+
+<div id="wheatSteelInfo">Number of Wheat &amp; Steel Games Played: <span id="wheatSteelNum">0</span><br />
+Highest Total Wheat Production: <span id="wheatHigh">0</span><br />
+Wheat Consumption Goals Met: <span id="wheatGoalNum">0</span><br />
+Highest Total Steel Production: <span id="steelHigh">0</span><br />
+Steel Consumption Goals Met: <span id="steelGoalNum">0</span></div>
+
+<p><br />
+<!--- TODO: create footer with iframe, making sure to include target=_blank attribute ---></p>
+
+<p></p>
+
+<table id="links">
+	<tbody>
+		<tr>
+			<td><a href="/CSSGametheory/HTML/admin/allStudents.html">All Students</a></td>
+			<td><a href="/CSSGametheory/HTML/admin/index.html">Back to Home</a> <!--admin index--></td>
+			<td><a href="/CSSGametheory/HTML/admin/allGames.php">All Games</a></td>
+		</tr>
+	</tbody>
+</table>
+</body>
+<script language="javascript">
+    window.onload = function(e){ 
+        displayInfo();
+    }
+</script></html>

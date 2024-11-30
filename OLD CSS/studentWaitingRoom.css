@@ -1,0 +1,125 @@
+/* General Body Styles */
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    overflow-x: hidden;
+    color: #333; /* Default text color */
+    
+}
+
+/* Header Styles */
+#headerTop, #headerLeft, #headerBottom {
+    /* Styles for header sections */
+}
+
+#logo {
+    /* Styles for the logo */
+    display: block;
+    margin: 20px auto; /* Center the logo */
+    width: 120px; /* Adjust as needed */
+}
+
+/* Navigation Links Styles */
+#linkRow {
+    text-align: center;
+    margin: 10px 0;
+}
+
+#linkRow .links a {
+    color: #007bff;
+    text-decoration: none;
+    font-size: 18px;
+    margin: 0 15px;
+}
+
+#linkRow .links a:hover {
+    text-decoration: underline;
+}
+
+/* Game Pin and Title */
+h1 {
+    font-size: 2.5em; /* Title font size */
+    text-align: center;
+    margin: 0;
+    padding: 20px 0; /* Space above and below the title */
+}
+
+h2 {
+    font-size: 2em; /* Game pin font size */
+    background: #007bff; /* Background color of the game pin box */
+    color: #ffffff; /* Text color for the game pin */
+    text-align: center;
+    padding: 10px;
+    border-radius: 5px; /* Rounded corners for the game pin box */
+    display: inline-block; /* Only as wide as necessary */
+    margin-left: 20px; /* Space above and below the game pin */
+}
+
+/* Start Game Button */
+form button {
+    background-color: #28a745; /* Green background */
+    color: #ffffff; /* White text */
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer;
+    font-size: 18px;
+    margin: 20px;
+    float: right; /* Align to the right */
+}
+
+form button:hover {
+    background-color: #218838; /* Darker green on hover */
+}
+
+/* Container for Usernames */
+.usernames-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 20px; /* Space between columns */
+    padding: 20px;
+    flex-wrap: wrap; /* Wrap onto new line if needed */
+}
+
+/* Column Styles for Usernames */
+.column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Individual Username Styles */
+.username {
+    background-color: #ffffff; /* White background */
+    border: 1px solid #ddd; /* Light gray border */
+    padding: 10px;
+    margin-bottom: 10px; /* Space between usernames */
+    border-radius: 5px; /* Rounded corners */
+    width: 200px; /* Fixed width */
+    text-align: center; /* Center text */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Subtle shadow for depth */
+    transition: transform 0.2s ease-in-out; /* Animation for hover effect */
+}
+
+.username:hover {
+    transform: translateY(-3px); /* Lift effect on hover */
+}
+
+@media (max-width: 768px) {
+    /* Responsive styles for smaller screens */
+    .usernames-container {
+        flex-direction: column;
+    }
+
+    .column {
+        width: 100%; /* Full width columns on small screens */
+    }
+
+    form button {
+        float: none; /* Do not float on small screens */
+        display: block; /* Full width button */
+        margin: 20px auto; /* Center the button */
+    }
+}

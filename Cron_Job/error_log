@@ -1,0 +1,6 @@
+[29-Nov-2024 00:00:03 America/Boise] PHP Fatal error:  Uncaught mysqli_sql_exception: Access denied for user 'txlxmqol_webToDB'@'localhost' (using password: YES) in /home2/txlxmqol/public_html/CSSGametheory/Cron_Job/db.php:8
+Stack trace:
+#0 /home2/txlxmqol/public_html/CSSGametheory/Cron_Job/db.php(8): mysqli->__construct('localhost', 'txlxmqol_webToD...', Object(SensitiveParameterValue), 'txlxmqol_Game_T...')
+#1 /home2/txlxmqol/public_html/CSSGametheory/Cron_Job/sessionCheck.php(3): require('/home2/txlxmqol...')
+#2 {main}
+  thrown in /home2/txlxmqol/public_html/CSSGametheory/Cron_Job/db.php on line 8

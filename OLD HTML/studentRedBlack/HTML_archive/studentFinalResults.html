@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title></title>
+	<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet" />
+	<link href="/CSSGametheory/css/studentRedBlack.css" rel="stylesheet" />
+</head>
+<body>
+<iframe scrolling="no" src="/CSSGametheory/HTML/header.html" style="border:none; height: 100px; width: 100%;"></iframe>
+
+<!--- style with CSS --->
+<div id="playHistory">
+<h1 id="playHistoryHeader"><u>Play History:</u></h1>
+
+<table><!--- 9 rows, 4 cols --->
+	<tbody>
+		<tr>
+			<td>#</td>
+			<td>You</td>
+			<td>Partner</td>
+			<td>Score</td>
+		</tr>
+		<tr>
+			<td>1</td>
+			<!--- make dynamic for other 3 cols --->
+			<td id="youRoundOne">B</td>
+			<td id="partnerRoundOne">B</td>
+			<td id="scoreRoundOne">150</td>
+		</tr>
+		<tr>
+			<td>2</td>
+			<!--- make dynamic for other 3 cols --->
+			<td id="youRoundTwo">R</td>
+			<td id="partnerRoundTwo">B</td>
+			<td id="scoreRoundTwo">350</td>
+		</tr>
+		<tr>
+			<td>3</td>
+			<!--- make dynamic for other 3 cols --->
+			<td id="youRoundThree">B</td>
+			<td id="partnerRoundThree">R</td>
+			<td id="scoreRoundThree">350</td>
+		</tr>
+		<tr>
+			<td>4</td>
+			<!--- make dynamic for other 3 cols --->
+			<td id="youRoundFour">R</td>
+			<td id="partnerRoundFour">R</td>
+			<td id="scoreRoundFour">400</td>
+		</tr>
+		<tr>
+			<td>5</td>
+			<!--- make dynamic for other 3 cols --->
+			<td id="youRoundFive">R</td>
+			<td id="partnerRoundFive">R</td>
+			<td id="scoreRoundFive">450</td>
+		</tr>
+		<tr>
+			<td>6</td>
+			<!--- make dynamic for other 3 cols --->
+			<td id="youRoundSix">B</td>
+			<td id="partnerRoundSix">B</td>
+			<td id="scoreRoundSix">600</td>
+		</tr>
+		<tr>
+			<td>7</td>
+			<!--- make dynamic for other 3 cols --->
+			<td id="youRoundSeven">R</td>
+			<td id="partnerRoundSeven">B</td>
+			<td id="scoreRoundSeven">800</td>
+		</tr>
+		<tr>
+			<td>8</td>
+			<!--- make dynamic for other 3 cols --->
+			<td id="youRoundEight">B</td>
+			<td id="partnerRoundEight">R</td>
+			<td id="scoreRoundEight">800</td>
+		</tr>
+	</tbody>
+</table>
+</div>
+<!--- style with CSS --->
+
+<div id="reflectionQuestions"><!---placeholder submit page; replace when needed for PHP --->
+<form action="placeholderSubmit.html" method="POST">
+<h1 id="reflectionQuestionsHeader"><u>Reflection Questions:</u></h1>
+
+<table><!--- 5 rows, 1 col --->
+	<tbody>
+		<tr>
+			<td><label for="beginningStrategy">Describe your strategy at the beginning of this exercise:</label></td>
+		</tr>
+		<tr>
+			<td><!--- what do we want the character limit to be? setting to 500 for now ---><textarea cols="48" id="beginningStrategy" maxlength="500" name="beginningStrategy" rows="6"></textarea></td>
+		</tr>
+		<tr>
+			<td><label for="endingStrategy">Describe how it changed near the end of the exercise:</label></td>
+		</tr>
+		<tr>
+			<td><!--- same character limit here? ---><textarea cols="48" id="endingStrategy" maxlength="500" name="endingStrategy" rows="6"></textarea></td>
+		</tr>
+		<tr>
+			<td><input type="button" value="Submit" /></td>
+		</tr>
+	</tbody>
+</table>
+</form>
+</div>
+</body>
+</html>

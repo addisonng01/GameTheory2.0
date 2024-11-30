@@ -1,0 +1,84 @@
+/* General table styling */
+table {
+    width: 50%; /* Adjust the width as needed */
+    border-collapse: collapse; /* Collapse borders */
+    margin: 25px auto; /* Center table with margin */
+    font-size: 0.9em; /* Adjust font size */
+    font-family: sans-serif; /* Use a simple font */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15); /* Box shadow for 3D effect */
+    border-top: 3px solid #003366; /* Thick top border */
+}
+
+/* Caption styling */
+caption {
+    background-color: #003366; /* Dark blue backgrund */
+    color: white; /* White text */
+    font-size: 18px; /* Large text size */
+    text-align: left; /* Align text to the left */
+    padding: 10px; /* Padding for aesthetic */
+    font-weight: bold; /* Bold font for caption */
+}
+
+/* Table header styling */
+th {
+    background-color: #003366; /* Blue background */
+    color: white; /* White text */
+    text-align: left; /* Align text to the left */
+    padding: 12px 15px; /* Padding for aesthetic */
+    border-right: 1px solid white; /* White border between headers */
+}
+
+/* Last header in the row doesn't need a right border */
+th:last-child {
+    border-right: none;
+}
+
+/* Table data (cells) styling */
+td {
+    border-bottom: 1px solid #dddddd; /* Bottom border for each cell */
+    padding: 12px 15px; /* Padding */
+    text-align: left; /* Align text to the left */
+}
+
+/* Row styling & hover effect */
+tr {
+    border-bottom: 1px solid #003366; /* Bottom border for each row in blue */
+}
+
+tr:nth-of-type(even) {
+    background-color: #f3f3f3; /* Zebra stripes */
+}
+
+tr:last-of-type {
+    border-bottom: 3px solid #003366; /* Last row bottom border */
+}
+
+tr:hover {
+    background-color: #f1f1f1; /* Hover effect */
+}
+
+h1 {
+    text-align: center; /* Center align the text */
+    margin-top: 20px; /* Optional: Adjust the top margin as needed */
+    margin-bottom: 20px; /* Optional: Adjust the bottom margin to create space above the tables */
+}
+
+/* Your existing CSS rules... */
+
+/* Existing CSS rules for tables, headers, etc. */
+
+/* Styling for the centered title (h1) */
+.centeredTitle, h1 {
+    text-align: center; /* Center align the text */
+    margin-top: 20px; /* Optional: Adjust the top margin as needed */
+    margin-bottom: 20px; /* Optional: Adjust the bottom margin to create space above the tables */
+}
+
+/* Styling for info sections */
+.infoSection {
+    margin: 10px auto;
+    width: 75%; /* Adjust as needed */
+    /* Add more styling as required */
+}
+
+/* Rest of your existing CSS rules... */
