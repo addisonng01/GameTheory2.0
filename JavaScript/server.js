@@ -14,7 +14,7 @@ app.use(express.json());
 
 // MySQL connection setup
 const db = mysql.createConnection({
-    host: process.env.DB_HOST,
+    host: process.env.DB_HOST || "localhost",
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME
@@ -173,39 +173,63 @@ app.get('/api/get-question', (req, res) => {
 });
 
 // Submit multiple student responses
-app.post('/api/submit-responses', (req, res) => {
+app.post('/api/submit-responses', async (req, res) => {
     const { responses } = req.body;
+
     if (!responses || !Array.isArray(responses)) {
         return res.status(400).send('Invalid request data');
     }
 
-    const query = `
-        INSERT INTO question_submission (question_id, response_txt, session_id, user_id, game_session_id)
-        VALUES (?, ?, ?, ?, ?)
-    `;
-    const paramsArray = responses.map(({ question_id, response_txt }) => [
-        question_id,
-        response_txt,
-        1, // Replace with real `session_id`
-        1, // Replace with real `user_id`
-        1  // Replace with real `game_session_id`
-    ]);
+    try {
+        // Assume `req.session` contains the user's session information (e.g., `session_id`, `user_id`).
+        const sessionToken = req.session?.token; // Replace with your session mechanism
+        if (!sessionToken) {
+            return res.status(401).send('User not authenticated');
+        }
 
-    const promises = paramsArray.map(params =>
-        new Promise((resolve, reject) => {
-            db.query(query, params, (err, results) => {
-                if (err) return reject(err);
-                resolve(results);
-            });
-        })
-    );
+        // Get the session and user details from the database
+        const [sessionData] = await db.query(
+            `SELECT 
+                si.session_id, 
+                si.student_id AS user_id, 
+                sgs.game_session_id
+             FROM session_instance si
+             JOIN student_game_session sgs ON si.session_id = sgs.session_id
+             WHERE si.active_session = 'Y' AND si.session_id = ?`,
+            [sessionToken]
+        );
 
-    Promise.all(promises)
-        .then(() => res.status(200).send('Responses submitted successfully'))
-        .catch(err => {
-            console.error(err);
-            res.status(500).send('Error submitting responses');
-        });
+        if (!sessionData || sessionData.length === 0) {
+            return res.status(404).send('Session not found');
+        }
+
+        const { session_id, user_id, game_session_id } = sessionData;
+
+        // Build query params
+        const query = `
+            INSERT INTO question_submission (question_id, response_txt, session_id, user_id, game_session_id)
+            VALUES (?, ?, ?, ?, ?)
+        `;
+        const paramsArray = responses.map(({ question_id, response_txt }) => [
+            question_id,
+            response_txt,
+            session_id,
+            user_id,
+            game_session_id,
+        ]);
+
+        // Execute all queries
+        const promises = paramsArray.map(params =>
+            db.query(query, params)
+        );
+
+        await Promise.all(promises);
+
+        res.status(200).send('Responses submitted successfully');
+    } catch (error) {
+        console.error('Error submitting responses:', error);
+        res.status(500).send('Error submitting responses');
+    }
 });
 
 // Get all responses for Red Card Black Card
