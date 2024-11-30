@@ -85,6 +85,152 @@
                 header("Location: studentWaitingRoom.php");
                 exit;
             }
+
+            // TODO: Make sure there is a wheat_steel_param and wheat_steel_session in the database.
+            //If the game is wheatSteel
+            if ($gameSelected == "wheatSteel") {
+                //Create a game_session record in the database
+                $sql = sprintf("INSERT INTO game_session (teacher_id, game_id, wheat_steel_param, is_active, expiration_dt)
+                                    VALUES ('%s', -- session
+                                            2, -- wheatSteel game
+                                            1, -- Default wheatSteel parameters
+                                            'A', -- signals active
+                                            current_timestamp() + interval 1 day
+                                            );",
+                        $mysqli->real_escape_string((int)$teacher_id)
+                    );
+                $result = $mysqli->query($sql);
+
+                $sql = sprintf("SELECT MAX(game_session_id) AS game_session_id
+                                    FROM game_session
+                                    WHERE teacher_id = '%s';",
+                                    $mysqli->real_escape_string((int)$teacher_id)
+                                    );
+                $result = $mysqli->query($sql);
+
+                $row = $result->fetch_assoc();
+
+                $_SESSION["game_session_id"] = $row['game_session_id'];
+
+                //Generate Lobby Code
+                $lobbyCode;
+            
+                // Generate a random 6-digit code
+                $lobbyCode = sprintf('%06d', rand(100000, 999999));
+                
+                // add code to check for existing lobbyCode
+                $sql = sprintf("SELECT *
+                                    FROM game_session
+                                    WHERE is_active = 'A'");
+                $result = $mysqli->query($sql);
+                
+                // create codes array
+                $allCodes = array();
+                
+                // loop through query, add to array of game codes
+                while($codes = $result->fetch_assoc()) { // thanks Chris
+                    // Get the game code values
+                    $code = $codes['join_game_code'];
+                    array_push($allCodes, $code);
+                }
+                // loop through array of game codes
+                while (in_array($lobbyCode, $allCodes)) {
+                     // keep randomly generating until it doesn't match
+                    $lobbyCode = sprintf('%06d', rand(100000, 999999));
+                }
+                
+                $_SESSION["lobby_code"] = $lobbyCode;
+                //Add code to join game
+                $sql = sprintf("UPDATE game_session
+                                    SET join_game_code = '%s'
+                                    WHERE game_session_id = '%s'",
+                                    $mysqli->real_escape_string($lobbyCode),
+                                    $mysqli->real_escape_string($_SESSION["game_session_id"])
+                                    );
+                $result = $mysqli->query($sql);
+
+                //Create wheat_steel_session tracking record
+                $sql = sprintf("INSERT INTO wheat_steel_session (game_session_id)
+                                    VALUES ('%s')",
+                                    $mysqli->real_escape_string($_SESSION["game_session_id"]));
+
+                //Send to the game lobby
+                header("Location: studentWaitingRoom.php");
+                exit;
+            }
+
+            // TODO: Make sure there is a oli_game_param and oli_game_session in the database.
+            //If the game is oliGame
+            if ($gameSelected == "oliGame") {
+                //Create a game_session record in the database
+                $sql = sprintf("INSERT INTO game_session (teacher_id, game_id, oli_game_param, is_active, expiration_dt)
+                                    VALUES ('%s', -- session
+                                            3, -- oliGame game
+                                            1, -- Default oliGame parameters
+                                            'A', -- signals active
+                                            current_timestamp() + interval 1 day
+                                            );",
+                        $mysqli->real_escape_string((int)$teacher_id)
+                    );
+                $result = $mysqli->query($sql);
+
+                $sql = sprintf("SELECT MAX(game_session_id) AS game_session_id
+                                    FROM game_session
+                                    WHERE teacher_id = '%s';",
+                                    $mysqli->real_escape_string((int)$teacher_id)
+                                    );
+                $result = $mysqli->query($sql);
+
+                $row = $result->fetch_assoc();
+
+                $_SESSION["game_session_id"] = $row['game_session_id'];
+
+                //Generate Lobby Code
+                $lobbyCode;
+            
+                // Generate a random 6-digit code
+                $lobbyCode = sprintf('%06d', rand(100000, 999999));
+                
+                // add code to check for existing lobbyCode
+                $sql = sprintf("SELECT *
+                                    FROM game_session
+                                    WHERE is_active = 'A'");
+                $result = $mysqli->query($sql);
+                
+                // create codes array
+                $allCodes = array();
+                
+                // loop through query, add to array of game codes
+                while($codes = $result->fetch_assoc()) { // thanks Chris
+                    // Get the game code values
+                    $code = $codes['join_game_code'];
+                    array_push($allCodes, $code);
+                }
+                // loop through array of game codes
+                while (in_array($lobbyCode, $allCodes)) {
+                     // keep randomly generating until it doesn't match
+                    $lobbyCode = sprintf('%06d', rand(100000, 999999));
+                }
+                
+                $_SESSION["lobby_code"] = $lobbyCode;
+                //Add code to join game
+                $sql = sprintf("UPDATE game_session
+                                    SET join_game_code = '%s'
+                                    WHERE game_session_id = '%s'",
+                                    $mysqli->real_escape_string($lobbyCode),
+                                    $mysqli->real_escape_string($_SESSION["game_session_id"])
+                                    );
+                $result = $mysqli->query($sql);
+
+                //Create oli_game_session tracking record
+                $sql = sprintf("INSERT INTO oli_game_session (game_session_id)
+                                    VALUES ('%s')",
+                                    $mysqli->real_escape_string($_SESSION["game_session_id"]));
+
+                //Send to the game lobby
+                header("Location: studentWaitingRoom.php");
+                exit;
+            }
         }
     }
 ?>
