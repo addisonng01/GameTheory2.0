@@ -1,75 +1,8 @@
-version: 2
-app:
-  name: GameTheory
-  version: 2.0
-  languages:
-    php: "8.*"
-  framework: none
-  routes:
-    - source: /GameTheory/HTML
-      target: /home2/txlxmqol/public_html/HTML/
-
-    - source: /GameTheory/CSS
-      target: /home2/txlxmqol/public_html/CSS/
-
-    - source: /GameTheory/JavaScript
-      target: /home2/txlxmqol/public_html/JavaScript/
-
-    - source: /GameTheory/IMG
-      target: /home2/txlxmqol/public_html/IMG/
-
-  environment_variables:
-    DB_HOST: ${DB_HOST}
-    DB_PORT: ${DB_PORT}
-    DB_NAME: ${DB_NAME}
-    DB_USER: ${DB_USER}
-    DB_PASSWORD: ${DB_PASSWORD}
-
+---
   deployment:
-    pre_build: "echo Pre-deployment tasks"
-    build: "echo Building the application"
-    post_build: "echo Post-deployment tasks"
-
-  source:
-    path: GameTheory
-
-  databases:
-    - name: ${DB_NAME}
-      user: ${DB_USER}
-      password: ${DB_PASSWORD}
-      host: ${DB_HOST}
-
-tasks:
-  - name: Update Web Files
-    script: |
-      echo "Updating public_html with the latest web files..."
-      
-      # Copy CSS files
-      cp -R /GameTheory/CSS/* /home2/txlxmqol/public_html/CSS/
-
-      # Copy HTML files
-      cp -R /GameTheory/HTML/* /home2/txlxmqol/public_html/HTML/
-
-      # Copy image files
-      cp -R /GameTheory/IMG/* /home2/txlxmqol/public_html/IMG/
-
-      # Copy JavaScript files
-      cp -R /GameTheory/JavaScript/* /home2/txlxmqol/public_html/JavaScript/
-
-  - name: Database Initialization
-    script: |
-      mysql -u txlxmqol_root -p j&hghasfdk(&5H53HG&^8&*%^$&jnb%&*(&^%$hFGHJKJHGFCV234567%&% <<EOF
-      CREATE DATABASE IF NOT EXISTS ${DB_NAME};
-      USE ${DB_NAME};
-      SOURCE /JavaScript/SQL/Drop-Tables.sql;
-      SOURCE /JavaScript/SQL/Create-Tables.sql;
-      SOURCE /JavaScript/SQL/Import-Sample-Data.sql;
-      EOF
-
-  - name: Migrations
-    script: |
-      echo "Running database migrations..."
-      # Add any commands needed to run migrations or schema updates
-
-logs:
-  - /var/log/cpanel/logs/game_theory_app.log  # Path to your app's log file
+    tasks:
+      - export DEPLOYPATH=/home2/txlxmqol/public_html/
+      - /bin/cp -r JavaScript $DEPLOYPATH
+      - /bin/cp -r HTML $DEPLOYPATH
+      - /bin/cp -r css $DEPLOYPATH
+      - /bin/cp -r Img $DEPLOYPATH
