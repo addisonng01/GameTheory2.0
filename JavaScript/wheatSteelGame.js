@@ -10,6 +10,9 @@ document.addEventListener("DOMContentLoaded", () => {
     let gameId; // Store the game ID after creation
     let teamId; // Store the team ID after creation
 
+    //TODO: add flexible period amount as a game setting for the teacher side
+    const maxPeriods = 5; //Change length of game accordingly
+
     // Start Game Button
     document.getElementById('startButton').onclick = async function() {
         const teamData = document.getElementById('teamSelect').value.split(',');
@@ -74,15 +77,87 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Update Time Spent
+    // Function to update the time spent based on input values
     function updateTimeSpent() {
-        const wheatAmount = parseInt(document.getElementById('wheatAmount').value);
-        const steelAmount = parseInt(document.getElementById('steelAmount').value);
-        const timeSpent = (wheatAmount * wheatTime) + (steelAmount * steelTime);
-        document.getElementById('timeSpent').innerText = timeSpent;
+        wheatAmount = parseInt(document.getElementById('wheatAmount').value) || 0;  // Get wheat amount
+        steelAmount = parseInt(document.getElementById('steelAmount').value) || 0;  // Get steel amount
+        
+        const timeSpent = (wheatAmount * wheatTime) + (steelAmount * steelTime); // Calculate total time spent
+        document.getElementById('timeSpent').innerText = timeSpent; // Update time spent display
+        
+        // Validate if the total time spent exceeds the remaining time
+        if (timeSpent > timeRemaining) {
+            document.getElementById('produceButton').disabled = true; // Disable "Produce" button if over the time
+            document.getElementById('errorMessage').innerText = "You cannot produce more than the available time remaining.";
+        } else {
+            document.getElementById('produceButton').disabled = false; // Enable the button if within time limits
+            document.getElementById('errorMessage').innerText = ""; // Clear error message
+        }
     }
 
     // Production and period code here...
+    // TODO: Production currently has no limits, so you can trade past the allotted hours
+    // ex. Use 100 hours of wheat and production will still go through, the time remaining will become NaN
+    // Function to handle the "Produce" button
+    document.getElementById("produceButton").onclick = () => {
+        wheatAmount = parseInt(document.getElementById('wheatAmount').value) || 0;  // Get wheat amount
+        steelAmount = parseInt(document.getElementById('steelAmount').value) || 0;  // Get steel amount
+        
+        const timeSpent = (wheatAmount * wheatTime) + (steelAmount * steelTime); // Calculate total time spent
+        document.getElementById('timeSpent').innerText = timeSpent; // Update time spent display
+
+        // Check if amount produce exceeds hours
+        if(wheatAmount > totalTime || steelAmount > totalTime){
+            alert("You cannot produce more than the available time remaining.");
+            return;
+        }
+    
+        // Update totals
+        totalWheatConsumed += wheatAmount;
+        totalSteelConsumed += steelAmount;
+        timeRemaining -= timeSpent;
+    
+        // Ensure timeRemaining is not NaN or negative
+        if (isNaN(timeRemaining) || timeRemaining < 0) {
+            timeRemaining = 0; // Set timeRemaining to 0 if it's invalid or negative
+            document.getElementById('timeRemaining').innerText = timeRemaining;
+        }
+
+        // Update displayed values
+        document.getElementById('wheatConsumed').innerText = totalWheatConsumed;
+        document.getElementById('steelConsumed').innerText = totalSteelConsumed;
+        document.getElementById('timeRemaining').innerText = timeRemaining;
+    
+        // Reset inputs after production
+        document.getElementById('wheatAmount').value = 0;
+        document.getElementById('steelAmount').value = 0;
+        document.getElementById('timeSpent').innerText = 0;
+    
+        alert("Production complete. Prepare for the next period.");
+    };
+
+    // Function to handle the "Next Period" button
+    document.getElementById("nextPeriodButton").onclick = () => {
+        // Proceed to the next period
+        if(period >= maxPeriods || timeRemaining <= 0){
+            periodCounter = period++;
+            //resetPeriod();
+        }else{
+            alert("You cannot proceed to the next period without spending all remaining hours.");
+        }
+        // Update period and time displayed on the UI
+        document.getElementById('periodNumber').innerText = period;
+        document.getElementById('timeRemaining').innerText = timeRemaining;
+
+        alert(`Welcome to Period ${period}. Time has been reset to ${totalTime}.`);
+        if (period > 5) {
+            alert("The game is over! Final scores will be calculated.");
+            calculatePoints();
+            stopGame();
+            return;
+        }
+    };
+
     // Attach input change event for dynamic time update
     document.getElementById('wheatAmount').onchange = updateTimeSpent;
     document.getElementById('steelAmount').onchange = updateTimeSpent;
@@ -170,6 +245,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         alert(`Game Over! You scored ${points} points.`);    
         // Save final score to the database
+        //TODO: upload to the correct database
         fetch(`/api/wheatSteel/${gameId}/score`, {
             method: 'PUT',
             headers: {
@@ -177,6 +253,11 @@ document.addEventListener("DOMContentLoaded", () => {
             },
             body: JSON.stringify({ score: points })
         });
+    }
+
+    function stopGame() {
+        document.getElementById('produceButton').disabled = true;
+        document.getElementById('nextPeriodButton').disabled = true;
     }
 
     // Attach input change event for dynamic time update
