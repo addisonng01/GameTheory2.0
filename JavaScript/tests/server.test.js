@@ -138,4 +138,46 @@ describe('API Routes', () => {
             expect(process.env.DB_NAME).toBeDefined();
         });
     });
+
+    // New tests for /api/get-questions
+    describe('GET /api/get-questions', () => {
+        it('should fetch all questions for the Red Card Black Card game', async () => {
+            const res = await request(app).get('/api/get-questions');
+            expect(res.statusCode).toBe(200);
+            expect(Array.isArray(res.body)).toBe(true);
+            expect(res.body.length).toBeGreaterThan(0);
+            res.body.forEach(question => {
+                expect(question).toHaveProperty('question_id');
+                expect(question).toHaveProperty('question_txt');
+            });
+        });
+    });
+
+    // New tests for /api/get-responses
+    describe('GET /api/get-responses', () => {
+        it('should fetch all responses grouped by question and student', async () => {
+            const res = await request(app).get('/api/get-responses');
+            expect(res.statusCode).toBe(200);
+            expect(Array.isArray(res.body)).toBe(true);
+            expect(res.body.length).toBeGreaterThan(0);
+            res.body.forEach(response => {
+                expect(response).toHaveProperty('question_txt');
+                expect(response).toHaveProperty('student_first_name');
+                expect(response).toHaveProperty('student_last_name');
+                expect(response).toHaveProperty('response_txt');
+                expect(response).toHaveProperty('submit_dt');
+            });
+        });
+
+        it('should return an empty array if there are no responses', async () => {
+            // Assuming a specific game ID with no responses
+            // Mock database to ensure no responses are available
+            await db.query('DELETE FROM question_submission WHERE 1=1');
+            
+            const res = await request(app).get('/api/get-responses');
+            expect(res.statusCode).toBe(200);
+            expect(Array.isArray(res.body)).toBe(true);
+            expect(res.body.length).toBe(0);
+        });
+    });
 });
