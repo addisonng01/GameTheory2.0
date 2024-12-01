@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wheat and Steel Game Results</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #00447C;
+        }
+        .results-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        .results-table th, .results-table td {
+            border: 1px solid #ddd;
+            text-align: center;
+            padding: 10px;
+        }
+        .results-table th {
+            background-color: #00447C;
+            color: white;
+        }
+        .summary {
+            margin: 20px 0;
+            padding: 10px;
+            background-color: #e8f0fe;
+            border: 1px solid #00447C;
+            border-radius: 5px;
+        }
+        .summary p {
+            margin: 10px 0;
+            font-size: 16px;
+        }
+        .back-btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 15px;
+            background-color: #00447C;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .back-btn:hover {
+            background-color: #003366;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Wheat and Steel Game Results</h1>
+        <table class="results-table">
+            <thead>
+                <tr>
+                    <th>Resource</th>
+                    <th>Total Consumed</th>
+                    <th>Goal</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Wheat</td>
+                    <td id="totalWheat">0</td>
+                    <td id="wheatGoal">0</td>
+                    <td id="wheatStatus">Incomplete</td>
+                </tr>
+                <tr>
+                    <td>Steel</td>
+                    <td id="totalSteel">0</td>
+                    <td id="steelGoal">0</td>
+                    <td id="steelStatus">Incomplete</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="summary">
+            <h3>Game Summary</h3>
+            <p><strong>Total Points:</strong> <span id="totalPoints">0</span></p>
+            <p><strong>Bonus Points:</strong> <span id="bonusPoints">0</span></p>
+            <p><strong>Overall Status:</strong> <span id="overallStatus">Incomplete</span></p>
+        </div>
+
+        <a href="https://cssgametheory.com/CSSGametheory/HTML/StudentSignIn/php/studentSignOn.php" class="back-btn">Return to Lobby</a>
+    </div>
+
+    <script src="../../javascript/wheatSteelGame.js" defer></script>
+</body>
+</html>
