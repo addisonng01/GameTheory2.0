@@ -25,11 +25,12 @@
 
             //Check if a session_instance has been created
 
-            $sqlSession = sprintf("SELECT * FROM session_instance
-                                    WHERE student_id = '%s'
-                                    AND active_session = 'A'",
-                                //$mysqli->real_escape_string($_POST["$student_id"]));
-                                $mysqli->real_escape_string($student_id));
+            $sqlSession = sprintf(
+                "SELECT * FROM session_instance
+                 WHERE student_id = '%s'
+                 AND active_session = 'A'",
+                $mysqli->real_escape_string($student_id)
+            );
             
             $resultSession = $mysqli->query($sqlSession);
 
@@ -40,45 +41,47 @@
             if ($sessionInstance) {
                 //If there is an existing session_instance for this user
 
-                $sqlActive = sprintf("SELECT * FROM session_instance
-                                        WHERE student_id = '%s'
-                                        AND active_session = 'A'
-                                        AND expiration_dt > current_timestamp()",
-                                    //$mysqli->real_escape_string($_POST["$student_id"]));
-                                    $mysqli->real_escape_string($student_id));
+                $sqlActive = sprintf(
+                    "SELECT * FROM session_instance
+                     WHERE student_id = '%s'
+                     AND active_session = 'A'
+                     AND expiration_dt > current_timestamp()",
+                    $mysqli->real_escape_string($student_id)
+                );
                 
                 $resultActive = $mysqli->query($sqlActive);
 
                 $sessionActive = $resultActive->fetch_assoc();
 
-                //if (! $sessionActive) {
                     //Set to expired session_instance to inactive
-                    $sqlSetInactive = sprintf("UPDATE session_instance
-                                                SET active_session = 'I'
-                                                WHERE session_id = '%s';",
-                                                $mysqli->real_escape_string($session_id));
+                    $sqlSetInactive = sprintf(
+                        "UPDATE session_instance
+                         SET active_session = 'I'
+                         WHERE session_id = '%s'",
+                        $mysqli->real_escape_string($session_id)
+                    );
 
                     $resultSetInactive = $mysqli->query($sqlSetInactive);
 
                     //Create a new session for the user
-                    $sqlNewSession = sprintf("INSERT INTO session_instance (student_id,  
-                                                                        active_session, 
-                                                                        expiration_dt)
-                                            VALUES ('%s', 'A', current_timestamp() + interval 1 day)", 
-                                        //$mysqli->real_escape_string($_POST["$student_id"]));
-                                        $mysqli->real_escape_string($student_id));
+                    $sqlNewSession = sprintf(
+                        "INSERT INTO session_instance (student_id, active_session, expiration_dt)
+                         VALUES ('%s', 'A', current_timestamp() + interval 1 day)", 
+                        $mysqli->real_escape_string($student_id)
+                    );
 
                     $resultNewSessionQuerry= $mysqli->query($sqlNewSession);
 
                     //I do not need to fetch the results of the insert querry, there are no results to fetch.
                     //$newActiveSession = $resultNewSessionQuerry->fetch_assoc();
 
-                    $sqlRetrieveNewSession = sprintf("SELECT * FROM session_instance
-                                                    WHERE student_id = '%s'
-                                                    AND active_session = 'A'
-                                                    AND expiration_dt > current_timestamp()",
-                                                //$mysqli->real_escape_string($_POST["$student_id"]));
-                                                $mysqli->real_escape_string($student_id));
+                    $sqlRetrieveNewSession = sprintf(
+                        "SELECT * FROM session_instance
+                         WHERE student_id = '%s'
+                         AND active_session = 'A'
+                         AND expiration_dt > current_timestamp()",
+                        $mysqli->real_escape_string($student_id)
+                    );
 
                     $resultRetrievedNewSession = $mysqli->query($sqlRetrieveNewSession);
 
@@ -96,24 +99,24 @@
                 //If there is NOT an existing session_instance for this user
 
                 //Create a new session for the user
-                $sqlNewSession = sprintf("INSERT INTO session_instance (student_id,  
-                                                                        active_session, 
-                                                                        expiration_dt)
-                                            VALUES ('%s', 'A', current_timestamp() + interval 1 day)", 
-                                        //$mysqli->real_escape_string($_POST["$student_id"]));
-                                        $mysqli->real_escape_string($student_id));
+                $sqlNewSession = sprintf(
+                    "INSERT INTO session_instance (student_id, active_session, expiration_dt)
+                     VALUES ('%s', 'A', current_timestamp() + interval 1 day)", 
+                    $mysqli->real_escape_string($student_id)
+                );
 
                 $resultNewSessionQuerry= $mysqli->query($sqlNewSession);
 
                 //I do not need to fetch the results of the insert querry, there are no results to fetch.
                 //$newActiveSession = $resultNewSessionQuerry->fetch_assoc();
 
-                $sqlRetrieveNewSession = sprintf("SELECT * FROM session_instance
-                                                    WHERE student_id = '%s'
-                                                    AND active_session = 'A'
-                                                    AND expiration_dt > current_timestamp()",
-                                                //$mysqli->real_escape_string($_POST["$student_id"]));
-                                                $mysqli->real_escape_string($student_id));
+                $sqlRetrieveNewSession = sprintf(
+                    "SELECT * FROM session_instance
+                     WHERE student_id = '%s'
+                     AND active_session = 'A'
+                     AND expiration_dt > current_timestamp()",
+                    $mysqli->real_escape_string($student_id)
+                );
 
                 $resultRetrievedNewSession = $mysqli->query($sqlRetrieveNewSession);
 
