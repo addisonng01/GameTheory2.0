@@ -1,83 +1,72 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <link rel="stylesheet" href="../../css/header.css">
-    <link rel="stylesheet" href="../../css/admin.css">
-    <script src="../../javascript/teamRetrieve.js" defer></script>
-    <script src="../../javascript/createGame.js" defer></script> <!-- test -->
-    <script src="../../javascript/wheatSteel.js" defer></script> <!-- Include the new JS file -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wheat and Steel Teacher Results</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+        .container {
+            width: 90%;
+            margin: 20px auto;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #00447C;
+        }
+        .team-results {
+            margin-top: 20px;
+        }
+        .team-results h2 {
+            color: #00447C;
+            text-align: center;
+        }
+        .results-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        .results-table th, .results-table td {
+            border: 1px solid #ddd;
+            text-align: center;
+            padding: 10px;
+        }
+        .results-table th {
+            background-color: #00447C;
+            color: white;
+        }
+        .back-btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 15px;
+            background-color: #00447C;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .back-btn:hover {
+            background-color: #003366;
+        }
+    </style>
 </head>
 <body>
-    <iframe scrolling="no" style="border:none;" width="100%" src="../../HTML/header.html"></iframe>
-    <h1 id="studentHeader">Team (<span id="teamName">Team Name</span>)</h1>
-    <div id ="userInfo">
-        Game Name: Wheat & Steel <br>
-        Game Date: <span id="gameDate">{Game Date}</span> <br>
-        Team Members: <span id="playerOneName">Player One</span>, <span id="playerTwoName">Player Two</span>, <span id="playerThreeName">Player Three</span>, <span id="playerFourName">Player Four</span><br>
+    <div class="container">
+        <h1>Teacher Results: Wheat and Steel Game</h1>
+
+        <!-- Team Results Section -->
+        <div class="team-results" id="teamResults">
+            <!-- Dynamic content will be inserted here -->
+        </div>
+
+        <a href="https://cssgametheory.com/CSSGametheory/HTML/TeacherSignInFolder/php/teacherSignOn.php" class="back-btn">Back to Game Select</a>
     </div>
-    <br>
-    <div id ="wheatSteelPeriods"> 
-        <table>
-            <tr>
-                <th class="resourceCol">Resource</th>
-                <th class="tableHeader roundHeader">Period 1</th>
-                <th class="tableHeader roundHeader">Period 2</th>
-                <th class="tableHeader roundHeader">Period 3</th>
-                <th class="tableHeader roundHeader">Period 4</th>
-                <th class="tableHeader roundHeader">Period 5</th>
-            </tr>
-            <tr>
-                <td class="blueBack">Wheat</td>
-                <td id="roundOneWheat" class="amount">0</td>
-                <td id="roundTwoWheat" class="amount blueBack">0</td>
-                <td id="roundThreeWheat" class="amount">0</td>
-                <td id="roundFourWheat" class="amount blueBack">0</td>
-                <td id="roundFiveWheat" class="amount">0</td>
-            </tr>
-            <tr>
-                <td class="blueBack">Steel</td>
-                <td id="roundOneSteel" class="amount blueBack">0</td>
-                <td id="roundTwoSteel" class="amount">0</td>
-                <td id="roundThreeSteel" class="amount blueBack">0</td>
-                <td id="roundFourSteel" class="amount">0</td>
-                <td id="roundFiveSteel" class="amount blueBack">0</td>
-            </tr>
-            <tr>
-                <td class="blueBack">Wheat Trade</td>
-                <td id="roundOneWheatTrade" class="amount">0</td>
-                <td id="roundTwoWheatTrade" class="amount blueBack">0</td>
-                <td id="roundThreeWheatTrade" class="amount">0</td>
-                <td id="roundFourWheatTrade" class="amount blueBack">0</td>
-                <td id="roundFiveWheatTrade" class="amount">0</td>
-            </tr>
-            <tr>
-                <td class="blueBack">Steel Trade</td>
-                <td id="roundOneSteelTrade" class="amount blueBack">0</td>
-                <td id="roundTwoSteelTrade" class="amount">0</td>
-                <td id="roundThreeSteelTrade" class="amount blueBack">0</td>
-                <td id="roundFourSteelTrade" class="amount">0</td>
-                <td id="roundFiveSteelTrade" class="amount">0</td>
-            </tr>
-            <tr>
-                <td class="blueBack">Wheat Consumed</td>
-                <td id="roundOneWheatConsumed" class="amount">0</td>
-                <td id="roundTwoWheatConsumed" class="amount blueBack">0</td>
-                <td id="roundThreeWheatConsumed" class="amount">0</td>
-                <td id="roundFourWheatConsumed" class="amount">0</td>
-                <td id="roundFiveWheatConsumed" class="amount">0</td>
-            </tr>
-            <tr>
-                <td class="blueBack">Steel Consumed</td>
-                <td id="roundOneSteelConsumed" class="amount blueBack">0</td>
-                <td id="roundTwoSteelConsumed" class="amount">0</td>
-                <td id="roundThreeSteelConsumed" class="amount blueBack">0</td>
-                <td id="roundFourSteelConsumed" class="amount">0</td>
-                <td id="roundFiveSteelConsumed" class="amount blueBack">0</td>
-            </tr>
-        </table>
-    </div>
-    <br>
-    <!--table w/ links-->
+
     <table id="links">
         <tr>
             <td>
@@ -91,5 +80,99 @@
             </td>
         </tr>
     </table>
+
+    <script>
+        // Example data for four teams
+        const teamData = [
+            {
+                teamName: "Team A1 (80 hours): 1 hour for Wheat, 2 hours for Steel",
+                wheatConsumed: 250,
+                steelConsumed: 180,
+                wheatGoal: 200,
+                steelGoal: 150,
+            },
+            {
+                teamName: "Team B1 (80 hours): 1 hour for Wheat, 3 hours for Steel",
+                wheatConsumed: 180,
+                steelConsumed: 140,
+                wheatGoal: 200,
+                steelGoal: 150,
+            },
+            {
+                teamName: "Team A2 (150 hours): 2 hours for Wheat, 1 hour for Steel",
+                wheatConsumed: 220,
+                steelConsumed: 160,
+                wheatGoal: 200,
+                steelGoal: 150,
+            },
+            {
+                teamName: "Team B2 (150 hours): 3 hours for Wheat, 1 hour for Steel",
+                wheatConsumed: 210,
+                steelConsumed: 140,
+                wheatGoal: 200,
+                steelGoal: 150,
+            }
+        ];
+
+        // Function to generate results for all teams
+        function generateResults() {
+            const teamResultsDiv = document.getElementById("teamResults");
+
+            teamData.forEach(team => {
+                // Calculate results
+                const wheatStatus = team.wheatConsumed >= team.wheatGoal ? "Met" : "Incomplete";
+                const steelStatus = team.steelConsumed >= team.steelGoal ? "Met" : "Incomplete";
+                let points = 0;
+                let bonusPoints = 0;
+
+                if (wheatStatus === "Met" && steelStatus === "Met") {
+                    points = 10; // Base points for meeting both goals
+                    const excessWheat = team.wheatConsumed - team.wheatGoal;
+                    const excessSteel = team.steelConsumed - team.steelGoal;
+                    bonusPoints = excessWheat + excessSteel > 0 ? 10 : 0; // Bonus for exceeding goals
+                }
+
+                const totalPoints = points + bonusPoints;
+
+                // Create results table for each team
+                const teamSection = document.createElement("div");
+                teamSection.innerHTML = `
+                    <h2>${team.teamName}</h2>
+                    <table class="results-table">
+                        <thead>
+                            <tr>
+                                <th>Resource</th>
+                                <th>Total Consumed</th>
+                                <th>Goal</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Wheat</td>
+                                <td>${team.wheatConsumed}</td>
+                                <td>${team.wheatGoal}</td>
+                                <td>${wheatStatus}</td>
+                            </tr>
+                            <tr>
+                                <td>Steel</td>
+                                <td>${team.steelConsumed}</td>
+                                <td>${team.steelGoal}</td>
+                                <td>${steelStatus}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p><strong>Total Points:</strong> ${totalPoints}</p>
+                    <p><strong>Bonus Points:</strong> ${bonusPoints}</p>
+                    <p><strong>Overall Status:</strong> ${points > 0 ? "Complete" : "Incomplete"}</p>
+                    <hr>
+                `;
+                teamResultsDiv.appendChild(teamSection);
+            });
+        }
+
+        // Generate results on page load
+        generateResults();
+    </script>
 </body>
 </html>
