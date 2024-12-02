@@ -21,7 +21,7 @@ async function displayInfoRedBlack() {
         // Update player links
         const teamInfoDiv = document.getElementById("teamInfo");
         teamInfoDiv.innerHTML += gameInfo.pairs.map(pair => 
-            `<a href="redBlackPairView.html?d=${encodeURIComponent(gameInfo.date)}&p1=${encodeURIComponent(pair.playerOne)}&p2=${encodeURIComponent(pair.playerTwo)}">${pair.playerOne} & ${pair.playerTwo}</a>`).join(', ');
+            `<a href="https://cssgametheory.com/CSSGametheory/HTML/admin/redBlackPairView.html?d=${encodeURIComponent(gameInfo.date)}&p1=${encodeURIComponent(pair.playerOne)}&p2=${encodeURIComponent(pair.playerTwo)}">${pair.playerOne} & ${pair.playerTwo}</a>`).join(', ');
 
         // Update card info
         document.getElementById("blackTotal").textContent = gameInfo.blackCardsTotal;

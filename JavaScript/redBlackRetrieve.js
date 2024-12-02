@@ -38,13 +38,13 @@ async function displayInfoRedBlack() {
         // Update player links
         let teamInfoDiv = document.getElementById("teamInfo");
         teamInfoDiv.innerHTML += gameData.pairs.map(pair =>
-            `<a href="redBlackPairView.html?d=${encodeURIComponent(urlDate)}&p1=${encodeURIComponent(pair.playerOne)}&p2=${encodeURIComponent(pair.playerTwo)}">${pair.playerOne} & ${pair.playerTwo}</a>`
+            `<a href="https://cssgametheory.com/CSSGametheory/HTML/admin/redBlackPairView.html?d=${encodeURIComponent(urlDate)}&p1=${encodeURIComponent(pair.playerOne)}&p2=${encodeURIComponent(pair.playerTwo)}">${pair.playerOne} & ${pair.playerTwo}</a>`
         ).join(', ');
 
         // Adjust links to ensure they contain the right date
         let allLinks = document.getElementsByTagName("a");
         for (let link of allLinks) {
-            if (link.href.includes("redBlackPairView.html")) {
+            if (link.href.includes("https://cssgametheory.com/CSSGametheory/HTML/admin/redBlackPairView.html")) {
                 link.href = link.href.replace(/d=[^&]*/, `d=${encodeURIComponent(urlDate)}`);
             }
         }

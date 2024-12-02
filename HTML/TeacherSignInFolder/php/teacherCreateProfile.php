@@ -65,7 +65,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="stylesheet" type="text/css" href="../../../css/TeacherSignOn.css">
+        <link rel="stylesheet" type="text/css" href="https://cssgametheory.com/CSSGametheory/css/TeacherSignOn.css">
         <script type="text/javascript">
             function validateForm() {
                 var email = document.getElementById("email").value;

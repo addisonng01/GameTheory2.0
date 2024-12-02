@@ -19,12 +19,12 @@
 <head>
 	<title>All Games</title>
 	<meta charset="utf-8">
-	<link href="../../../css/admin.css" rel="stylesheet" />
+	<link href="CSSGametheory/css/admin.css" rel="stylesheet" />
 </head>
 <body>
     
 <!--- the issue with iframe is that it doesn't really work with our DB page reload strategy, so we have to hardcode the header in - compare content to header.html --->
-<link href="https://cssgametheory.com/CSSGametheory/css/header.css" rel="stylesheet" />
+<link href="CSSGametheory/css/header.css" rel="stylesheet" />
 <p style="margin: 0 auto; width: 200px"><img id="logo" src="https://cssgametheory.com/CSSGametheory/Img/logo.svg"></p> 
 
 <!--- TODO: make game date links dynamic, pulling all game dates from DB sorted in chronological order--->

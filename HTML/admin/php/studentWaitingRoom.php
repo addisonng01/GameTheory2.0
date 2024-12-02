@@ -83,7 +83,7 @@
 	<meta http-equiv="refresh" content="10">
 
 	<title>Centered Usernames</title>
-	<link href="../../../css/studentWaitingRoom.css" rel="stylesheet" type="text/css" />
+	<link href="https://cssgametheory.com/CSSGametheory/css/studentWaitingRoom.css" rel="stylesheet" type="text/css" />
 
 	<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script>
@@ -96,8 +96,8 @@
 </head>
 <body>
     
-<link href="../../../css/header.css" rel="stylesheet" />
-<p><img id="logo" src="../../../Img/logo.svg"></p> 
+<link href="https://cssgametheory.com/CSSGametheory/css/header.css" rel="stylesheet" />
+<p><img id="logo" src="https://cssgametheory.com/CSSGametheory/Img/logo.svg"></p> 
 
 
 <div style="">
@@ -134,7 +134,7 @@
 </div>
 </div>
 </div>
-<form action="../../../HTML/teacherRedBlack/teacherStartGame.php" method = "POST">
+<form action="https://cssgametheory.com/CSSGametheory/HTML/teacherRedBlack/teacherStartGame.php" method = "POST">
 	<button style="float: right;">Start Game</button>
 </form>
 </body>

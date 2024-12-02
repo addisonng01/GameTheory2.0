@@ -99,7 +99,7 @@ document.addEventListener("DOMContentLoaded", () => {
         } else {
             feedbackEl.innerHTML = "Game Over! Review the results.";
             setTimeout(() => {
-                window.location.href = "index.html";
+                window.location.href = "https://cssgametheory.com/CSSGametheory/HTML/admin/index.html";
             }, 3000); // Wait for 3 seconds before redirecting
             submitButton.disabled = true;
         }

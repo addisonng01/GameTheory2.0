@@ -67,7 +67,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <html>
 <head><meta charset="utf-8">
 <title>Student Sign On</title>
-<link rel="stylesheet" type="text/css" href="/CSSGametheory/css/TeacherSignOn.css">
+<link rel="stylesheet" type="text/css" href="https://cssgametheory.com/CSSGametheory/css/TeacherSignOn.css">
 </head>
 <body>
 <div class="container">

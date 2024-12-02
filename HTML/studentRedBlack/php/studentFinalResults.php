@@ -113,7 +113,7 @@
 <head>
 	<title></title>
 	<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link href="../../../css/studentFinalResults.css" rel="stylesheet" />
+	<link href="https://cssgametheory.com/CSSGametheory/css/studentFinalResults.css" rel="stylesheet" />
     <script>
         function validateForm() {
             var beginningStrategy = document.getElementById("beginningStrategy").value;
@@ -236,7 +236,7 @@
 <?php else: ?>
     <!-- TODO: Customize this area of the HTML for the answers submission page -->
     <h1>Thank you for submitting your answers!!</h1>
-    <form action="studentEndGame.php" method="POST">
+    <form action="./studentEndGame.php" method="POST">
         <button>End Game</button>
     </form>
 <?php endif; ?>
