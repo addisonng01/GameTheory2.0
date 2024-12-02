@@ -56,7 +56,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
-    <link href="../../../css/teacherRedBlack.css" rel="stylesheet">
+    <link href="https://cssgametheory.com/CSSGametheory/css/teacherRedBlack.css" rel="stylesheet">
     <script>
         //Refreshes the page, shows new students in the lobby
 		function autoRefresh() {
@@ -79,17 +79,17 @@
         </div>
         <div class="cards">
             <div class="card">
-                <img src="../../../Img/kingHearts.svg" alt="King of Hearts">
+                <img src="https://cssgametheory.com/CSSGametheory/Img/kingHearts.svg" alt="King of Hearts">
                 <input type="text" value="Red gives you 50 points" readonly>
             </div>
             <div class="card">
-                <img src="../../../Img/kingSpades.svg" alt="King of Spades">
+                <img src="https://cssgametheory.com/CSSGametheory/Img/kingSpades.svg" alt="King of Spades">
                 <input type="text" value="Black gives your partner 150 points" readonly>
             </div>
         </div>
         <div class="game-info">
             <h1>Players Ready: <?php echo $total_num_submit . "/" . $total_num_players; ?></h1>
-            <form action="../../../HTML/teacherRedBlack/teacherCompleteRound.php" method="POST">
+            <form action="https://cssgametheory.com/CSSGametheory/HTML/teacherRedBlack/teacherCompleteRound.php" method="POST">
                 <button class="finish-round">Finish Round</button>
             </form>
         </div>

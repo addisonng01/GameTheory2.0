@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
-    fetchGameDates("Red Card Black Card", "redBlackDatesTable", "redBlackView.html");
-    fetchGameDates("Wheat & Steel", "wheatSteelDatesTable", "wheatSteelView.html");
+    fetchGameDates("Red Card Black Card", "redBlackDatesTable", "https://cssgametheory.com/CSSGametheory/HTMLadmin/redBlackView.html");
+    fetchGameDates("Wheat & Steel", "wheatSteelDatesTable", "https://cssgametheory.com/CSSGametheory/HTML/admin/WheawheatSteelView.html");
 });
 
 async function fetchGameDates(gameType, tableId, linkPage) {

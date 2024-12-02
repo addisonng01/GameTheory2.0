@@ -148,7 +148,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign In</title>
-    <link rel="stylesheet" type="text/css" href="/CSSGametheory/css/TeacherSignOn.css"/>
+    <link rel="stylesheet" type="text/css" href="https://cssgametheory.com/CSSGametheory/CSSGametheory/css/TeacherSignOn.css"/>
 </head>
 <body>
 <div class="container">

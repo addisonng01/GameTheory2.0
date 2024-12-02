@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-<link rel="stylesheet" href="../../css/studentLoading.css">
+<link rel="stylesheet" href="https://cssgametheory.com/CSSGametheory/css/studentLoading.css">
 </head>
 <body>
   <!-- Heading -->

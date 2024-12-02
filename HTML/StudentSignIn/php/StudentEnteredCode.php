@@ -1,6 +1,6 @@
 <?php
     //Connect to database
-    $mysqli = require __DIR__ ."/db.php";
+    $mysqli = require __DIR__ ."./db.php";
 
 	// Start the session if not already started
 	session_start();
