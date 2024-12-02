@@ -107,7 +107,7 @@
 	<title></title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet" />
-	<link href="/CSSGametheory/css/studentRedBlack.css" rel="stylesheet" />
+	<link href="../../../CSSGametheory/css/studentRedBlack.css" rel="stylesheet" />
 </head>
 <style>
     /* Add some basic styling to the tooltip */
@@ -150,13 +150,13 @@
     <div class="cardsFlex">
     <div class="tooltip">
     <button type="submit" name="submit" value="RED">
-        <img src="/CSSGametheory/Img/kingHearts.svg" alt="Red Card Image">
+        <img src="../../../CSSGametheory/Img/kingHearts.svg" alt="Red Card Image">
     </button>
     <div class="tooltiptext">This card gives you 50 points</div>
     </div>
     <div class="tooltip">
     <button type="submit" name="submit" value="BLACK">
-        <img src="/CSSGametheory/Img/kingSpades.svg" alt="Black Card Image">
+        <img src="../../../Img/kingSpades.svg" alt="Black Card Image">
     </button>
     <div class="tooltiptext">This card gives your partner 150 points</div>
     </div>

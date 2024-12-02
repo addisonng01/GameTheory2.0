@@ -2,8 +2,8 @@
 <html>
 <head><meta charset="utf-8">
 	<title></title>
-	<link href="/CSSGametheory/css/landingPage.css" rel="stylesheet" />
-    <script src="/CSSGametheory/JavaScript/createGame.js" defer></script><!---makes sure the values are in localStorage--->
+	<link href="../../../css/landingPage.css" rel="stylesheet" />
+    <script src="../../../JavaScript/createGame.js" defer></script><!---makes sure the values are in localStorage--->
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script>
         setTimeout(function(){
@@ -14,9 +14,9 @@
 </head>
 <body>
     
-<link href="https://cssgametheory.com/CSSGametheory/css/header.css" rel="stylesheet" />
+<link href="../../../css/header.css" rel="stylesheet" />
 <div id="headerTop"></div>
-<p><img id="logo" src="https://cssgametheory.com/CSSGametheory/Img/logo.svg"></p> 
+<p><img id="logo" src="../../../Img/logo.svg"></p> 
 <div id="headerLeft"></div>
 <div id="headerBottom"></div>
 <br><br><br><br><br><br>

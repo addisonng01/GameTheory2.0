@@ -4,7 +4,7 @@
     //if (isset($_POST["submit"])) {
         $buttonValue = $_POST["submit"]; // button value is passed in from the form, which means it disappears once the form refreshes w/ Chris' solution
         //Connect to database
-        $mysqli = require __DIR__ ."/db.php";
+        $mysqli = require __DIR__ ."./db.php";
 
         // Start the session if not already started
         session_start();
@@ -76,7 +76,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-  <link rel="stylesheet" href="/CSSGametheory/css/cardSubmitted.css">
+  <link rel="stylesheet" href="../../../css/cardSubmitted.css">
   <script>
         //Refreshes the page, shows new students in the lobby
 		function autoRefresh() {
@@ -103,5 +103,5 @@
     </div>
 </div>
 </body>
-<script src="/CSSGametheory/JavaScript/cardRetrieve.js" defer></script>
+<script src="../../../CSSGametheory/JavaScript/cardRetrieve.js" defer></script>
 </html>

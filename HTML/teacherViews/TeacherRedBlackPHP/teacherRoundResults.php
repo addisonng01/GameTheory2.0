@@ -5,7 +5,7 @@
         $game_session_id = $_SESSION["game_session_id"];
         $round_num = $_SESSION["round_num"];
     //Connect to database
-        $mysqli = require __DIR__ ."/db.php";
+        $mysqli = require __DIR__ ."./db.php";
 
     //Gather all valid Pairing IDs
         $sql = sprintf("SELECT DISTINCT p.pairing_id
@@ -112,7 +112,7 @@
         </tr>
         <?php
             //Connect to database
-                $mysqli = require __DIR__ ."/db.php";
+                $mysqli = require __DIR__ ."./db.php";
             //Runs and gets the results for the total of Red and Black cards played per round query
                 $sql = sprintf("SELECT CONCAT(p.first_nm, ' ', p.last_nm) AS full_nm,
                                         SUM(round_score) AS total_score
@@ -158,7 +158,7 @@
         </tr>
         <?php
             //Connect to database
-                $mysqli = require __DIR__ ."/db.php";
+                $mysqli = require __DIR__ ."./db.php";
 
                 $rowCount = 0;
 

@@ -1,6 +1,6 @@
 <?php
 
-    $mysqli = require __DIR__ ."/db.php";
+    $mysqli = require __DIR__ ."./db.php";
 
     //Required variable declaration
     $session_id;
@@ -193,13 +193,13 @@
 <head>
     <meta charset="utf-8">
     <title>Student View</title>
-    <link href="/CSSGametheory/css/admin.css" rel="stylesheet" />
-    <script src="/CSSGametheory/JavaScript/studentRetrieve.js" defer></script>
-    <script src="/CSSGametheory/JavaScript/createGame.js" defer></script>
+    <link href="../../../css/admin.css" rel="stylesheet" />
+    <script src="../../../JavaScript/studentRetrieve.js" defer></script>
+    <script src="../../../JavaScript/createGame.js" defer></script>
 </head>
 <body>
-  <link href="https://cssgametheory.com/CSSGametheory/css/header.css" rel="stylesheet" />
-<p style="margin: 0 auto; width: 200px"><img id="logo" src="https://cssgametheory.com/CSSGametheory/Img/logo.svg"></p> 
+  <link href="../../../css/header.css" rel="stylesheet" />
+<p style="margin: 0 auto; width: 200px"><img id="logo" src="../../../Img/logo.svg"></p> 
 
     <h1 id="studentHeader" class="centeredTitle">Student (<?php echo $first_nm; ?> <?php echo $last_nm; ?>)</h1>
 
@@ -257,9 +257,9 @@
     <table id="links">
         <tbody>
             <tr>
-                <td><a href="/CSSGametheory/HTML/admin/allStudents.php">All Students</a></td>
+                <td><a href="../../../HTML/admin/allStudents.php">All Students</a></td>
                 <td><a href="https://cssgametheory.com/">Back to Home</a></td>
-                <td><a href="/CSSGametheory/HTML/admin/allGames.php">All Games</a></td>
+                <td><a href="../../../HTML/admin/allGames.php">All Games</a></td>
             </tr>
         </tbody>
     </table>

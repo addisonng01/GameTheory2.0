@@ -48,7 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="stylesheet" type="text/css" href="/CSSGametheory/css/TeacherSignOn.css">
+        <link rel="stylesheet" type="text/css" href="../../../css/TeacherSignOn.css">
     </head>
     <body>
 

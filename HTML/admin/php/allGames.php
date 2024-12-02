@@ -1,6 +1,6 @@
 <?php
 	//Connect to database
-    $mysqli = require __DIR__ ."/db.php";
+    $mysqli = require __DIR__ ."./db.php";
 
 	// Start the session if not already started
 	session_start();
@@ -19,7 +19,7 @@
 <head>
 	<title>All Games</title>
 	<meta charset="utf-8">
-	<link href="/CSSGametheory/css/admin.css" rel="stylesheet" />
+	<link href="../../../css/admin.css" rel="stylesheet" />
 </head>
 <body>
     
@@ -110,9 +110,9 @@
 <table id="links">
 	<tbody>
 		<tr>
-			<td><a href="/CSSGametheory/HTML/admin/allStudents.php">All Students</a></td>
+			<td><a href="../../admin/allStudents.php">All Students</a></td>
 			<td><a href="https://cssgametheory.com/">Back to Home</a> <!--admin index--></td>
-			<td><a href="/CSSGametheory/HTML/admin/allGames.php">All Games</a></td>
+			<td><a href="../../admin/allGames.php">All Games</a></td>
 		</tr>
 	</tbody>
 </table>
