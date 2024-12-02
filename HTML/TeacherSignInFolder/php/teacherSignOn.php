@@ -175,5 +175,6 @@
         <a href="teacherCreateProfile.php">Create a profile</a>
     </div>
 </div>
+<script src="script.js"></script>
 </body>
 </html>
