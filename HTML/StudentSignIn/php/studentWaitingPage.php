@@ -1,6 +1,6 @@
 <?php
     //Connect to database
-    $mysqli = require __DIR__ ."/db.php";
+    $mysqli = require __DIR__ ."./db.php";
 
     // Start the session if not already started
     session_start();
@@ -32,8 +32,8 @@
 <html>
 <head><meta charset="utf-8">
 	<title></title>
-	<link href="/CSSGametheory/css/landingPage.css" rel="stylesheet" />
-    <script src="/CSSGametheory/JavaScript/createGame.js" defer></script><!---makes sure the values are in localStorage--->
+	<link href="../../../css/landingPage.css" rel="stylesheet" />
+    <script src="../../../JavaScript/createGame.js" defer></script><!---makes sure the values are in localStorage--->
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script>
         //Refreshes the page, shows new students in the lobby
@@ -45,8 +45,8 @@
 </head>
 <body>
     
-<link href="https://cssgametheory.com/CSSGametheory/css/header.css" rel="stylesheet" />
-<p style="margin: 0 auto; width: 200px"><img id="logo" src="https://cssgametheory.com/CSSGametheory/Img/logo.svg"></p> 
+<link href="../../../css/header.css" rel="stylesheet" />
+<p style="margin: 0 auto; width: 200px"><img id="logo" src="../../../Img/logo.svg"></p> 
 <br>
 <div class="loader"></div>
 <h1 id="gameName">Red & Black Card Game</h1>

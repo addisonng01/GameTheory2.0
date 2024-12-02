@@ -5,7 +5,7 @@
         $game_session_id = $_SESSION["game_session_id"];
         $link_id = $_SESSION["link_id"];
     //Connect to database
-        $mysqli = require __DIR__ ."/db.php";
+        $mysqli = require __DIR__ ."./db.php";
 
     //Gather all valid Pairing IDs
         $sql = sprintf("SELECT pairing_id
@@ -113,7 +113,7 @@
 <head>
 	<title></title>
 	<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link href="/CSSGametheory/css/studentFinalResults.css" rel="stylesheet" />
+	<link href="../../../css/studentFinalResults.css" rel="stylesheet" />
     <script>
         function validateForm() {
             var beginningStrategy = document.getElementById("beginningStrategy").value;

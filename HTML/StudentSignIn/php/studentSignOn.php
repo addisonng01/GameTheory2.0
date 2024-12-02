@@ -6,7 +6,7 @@ session_start();
 session_destroy();
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $mysqli = require __DIR__ . "/db.php";
+    $mysqli = require __DIR__ . "./db.php";
 
     $stmt = $mysqli->prepare("SELECT * FROM student_profile WHERE email = ?");
     $stmt->bind_param("s", $_POST["email"]);

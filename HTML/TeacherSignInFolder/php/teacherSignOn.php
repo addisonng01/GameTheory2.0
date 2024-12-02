@@ -10,7 +10,7 @@
 
     if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
-        $mysqli = require __DIR__ ."/db.php";
+        $mysqli = require __DIR__ ."./db.php";
 
         $sql = sprintf("SELECT * FROM teacher_profile p
                         JOIN login_credential l

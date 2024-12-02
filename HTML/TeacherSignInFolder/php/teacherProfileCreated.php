@@ -8,13 +8,13 @@
 <head>
 	<title></title>
 	<meta charset="utf-8">
-	<link href="/CSSGametheory/css/createProfile.css" rel="stylesheet" />
+	<link href="../../../css/createProfile.css" rel="stylesheet" />
 </head>
-	<script src="/CSSGametheory/javascript/createProfile.js" defer></script>
-	<script src="/CSSGametheory/javascript/studentSignOn.js" defer></script> <!--- I don't think this .js file is used on this page --->
+	<script src="../../../Javascript/createProfile.js" defer></script>
+	<script src="../../../Javascript/studentSignOn.js" defer></script> <!--- I don't think this .js file is used on this page --->
 <body>
     
-<link href="https://cssgametheory.com/CSSGametheory/css/header.css" rel="stylesheet" />
+<link href="../../../css/header.css" rel="stylesheet" />
 <p style="margin: 0 auto; width: 200px"><img id="logo" src="https://cssgametheory.com/CSSGametheory/Img/logo.svg"></p> 
 
 <div id="createSuccess">
@@ -26,7 +26,7 @@
 	<p id="emailDisplay">Email: <?php echo $_SESSION['email']; ?></p>
 </div>
 <p>
-	<button id="studentSignOn" onclick="window.location.href='/CSSGametheory/HTML/TeacherSignInFolder/teacherSignOn.php';">Sign In</button> 
+	<button id="studentSignOn" onclick="window.location.href='../../../HTML/TeacherSignInFolder/teacherSignOn.php';">Sign In</button> 
     <!--- should this be updated to say teacherSignOn? both here and in the createProfile.css file --->
 </p>
 </body>

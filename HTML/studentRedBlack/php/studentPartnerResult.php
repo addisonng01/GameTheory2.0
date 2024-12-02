@@ -1,6 +1,6 @@
 <?php
     //Connect to database
-    $mysqli = require __DIR__ ."/db.php";
+    $mysqli = require __DIR__ ."./db.php";
 
     // Start the session if not already started
     session_start();
@@ -240,7 +240,7 @@
 	<title></title>
 	<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet" />
-	<link href="/CSSGametheory/css/studentPartnerResult.css" rel="stylesheet" />
+	<link href="../../../css/studentPartnerResult.css" rel="stylesheet" />
     <script>
         //Refreshes the page, shows new students in the lobby
 		function autoRefresh() {
@@ -275,14 +275,14 @@
 		<!--- the wireframes have an off-white filter over the cards ---><!--- might be difficult to display different image depending on round info-->
 		<tr>
             <?php if ($my_card_selected == 'RED'): ?>
-                <td class="card"><img id="youPlayed" src="/CSSGametheory/Img/kingHearts.svg" /></td>
+                <td class="card"><img id="youPlayed" src="../../../Img/kingHearts.svg" /></td>
             <?php elseif ($my_card_selected == 'BLACK'): ?>
-                <td class="card"><img id="youPlayed" src="/CSSGametheory/Img/kingSpades.svg" /></td>
+                <td class="card"><img id="youPlayed" src="../../../Img/kingSpades.svg" /></td>
             <?php endif; ?>
             <?php if ($partner_card_selected == 'RED'): ?>
-                <td class="card"><img id="partnerPlayed" src="/CSSGametheory/Img/kingHearts.svg" /></td>
+                <td class="card"><img id="partnerPlayed" src="../../../Img/kingHearts.svg" /></td>
             <?php elseif ($partner_card_selected == 'BLACK'): ?>
-                <td class="card"><img id="partnerPlayed" src="/CSSGametheory/Img/kingSpades.svg" /></td>
+                <td class="card"><img id="partnerPlayed" src="../../../Img/kingSpades.svg" /></td>
             <?php endif; ?>
 		</tr>
         

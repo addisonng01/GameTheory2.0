@@ -1,6 +1,6 @@
 <?php
     //Connect to database
-        $mysqli = require __DIR__ ."/db.php";
+        $mysqli = require __DIR__ ."./db.php";
 
     // Start the session if not already started
         session_start();
@@ -19,10 +19,10 @@
 <html>
 <head><meta charset="utf-8">
 	<title>All Students</title>
-	<link href="/CSSGametheory/css/admin.css" rel="stylesheet" /><!---<script src="/CSSGametheory/javascript/studentRetrieve.js" defer></script>---><script src="/CSSGametheory/javascript/createGame.js" defer></script><!--- makes sure the values are in localStorage --->
+	<link href="../../../css/admin.css" rel="stylesheet" /><!---<script src="/CSSGametheory/javascript/studentRetrieve.js" defer></script>---><script src="../../../JavaScript/createGame.js" defer></script><!--- makes sure the values are in localStorage --->
 </head>
 <body>
-<link href="https://cssgametheory.com/CSSGametheory/css/header.css" rel="stylesheet" />
+<link href="../../../css/header.css" rel="stylesheet" />
 <p style="margin: 0 auto; width: 200px"><img id="logo" src="https://cssgametheory.com/CSSGametheory/Img/logo.svg"></p> 
 
 
@@ -70,9 +70,9 @@
 <table id="links">
 	<tbody>
 		<tr>
-			<td><a href="/CSSGametheory/HTML/admin/allStudents.php">All Students</a></td>
+			<td><a href="../../../HTML/admin/allStudents.php">All Students</a></td>
 			<td><a href="https://cssgametheory.com/">Back to Home</a> <!--admin index--></td>
-			<td><a href="/CSSGametheory/HTML/admin/allGames.php">All Games</a></td>
+			<td><a href="../../../HTML/admin/allGames.php">All Games</a></td>
 		</tr>
 	</tbody>
 </table>

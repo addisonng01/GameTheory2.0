@@ -6,7 +6,7 @@
 
     if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
-    $mysqli = require __DIR__ ."/db.php";
+    $mysqli = require __DIR__ ."./db.php";
 
     $sql = sprintf("SELECT * FROM teacher_profile
                     WHERE email = '%s'",
@@ -65,7 +65,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="stylesheet" type="text/css" href="/CSSGametheory/css/TeacherSignOn.css">
+        <link rel="stylesheet" type="text/css" href="../../../css/TeacherSignOn.css">
         <script type="text/javascript">
             function validateForm() {
                 var email = document.getElementById("email").value;
