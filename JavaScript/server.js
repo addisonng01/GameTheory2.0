@@ -70,6 +70,190 @@ app.post('/api/redblackparams', (req, res) => {
     });
 });
 
+// Endpoint to fetch Red-Black game statistics
+app.get('/api/rb_player_scores', (req, res) => {
+    const query = `
+        SELECT 
+            COUNT(DISTINCT student_game_session.student_profile_id) AS totalPlayers,
+            MAX(rb_player_score.score) AS highScore,
+            MIN(rb_player_score.score) AS lowScore,
+            AVG(rb_player_score.score) AS avgScore
+        FROM rb_player_score
+        JOIN student_game_session 
+            ON rb_player_score.session_instance_id = student_game_session.session_instance_id
+    `;
+    db.query(query, (error, results) => {
+        if (error) {
+            console.error('Database query error:', error);
+            return res.status(500).json({ error: 'Failed to fetch Red-Black game statistics' });
+        }
+        res.status(200).json(results[0]);
+    });
+});
+
+// Endpoint to fetch Wheat-Steel game statistics
+app.get('/api/round_scores', (req, res) => {
+    const { game_id } = req.query;
+    if (!game_id) {
+        return res.status(400).json({ error: 'Game ID is required' });
+    }
+
+    const query = `
+        SELECT 
+            SUM(round_score.wheat_score) AS wheatTotal,
+            AVG(round_score.wheat_score) AS wheatAverage,
+            SUM(round_score.steel_score) AS steelTotal,
+            AVG(round_score.steel_score) AS steelAverage
+        FROM round_score
+        WHERE round_score.game_session_id IN (
+            SELECT game_session_id FROM game_session WHERE game_catalog_id = ?
+        )
+    `;
+    db.query(query, [game_id], (error, results) => {
+        if (error) {
+            console.error('Database query error:', error);
+            return res.status(500).json({ error: 'Failed to fetch Wheat-Steel game statistics' });
+        }
+        res.status(200).json(results[0]);
+    });
+});
+
+app.get('/api/game-dates', async (req, res) => {
+    const { gameType } = req.query;
+
+    if (!gameType) {
+        return res.status(400).json({ message: 'Missing gameType parameter' });
+    }
+
+    let query;
+    if (gameType === 'Red Card Black Card') {
+        query = 'SELECT game_date FROM red_black_card_games ORDER BY game_date DESC';
+    } else if (gameType === 'Wheat & Steel') {
+        query = 'SELECT game_date FROM wheat_steel_games ORDER BY game_date DESC';
+    } else {
+        return res.status(400).json({ message: 'Invalid gameType' });
+    }
+
+    try {
+        const [dates] = await db.execute(query);
+        if (dates.length === 0) {
+            return res.status(404).json({ message: `No dates found for ${gameType}` });
+        }
+        res.status(200).json(dates.map(date => date.game_date));
+    } catch (error) {
+        console.error('Error fetching game dates:', error);
+        res.status(500).json({ message: 'Error fetching game dates' });
+    }
+});
+
+// POST /api/oil-game-round - Submit firm decisions for a given oil game round
+app.post('/api/oil-game-round', async (req, res) => {
+    const { currentRound, firmDecisions, sessionId } = req.body;
+
+    if (!currentRound || !firmDecisions || firmDecisions.length !== 4 || !sessionId) {
+        return res.status(400).json({ message: 'Invalid data' });
+    }
+
+    try {
+        // Store decisions in player_round_history table (assuming this table tracks decisions and outcomes)
+        await db.execute('INSERT INTO player_round_history (session_id, round_number, firm_decisions) VALUES (?, ?, ?)', [sessionId, currentRound, JSON.stringify(firmDecisions)]);
+
+        // Calculate market price and profits (using existing logic from 'oligopoly_params' or 'wheat_steel_params')
+        const totalOutput = firmDecisions.reduce((sum, decision) => sum + decision, 0);
+        const marketPrice = Math.max(100 - totalOutput, 0); // Example price formula
+        const profits = firmDecisions.map(q => (marketPrice - 20) * q);
+
+        // Store the results in the round_score table
+        await db.execute('INSERT INTO round_score (session_id, round_number, total_output, market_price, profits) VALUES (?, ?, ?, ?, ?)', [sessionId, currentRound, totalOutput, marketPrice, JSON.stringify(profits)]);
+
+        // Return results
+        res.status(200).json({
+            totalOutput,
+            marketPrice,
+            profits
+        });
+    } catch (error) {
+        console.error('Error processing oil game round:', error);
+        res.status(500).json({ message: 'Error processing oil game round' });
+    }
+});
+
+
+// GET /api/oil-game-progress - Fetch current round and firm decisions for the oil game
+app.get('/api/oil-game-progress', async (req, res) => {
+    const { sessionId } = req.query;
+    if (!sessionId) {
+        return res.status(400).json({ message: 'Session ID is required' });
+    }
+
+    try {
+        // Fetch the current round from the game_session table
+        const [sessionData] = await db.execute('SELECT current_round FROM game_session WHERE session_id = ?', [sessionId]);
+
+        if (sessionData.length === 0) {
+            return res.status(404).json({ message: 'Game session not found' });
+        }
+
+        const currentRound = sessionData[0].current_round;
+
+        // Fetch the latest decisions from the player_round_history table for the current session and round
+        const [roundData] = await db.execute('SELECT firm_decisions FROM player_round_history WHERE session_id = ? AND round_number = ?', [sessionId, currentRound]);
+
+        const firmDecisions = roundData.length > 0 ? JSON.parse(roundData[0].firm_decisions) : [];
+
+        res.status(200).json({ currentRound, firmDecisions });
+    } catch (error) {
+        console.error('Error fetching oil game progress:', error);
+        res.status(500).json({ message: 'Error fetching oil game progress' });
+    }
+});
+
+// GET /api/oligopoly/submissions - Fetch student submissions for the current round
+app.get('/api/oligopoly/submissions', async (req, res) => {
+    const { round } = req.query;
+    if (!round) {
+        return res.status(400).json({ message: 'Round is required' });
+    }
+
+    try {
+        // Fetch submissions from the player_round_history table for the current round
+        const [submissions] = await db.execute('SELECT student_id, decisions FROM player_round_history WHERE round_number = ?', [round]);
+
+        if (submissions.length === 0) {
+            return res.status(404).json({ message: 'No submissions found for this round' });
+        }
+
+        const decisions = submissions.map(submission => submission.decisions);
+        res.status(200).json({ decisions });
+    } catch (error) {
+        console.error('Error fetching submissions:', error);
+        res.status(500).json({ message: 'Error fetching submissions' });
+    }
+});
+
+// POST /api/oligopoly/approve - Approve the next round
+app.post('/api/oligopoly/approve', async (req, res) => {
+    const { round } = req.body;
+    if (!round) {
+        return res.status(400).json({ message: 'Round is required' });
+    }
+
+    try {
+        // Increment the round number in the oligopoly_session table
+        await db.execute('UPDATE oligopoly_session SET current_round = ? WHERE session_id = ?', [round + 1, sessionId]);
+
+        // Check if we have reached the end of the total rounds
+        if (round >= totalRounds) {
+            return res.status(200).json({ message: 'Game completed' });
+        }
+
+        res.status(200).json({ message: 'Next round approved' });
+    } catch (error) {
+        console.error('Error approving the next round:', error);
+        res.status(500).json({ message: 'Error approving the next round' });
+    }
+});
+
 // Game update endpoint
 const gameUpdates = {};
 app.get('/api/wheatSteel/:gameId/updates', (req, res) => {

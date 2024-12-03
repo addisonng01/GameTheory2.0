@@ -1,4 +1,3 @@
-const axios = require('axios');
 require('dotenv').config();
 
 const BASE_URL = process.env.BASE_URL || 'http://localhost:3000/api'; // Adjust the base URL if needed
@@ -20,14 +19,28 @@ async function submitForm() {
         emailValue = emailInput.value || "n/a";
 
         try {
-            const response = await axios.post(`${BASE_URL}/students`, {
-                first_name: firstNameValue,
-                last_name: lastNameValue,
-                email: emailValue
+            const response = await fetch(`${BASE_URL}/students`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    first_name: firstNameValue,
+                    last_name: lastNameValue,
+                    email: emailValue,
+                }),
             });
-            console.log('User data submitted successfully:', response.data);
+
+            if (!response.ok) {
+                throw new Error(`Error submitting user data: ${response.statusText}`);
+            }
+
+            const responseData = await response.json();
+            console.log('User data submitted successfully:', responseData);
+            alert('Student profile created successfully');
         } catch (error) {
             console.error('Error submitting user data:', error.message);
+            alert('Error submitting user data');
         }
     }
 }
@@ -35,8 +48,13 @@ async function submitForm() {
 // Function to display user information
 async function displayInfo() {
     try {
-        const response = await axios.get(`${BASE_URL}/students`); // Fetches the student information from the server
-        const students = response.data;
+        const response = await fetch(`${BASE_URL}/students`);
+
+        if (!response.ok) {
+            throw new Error(`Error fetching user data: ${response.statusText}`);
+        }
+
+        const students = await response.json();
 
         // Assuming the server returns an array of students and you want to display the first one
         if (students.length > 0) {
