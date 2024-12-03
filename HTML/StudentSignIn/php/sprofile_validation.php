@@ -8,7 +8,7 @@ if (empty($_POST["email"])) {
 }
 
 // References the connection information for the database
-$mysqli = require __DIR__ ."/db.php";
+$mysqli = require __DIR__ ."./db.php";
 
 $stmt = $mysqli->prepare("SELECT * FROM student_profile WHERE email=?");
 $stmt->execute([$email]); 

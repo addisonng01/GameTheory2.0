@@ -1,63 +1,65 @@
 <?php
 $is_invalid = false;
 
-// Clears the session when the page is reached
+// Session initialization
 session_start();
-session_destroy();
+if (isset($_SESSION)) {
+    session_destroy();
+}
 
+// Check for POST request
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $mysqli = require __DIR__ . "./db.php";
 
-    $stmt = $mysqli->prepare("SELECT * FROM student_profile WHERE email = ?");
-    $stmt->bind_param("s", $_POST["email"]);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $user = $result->fetch_assoc();
+    $email = filter_var($_POST["email"], FILTER_VALIDATE_EMAIL);
+    if (!$email) {
+        $is_invalid = true;
+    } else {
+        $stmt = $mysqli->prepare("SELECT * FROM student_profile WHERE email = ?");
+        $stmt->bind_param("s", $email);
 
-    if ($user) {
-        $student_id = $user["student_id"];
-        $stmtSession = $mysqli->prepare(
-            "SELECT * FROM session_instance
-             WHERE student_id = ? AND active_session = 'A'"
-        );
-        $stmtSession->bind_param("s", $student_id);
-        $stmtSession->execute();
-        $sessionInstance = $stmtSession->get_result()->fetch_assoc();
-
-        if ($sessionInstance) {
-            // Expire the active session
-            $stmtExpire = $mysqli->prepare(
-                "UPDATE session_instance SET active_session = 'I' WHERE session_id = ?"
-            );
-            $stmtExpire->bind_param("s", $sessionInstance["session_id"]);
-            $stmtExpire->execute();
+        if (!$stmt->execute()) {
+            die("Error executing query: " . $stmt->error);
         }
 
-        // Create a new session
-        $stmtInsert = $mysqli->prepare(
-            "INSERT INTO session_instance (student_id, active_session, expiration_dt)
-             VALUES (?, 'A', current_timestamp() + interval 1 day)"
-        );
-        $stmtInsert->bind_param("s", $student_id);
-        $stmtInsert->execute();
+        $result = $stmt->get_result();
+        $user = $result->fetch_assoc();
 
-        $stmtRetrieve = $mysqli->prepare(
-            "SELECT * FROM session_instance
-             WHERE student_id = ? AND active_session = 'A'
-             AND expiration_dt > current_timestamp()"
-        );
-        $stmtRetrieve->bind_param("s", $student_id);
-        $stmtRetrieve->execute();
-        $newSession = $stmtRetrieve->get_result()->fetch_assoc();
+        if ($user) {
+            $student_id = $user["student_id"];
 
-        session_start();
-        $_SESSION["user_id"] = $student_id;
-        $_SESSION["session_id"] = $newSession["session_id"];
+            // Expire existing active sessions
+            $stmtExpire = $mysqli->prepare(
+                "UPDATE session_instance SET active_session = 'I' WHERE student_id = ? AND active_session = 'A'"
+            );
+            $stmtExpire->bind_param("s", $student_id);
+            $stmtExpire->execute();
 
-        header("Location: studentEnterCode.php");
-        exit;
-    } else {
-        $is_invalid = true;
+            // Create new session
+            $stmtInsert = $mysqli->prepare(
+                "INSERT INTO session_instance (student_id, active_session, expiration_dt)
+                 VALUES (?, 'A', current_timestamp() + interval 1 day)"
+            );
+            $stmtInsert->bind_param("s", $student_id);
+            $stmtInsert->execute();
+
+            // Retrieve the new session
+            $stmtRetrieve = $mysqli->prepare(
+                "SELECT * FROM session_instance WHERE student_id = ? AND active_session = 'A'"
+            );
+            $stmtRetrieve->bind_param("s", $student_id);
+            $stmtRetrieve->execute();
+            $newSession = $stmtRetrieve->get_result()->fetch_assoc();
+
+            session_start();
+            $_SESSION["user_id"] = $student_id;
+            $_SESSION["session_id"] = $newSession["session_id"];
+
+            header("Location: studentEnterCode.php");
+            exit;
+        } else {
+            $is_invalid = true;
+        }
     }
 }
 ?>

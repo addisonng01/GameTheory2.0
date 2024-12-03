@@ -1,6 +1,6 @@
 <?php
     //Connect to database
-    $mysqli = require __DIR__ ."/db.php";
+    $mysqli = require __DIR__ ."./db.php";
 
     //Update all active sessions that are not from today to 'I'
     $sql = "UPDATE game_session

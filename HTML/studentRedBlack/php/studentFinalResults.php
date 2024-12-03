@@ -149,7 +149,7 @@
 		</tr>
 		<?php
             //Connect to database
-            $mysqli = require __DIR__ ."/db.php";
+            $mysqli = require __DIR__ ."./db.php";
             $round_num = 1;
             
             foreach ($data as $row) {
