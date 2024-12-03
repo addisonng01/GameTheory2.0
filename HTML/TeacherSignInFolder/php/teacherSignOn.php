@@ -10,7 +10,12 @@
     session_destroy();
     session_start();
 
-    $passwordHash = password_hash($_POST["password"], PASSWORD_DEFAULT);
+    if (!empty($_POST["password"])) {
+        $passwordHash = password_hash($_POST["password"], PASSWORD_DEFAULT);
+    } else {
+        echo "Password is required.";
+        //$is_invalid = true;
+    }
 
     if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
