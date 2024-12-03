@@ -156,7 +156,7 @@
     <h2>The College of St. Scholastica</h2>
     <form class="form" method="POST">
         <div class="input-container">
-            <input id="username" name="email" required="" placeholder="Email"/>
+            <input id="email" name="email" required="" placeholder="Email"/>
         </div>
 
         <div class="input-container">

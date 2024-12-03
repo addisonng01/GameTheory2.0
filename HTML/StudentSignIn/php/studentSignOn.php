@@ -80,7 +80,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <form method="POST">
         <div class="input-container">
            <label for="Email" class="input-label">Email</label>
-            <input id="username" name="email" required/>
+            <input id="email" name="email" required/>
             </div>
                 <?php if ($is_invalid): ?>
         <em style="color:red; text-align:center;">Unrecognized Email: Please Try Again</em>

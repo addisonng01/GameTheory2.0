@@ -12,8 +12,8 @@ let usernameValue = "";
 let passwordValue = ""; // very secure, don't worry about it
 
 function submitForm(){ // this DOES trigger
-    if(document.getElementById("username") != null){
-        usernameValue = document.getElementById('username').value;
+    if(document.getElementById("email") != null){
+        usernameValue = document.getElementById('email').value;
         sessionStorage.setItem("username", usernameValue); // AND THIS IS HOW WE SAVE IT within a session
             // localStorage saves between sessions
     }
