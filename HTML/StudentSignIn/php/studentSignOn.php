@@ -2,10 +2,10 @@
 $is_invalid = false;
 
 // Session initialization
-session_start();
 if (isset($_SESSION)) {
     session_destroy();
 }
+session_start();
 
 // Check for POST request
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
