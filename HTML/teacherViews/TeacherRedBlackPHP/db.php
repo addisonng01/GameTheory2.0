@@ -2,15 +2,19 @@
 
 include('../../../env.php');
 
-$dbHost = $_ENV['DB_HOST'] ?? 'default_host';
-$dbName = $_ENV['DB_NAME'] ?? 'default_name';
-$dbUser = $_ENV['DB_USER'] ?? 'default_user';
-$dbPass = $_ENV['DB_PASS'] ?? 'default_password';
+// Load environment variables
+$dbHost = getenv('DB_HOST') ?: die('DB_HOST is not set.');
+$dbName = getenv('DB_NAME') ?: die('DB_NAME is not set.');
+$dbUser = getenv('DB_USER') ?: die('DB_USER is not set.');
+$dbPass = getenv('DB_PASS') ?: die('DB_PASS is not set.');
 
+// Establish database connection
 $mysqli = new mysqli($dbHost, $dbUser, $dbPass, $dbName);
 
+// Check for connection errors
 if ($mysqli->connect_errno) {
-    die("Connection error: ". $mysqli->connect_error);
+    error_log("Database connection error: " . $mysqli->connect_error);
+    die("A connection error occurred. Please try again later.");
 }
 
 return $mysqli;
