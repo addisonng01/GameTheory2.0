@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
 async function displayInfo() {
     try {
         // Adjust the endpoint to match your API that retrieves student information from the MySQL database
-        const response = await fetch('/api/student-info'); 
+        const response = await fetch('/api/student-info?studentId=123'); // Use actual student ID
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
