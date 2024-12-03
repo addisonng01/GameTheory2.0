@@ -11,54 +11,70 @@ async function displayInfoRedBlack() {
 
     // Get player names and game date from the API
     const urlParams = new URLSearchParams(window.location.search);
-    const gameDate = urlParams.get('d');
-    const playerOneName = urlParams.get('p1');
-    const playerTwoName = urlParams.get('p2');
+    const gameSessionId = urlParams.get('sessionId'); // Get game session ID from URL
 
-    // Update the HTML with the retrieved names and date
-    document.getElementById('playerOneName').innerHTML = playerOneName;
-    document.getElementById('headerPlayerOne').innerHTML = playerOneName;
-    document.getElementById('tablePlayerOneCard').innerHTML = playerOneName;
-    document.getElementById('tablePlayerOnePoints').innerHTML = playerOneName;
+    try {
+        // Fetch game session data for the current student
+        const response = await fetch(`/api/red-black-game-data?sessionId=${gameSessionId}`);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
 
-    document.getElementById('playerTwoName').innerHTML = playerTwoName;
-    document.getElementById('headerPlayerTwo').innerHTML = playerTwoName;
-    document.getElementById('tablePlayerTwoCard').innerHTML = playerTwoName;
-    document.getElementById('tablePlayerTwoPoints').innerHTML = playerTwoName;
-    document.getElementById('gameDate').innerHTML = gameDate;
+        const gameData = await response.json();
+        const playerOneName = gameData.playerOneName;
+        const playerTwoName = gameData.playerTwoName;
+        const gameDate = gameData.gameDate;
+
+        // Update the HTML with the retrieved names and date
+        document.getElementById('playerOneName').innerHTML = playerOneName;
+        document.getElementById('headerPlayerOne').innerHTML = playerOneName;
+        document.getElementById('tablePlayerOneCard').innerHTML = playerOneName;
+        document.getElementById('tablePlayerOnePoints').innerHTML = playerOneName;
+
+        document.getElementById('playerTwoName').innerHTML = playerTwoName;
+        document.getElementById('headerPlayerTwo').innerHTML = playerTwoName;
+        document.getElementById('tablePlayerTwoCard').innerHTML = playerTwoName;
+        document.getElementById('tablePlayerTwoPoints').innerHTML = playerTwoName;
+        document.getElementById('gameDate').innerHTML = gameDate;
+    } catch (error) {
+        console.error("Error fetching Red Black game data:", error);
+    }
 }
+
 
 async function displayInfoWheatSteel() {
     // Get game date and team name from the URL
     const urlParams = new URLSearchParams(window.location.search);
-    const gameDate = urlParams.get('date');
-    const gameTeam = decodeURI(urlParams.get('t')); // Decode URI for spaces
+    const gameSessionId = urlParams.get('sessionId'); // Get game session ID from URL
 
-    document.getElementById('gameDate').innerHTML = gameDate;
-    document.getElementById('teamName').innerHTML = gameTeam;
-
-    // Fetch round data from the API
     try {
-        const response = await fetch(`/api/wheat-steel-data?date=${gameDate}&team=${encodeURIComponent(gameTeam)}`);
+        // Fetch game data for Wheat and Steel from the API for the current session
+        const response = await fetch(`/api/wheat-steel-game-data?sessionId=${gameSessionId}`);
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
+
         const data = await response.json();
 
-        // Update HTML with round data for Wheat
+        // Update game date and team name
+        document.getElementById('gameDate').innerHTML = data.gameDate;
+        document.getElementById('teamName').innerHTML = data.teamName;
+
+        // Update round data for Wheat
         for (let i = 1; i <= 5; i++) {
-            document.getElementById(`roundOneWheat`).innerHTML = data[`round${i}Wheat`];
-            document.getElementById(`roundOneWheatTrade`).innerHTML = data[`round${i}WheatTrade`];
-            document.getElementById(`roundOneWheatConsume`).innerHTML = data[`round${i}WheatConsume`];
+            document.getElementById(`round${i}Wheat`).innerHTML = data[`round${i}Wheat`];
+            document.getElementById(`round${i}WheatTrade`).innerHTML = data[`round${i}WheatTrade`];
+            document.getElementById(`round${i}WheatConsume`).innerHTML = data[`round${i}WheatConsume`];
         }
 
-        // Update HTML with round data for Steel
+        // Update round data for Steel
         for (let i = 1; i <= 5; i++) {
-            document.getElementById(`roundOneSteel`).innerHTML = data[`round${i}Steel`];
-            document.getElementById(`roundOneSteelTrade`).innerHTML = data[`round${i}SteelTrade`];
-            document.getElementById(`roundOneSteelConsume`).innerHTML = data[`round${i}SteelConsume`];
+            document.getElementById(`round${i}Steel`).innerHTML = data[`round${i}Steel`];
+            document.getElementById(`round${i}SteelTrade`).innerHTML = data[`round${i}SteelTrade`];
+            document.getElementById(`round${i}SteelConsume`).innerHTML = data[`round${i}SteelConsume`];
         }
     } catch (error) {
-        console.error("Error fetching Wheat and Steel data:", error);
+        console.error("Error fetching Wheat and Steel game data:", error);
     }
 }
+

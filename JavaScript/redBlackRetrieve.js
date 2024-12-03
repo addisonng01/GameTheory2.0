@@ -1,3 +1,7 @@
+document.addEventListener("DOMContentLoaded", () => {
+    displayInfoRedBlack();
+});
+
 async function displayInfoRedBlack() {
     try {
         // Extract date from the URL

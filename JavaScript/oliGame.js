@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
     const totalRounds = 12;
     const firms = 4;
     let currentRound = 1;
@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let marketPrice = 0;
     let profits = Array(firms).fill(0); // Stores profits for each firm
     let turnIndex = 0; // Tracks which firm's turn it is (for last 4 rounds)
+    const sessionId = "your-session-id"; // Replace with actual session ID
 
     // DOM Elements
     const roundNumberEl = document.getElementById("roundNumber");
@@ -14,6 +15,22 @@ document.addEventListener("DOMContentLoaded", () => {
     const resultsListEl = document.getElementById("roundResults");
     const firmInputs = Array.from(document.querySelectorAll(".firm-input"));
     const submitButton = document.getElementById("submitRound");
+
+    // Fetch current game progress
+    const fetchGameProgress = async () => {
+        try {
+            const response = await fetch(`/api/oil-game-progress?sessionId=${sessionId}`);
+            if (!response.ok) {
+                throw new Error(`Error fetching game progress: ${response.statusText}`);
+            }
+            const { currentRound: fetchedRound, firmDecisions: fetchedDecisions } = await response.json();
+            currentRound = fetchedRound || currentRound;
+            firmDecisions = fetchedDecisions || firmDecisions;
+            roundNumberEl.innerText = currentRound;
+        } catch (error) {
+            console.error("Error fetching game progress:", error);
+        }
+    };
 
     // Hide results for first 8 rounds
     const hideResults = (hide) => {
@@ -64,14 +81,14 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     // Submit button handler
-    submitButton.addEventListener("click", () => {
+    submitButton.addEventListener("click", async () => {
         if (currentRound <= 8) {
             // First 8 rounds: Collect all inputs at once
             firmInputs.forEach((input, index) => {
                 firmDecisions[index] = parseInt(input.value) || 0;
                 hideFirmInput(index); // Hide each firm's input after entry
             });
-            calculateResults();
+            await submitRoundData();
             displayResults();
             currentRound++;
         } else {
@@ -81,7 +98,7 @@ document.addEventListener("DOMContentLoaded", () => {
             turnIndex++;
 
             if (turnIndex >= firms) {
-                calculateResults();
+                await submitRoundData();
                 displayResults();
                 currentRound++;
             } else {
@@ -100,11 +117,23 @@ document.addEventListener("DOMContentLoaded", () => {
             feedbackEl.innerHTML = "Game Over! Review the results.";
             setTimeout(() => {
                 window.location.href = "https://cssgametheory.com/CSSGametheory/HTML/admin/index.html";
-            }, 3000); // Wait for 3 seconds before redirecting
-            submitButton.disabled = true;
+            }, 3000); // Wait for 3 seconds
         }
     });
 
-    // Start the first round
+    // Submit round data to backend
+    const submitRoundData = async () => {
+        try {
+            await fetch('/api/oil-game-round', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ currentRound, firmDecisions, sessionId })
+            });
+        } catch (error) {
+            console.error("Error submitting round data:", error);
+        }
+    };
+
+    await fetchGameProgress();
     startRound();
 });
