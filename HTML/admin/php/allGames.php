@@ -110,9 +110,9 @@
 <table id="links">
 	<tbody>
 		<tr>
-			<td><a href="../../admin/allStudents.php">All Students</a></td>
+			<td><a href="https://cssgametheory.com/CSSGametheory/HTML/admin/allStudents.php">All Students</a></td>
 			<td><a href="https://cssgametheory.com/">Back to Home</a> <!--admin index--></td>
-			<td><a href="../../admin/allGames.php">All Games</a></td>
+			<td><a href="https://cssgametheory.com/CSSGametheory/HTML/admin/allGames.php">All Games</a></td>
 		</tr>
 	</tbody>
 </table>
