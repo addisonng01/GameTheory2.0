@@ -7,16 +7,15 @@ function loadEnv($file) {
 
     $lines = file($file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
     foreach ($lines as $line) {
-        // Ignore comments and empty lines
-        if (strpos(trim($line), '#') === 0 || empty(trim($line))) {
+        if ($line === null || strpos(trim($line), '#') === 0 || empty(trim($line))) {
             continue;
         }
-
+    
         // Split each line into key-value pair
         list($key, $value) = explode('=', $line, 2);
         $key = trim($key);
         $value = trim($value);
-
+    
         // Set the environment variable
         $_ENV[$key] = $value;
         putenv("$key=$value");
