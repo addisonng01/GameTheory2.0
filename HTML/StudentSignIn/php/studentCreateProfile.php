@@ -6,7 +6,7 @@ $is_invalid = false;
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
-    $mysqli = require __DIR__ ."/db.php";
+    $mysqli = require __DIR__ ."./db.php";
 
     $sql = sprintf("SELECT * FROM student_profile WHERE email = '%s'",
                    $mysqli->real_escape_string($_POST["Email"]));
