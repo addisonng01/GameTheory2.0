@@ -31,7 +31,7 @@ function submitForm(){ // this DOES trigger
 
 function logInfo(){
     // automatically returns empty string if no value
-    console.log(sessionStorage.getItem("username")); // and this is how we retrieve it
+    console.log(sessionStorage.getItem("email")); // and this is how we retrieve it
     console.log(sessionStorage.getItem("password"));
 }
 

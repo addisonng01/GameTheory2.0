@@ -1,4 +1,8 @@
 <?php
+    //error checking
+    ini_set('display_errors', 1);
+    error_reporting(E_ALL);
+    
     $is_invalid = false;
 
     //Clears the session when the page is reached
@@ -154,7 +158,7 @@
 <div class="container">
     <div class="logo"></div>
     <h2>The College of St. Scholastica</h2>
-    <form class="form" method="POST">
+    <form class="form" method="POST" action="teacherSignOn.php">
         <div class="input-container">
             <input id="email" name="email" required="" placeholder="Email"/>
         </div>
