@@ -4,7 +4,7 @@
     //Clears the session when the page is reached
     session_start();
     session_destroy();
-    //session_start();
+    session_start();
 
     $passwordHash = password_hash($_POST["password"], PASSWORD_DEFAULT);
 
@@ -89,11 +89,11 @@
 
                     $resultFetchSession = $resultRetrievedNewSession->fetch_assoc();
 
-                    session_start();
+                    //session_start();
                     $_SESSION["teacher_id"] = $user["teacher_id"];
                     $_SESSION["session_id"] = $resultFetchSession["session_id"];
                 } else {
-                    session_start();
+                    //session_start();
                     $_SESSION["teacher_id"] = $user["teacher_id"];
                     $_SESSION["session_id"] = $sessionActive["session_id"];
                 }
@@ -128,7 +128,7 @@
 
                 $resultFetchSession = $resultRetrievedNewSession->fetch_assoc();
 
-                session_start();
+                //session_start();
                 $_SESSION["teacher_id"] = $user["teacher_id"];
                 $_SESSION["session_id"] = $resultFetchSession["session_id"];
 
@@ -156,7 +156,7 @@
     <h2>The College of St. Scholastica</h2>
     <form class="form" method="POST">
         <div class="input-container">
-            <input id="email" name="email" required="" placeholder="Email"/>
+            <input id="username" name="email" required="" placeholder="Email"/>
         </div>
 
         <div class="input-container">
