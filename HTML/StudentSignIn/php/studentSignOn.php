@@ -1,96 +1,160 @@
 <?php
 $is_invalid = false;
-
-// Session initialization
-session_start();
-if (isset($_SESSION)) {
+    
+//Clears the session when the page is reached
+    session_start();
     session_destroy();
-}
+    session_start();
 
-// Check for POST request
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $mysqli = require __DIR__ . "./db.php";
 
-    $email = filter_var($_POST["email"], FILTER_VALIDATE_EMAIL);
-    if (!$email) {
-        $is_invalid = true;
-    } else {
-        $stmt = $mysqli->prepare("SELECT * FROM student_profile WHERE email = ?");
-        $stmt->bind_param("s", $email);
+    $mysqli = require __DIR__ ."./db.php";
 
-        if (!$stmt->execute()) {
-            die("Error executing query: " . $stmt->error);
-        }
+    $sql = sprintf("SELECT * FROM student_profile 
+                WHERE email = '%s'",
+                $mysqli->real_escape_string($_POST["email"]));
 
-        $result = $stmt->get_result();
-        $user = $result->fetch_assoc();
+    $result = $mysqli->query($sql);    
 
-        if ($user) {
-            $student_id = $user["student_id"];
+    $user = $result->fetch_assoc();
+    
+    $student_id = $user["student_id"];
 
-            // Expire existing active sessions
-            $stmtExpire = $mysqli->prepare(
-                "UPDATE session_instance SET active_session = 'I' WHERE student_id = ? AND active_session = 'A'"
-            );
-            $stmtExpire->bind_param("s", $student_id);
-            $stmtExpire->execute();
+    if ($user) {
 
-            // Create new session
-            $stmtInsert = $mysqli->prepare(
-                "INSERT INTO session_instance (student_id, active_session, expiration_dt)
-                 VALUES (?, 'A', current_timestamp() + interval 1 day)"
-            );
-            $stmtInsert->bind_param("s", $student_id);
-            $stmtInsert->execute();
+        //Check if a session_instance has been created
 
-            // Retrieve the new session
-            $stmtRetrieve = $mysqli->prepare(
-                "SELECT * FROM session_instance WHERE student_id = ? AND active_session = 'A'"
-            );
-            $stmtRetrieve->bind_param("s", $student_id);
-            $stmtRetrieve->execute();
-            $newSession = $stmtRetrieve->get_result()->fetch_assoc();
+        $sqlSession = sprintf("SELECT * FROM session_instance
+                                WHERE student_id = '%s'
+                                AND active_session = 'A'",
+                            //$mysqli->real_escape_string($_POST["$student_id"]));
+                            $mysqli->real_escape_string($student_id));
+        
+        $resultSession = $mysqli->query($sqlSession);
 
-            session_start();
-            $_SESSION["user_id"] = $student_id;
-            $_SESSION["session_id"] = $newSession["session_id"];
+        $sessionInstance = $resultSession->fetch_assoc();
 
+        $session_id = $sessionInstance["session_id"];
+
+        if ($sessionInstance) {
+            //If there is an existing session_instance for this user
+
+            $sqlActive = sprintf("SELECT * FROM session_instance
+                                    WHERE student_id = '%s'
+                                    AND active_session = 'A'
+                                    AND expiration_dt > current_timestamp()",
+                                //$mysqli->real_escape_string($_POST["$student_id"]));
+                                $mysqli->real_escape_string($student_id));
+            
+            $resultActive = $mysqli->query($sqlActive);
+
+            $sessionActive = $resultActive->fetch_assoc();
+
+            //if (! $sessionActive) {
+                //Set to expired session_instance to inactive
+                $sqlSetInactive = sprintf("UPDATE session_instance
+                                            SET active_session = 'I'
+                                            WHERE session_id = '%s';",
+                                            $mysqli->real_escape_string($session_id));
+
+                $resultSetInactive = $mysqli->query($sqlSetInactive);
+
+                //Create a new session for the user
+                $sqlNewSession = sprintf("INSERT INTO session_instance (student_id,  
+                                                                    active_session, 
+                                                                    expiration_dt)
+                                        VALUES ('%s', 'A', current_timestamp() + interval 1 day)", 
+                                    //$mysqli->real_escape_string($_POST["$student_id"]));
+                                    $mysqli->real_escape_string($student_id));
+
+                $resultNewSessionQuerry= $mysqli->query($sqlNewSession);
+
+                //I do not need to fetch the results of the insert querry, there are no results to fetch.
+                //$newActiveSession = $resultNewSessionQuerry->fetch_assoc();
+
+                $sqlRetrieveNewSession = sprintf("SELECT * FROM session_instance
+                                                WHERE student_id = '%s'
+                                                AND active_session = 'A'
+                                                AND expiration_dt > current_timestamp()",
+                                            //$mysqli->real_escape_string($_POST["$student_id"]));
+                                            $mysqli->real_escape_string($student_id));
+
+                $resultRetrievedNewSession = $mysqli->query($sqlRetrieveNewSession);
+
+                $resultFetchSession = $resultRetrievedNewSession->fetch_assoc();
+
+                session_start();
+                $_SESSION["user_id"] = $user["student_id"];
+                $_SESSION["session_id"] = $resultFetchSession["session_id"];
+
+            //}
+            
             header("Location: studentEnterCode.php");
             exit;
         } else {
-            $is_invalid = true;
+            //If there is NOT an existing session_instance for this user
+
+            //Create a new session for the user
+            $sqlNewSession = sprintf("INSERT INTO session_instance (student_id,  
+                                                                    active_session, 
+                                                                    expiration_dt)
+                                        VALUES ('%s', 'A', current_timestamp() + interval 1 day)", 
+                                    //$mysqli->real_escape_string($_POST["$student_id"]));
+                                    $mysqli->real_escape_string($student_id));
+
+            $resultNewSessionQuerry= $mysqli->query($sqlNewSession);
+
+            //I do not need to fetch the results of the insert querry, there are no results to fetch.
+            //$newActiveSession = $resultNewSessionQuerry->fetch_assoc();
+
+            $sqlRetrieveNewSession = sprintf("SELECT * FROM session_instance
+                                                WHERE student_id = '%s'
+                                                AND active_session = 'A'
+                                                AND expiration_dt > current_timestamp()",
+                                            //$mysqli->real_escape_string($_POST["$student_id"]));
+                                            $mysqli->real_escape_string($student_id));
+
+            $resultRetrievedNewSession = $mysqli->query($sqlRetrieveNewSession);
+
+            $resultFetchSession = $resultRetrievedNewSession->fetch_assoc();
+
+            session_start();
+            $_SESSION["user_id"] = $user["student_id"];
+            $_SESSION["session_id"] = $resultFetchSession["session_id"];
+
+            header("Location: studentEnterCode.php");
+            exit;
         }
+    } else {
+        $is_invalid = true;
     }
-}
 ?>
 
 
 <!DOCTYPE html>
 <html>
-<head><meta charset="utf-8">
-<title>Student Sign On</title>
-<link rel="stylesheet" type="text/css" href="https://cssgametheory.com/CSSGametheory/css/TeacherSignOn.css">
-</head>
-<body>
-<div class="container">
-            <h2 id="signInHeader">Sign In</h2>
-
-
-
-    <form method="POST">
-        <div class="input-container">
-           <label for="Email" class="input-label">Email</label>
-            <input id="email" name="email" required/>
+   <head>
+      <meta charset="utf-8">
+      <title>Student Sign On</title>
+      <link rel="stylesheet" type="text/css" href="https://cssgametheory.com/CSSGametheory/css/TeacherSignOn.css">
+   </head>
+   <body>
+      <div class="container">
+         <h2 id="signInHeader">Sign In</h2>
+         <form method="POST">
+            <div class="input-container">
+               <label for="Email" class="input-label">Email</label>
+               <input id="email" name="email" required/>
             </div>
-                <?php if ($is_invalid): ?>
-        <em style="color:red; text-align:center;">Unrecognized Email: Please Try Again</em>
-    <?php endif; ?>
-      
-            <input id="signOnsubmit" name="signOnsubmit" class="input" onclick="return submitForm()" type="submit" value="Submit" /></form>
-            <a href="studentCreateProfile.php" class="menu">Create New Account</a>
-              </div>
-    <script src="https://cssgametheory.com/CSSGametheory/JavaScript/script.js"></script>
-</body>
+            <?php if ($is_invalid): ?>
+            <em style="color:red; text-align:center;">Unrecognized Email: Please Try Again</em>
+            <?php endif; ?>
+            <input id="signOnsubmit" name="signOnsubmit" class="input" onclick="return submitForm()" type="submit" value="Submit" />
+         </form>
+         <a href="studentCreateProfile.php" class="menu">Create New Account</a>
+      </div>
+      <script src="https://cssgametheory.com/CSSGametheory/JavaScript/script.js"></script>
+   </body>
 </html>
 
 
