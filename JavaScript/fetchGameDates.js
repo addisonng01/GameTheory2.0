@@ -1,12 +1,15 @@
 document.addEventListener("DOMContentLoaded", () => {
     fetchGameDates("Red Card Black Card", "redBlackDatesTable", "https://cssgametheory.com/CSSGametheory/HTMLadmin/redBlackView.html");
-    fetchGameDates("Wheat & Steel", "wheatSteelDatesTable", "https://cssgametheory.com/CSSGametheory/HTML/admin/WheawheatSteelView.html");
+    fetchGameDates("Wheat & Steel", "wheatSteelDatesTable", "https://cssgametheory.com/CSSGametheory/HTML/admin/WheatSteelView.html");
 });
 
 async function fetchGameDates(gameType, tableId, linkPage) {
     try {
         // Fetch dates from the backend for each game type
         const response = await fetch(`/api/game-dates?gameType=${encodeURIComponent(gameType)}`);
+        if (!response.ok) {
+            throw new Error(`Error fetching game dates for ${gameType}: ${response.statusText}`);
+        }
         const dates = await response.json();
 
         // Get the table body where dates will be appended
@@ -33,3 +36,4 @@ async function fetchGameDates(gameType, tableId, linkPage) {
         console.error("Error fetching game dates:", error);
     }
 }
+

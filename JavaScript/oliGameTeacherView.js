@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Fetch and display student submissions
     const fetchSubmissions = async () => {
         try {
-            const response = await fetch(`/api/market-game/submissions?round=${currentRound}`);
+            const response = await fetch(`/api/oligopoly/submissions?round=${currentRound}`);
             const data = await response.json();
 
             // Display results
@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Approve the next round
     const approveNextRound = async () => {
         try {
-            await fetch("/api/market-game/approve", {
+            await fetch("/api/oligopoly/approve", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ round: currentRound }),
@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
             currentRound++;
             if (currentRound > totalRounds) {
                 nextRoundButton.textContent = "Finish";
-                window.location.href = "";
+                window.location.href = ""; // Adjust to the finish page URL as needed
             }
         } catch (error) {
             console.error("Error approving the next round:", error);

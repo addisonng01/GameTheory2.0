@@ -4,8 +4,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
 async function displayStudentInformation() {
     try {
-        // Fetch the student info from the API
-        const response = await fetch('/api/student-info'); // Adjust the endpoint as needed
+        // Fetch the student info based on the session instance for the current user
+        const response = await fetch('/api/student-info-current'); // New endpoint to fetch data based on the active session
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -13,8 +13,8 @@ async function displayStudentInformation() {
         const studentInfo = await response.json();
 
         // Update the DOM elements with the student information
-        if (studentInfo.firstName) document.getElementById('firstNameDisplay').innerHTML = studentInfo.firstName;
-        if (studentInfo.lastName) document.getElementById('lastNameDisplay').innerHTML = studentInfo.lastName;
+        if (studentInfo.first_nm) document.getElementById('firstNameDisplay').innerHTML = studentInfo.first_nm;
+        if (studentInfo.last_nm) document.getElementById('lastNameDisplay').innerHTML = studentInfo.last_nm;
         if (studentInfo.email) document.getElementById('emailDisplay').innerHTML = studentInfo.email;
     } catch (error) {
         console.error("Error fetching student information:", error);

@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 async function displayInfoRedBlack() {
     try {
-        const response = await fetch('/api/red-black-game'); // Adjust the endpoint as needed
+        const response = await fetch('/api/red-black-game'); // Use the updated endpoint
         const gameData = await response.json();
 
         // Update header and user info
@@ -19,7 +19,7 @@ async function displayInfoRedBlack() {
 
         gameData.rounds.forEach((round, index) => {
             const row = roundsContainer.insertRow();
-            row.insertCell(0).textContent = index + 1; // Round number
+            row.insertCell(0).textContent = round.roundNumber; // Round number
             row.insertCell(1).textContent = round.playerOneCard; // Player One Card
             row.insertCell(2).textContent = round.playerTwoCard; // Player Two Card
             row.insertCell(3).textContent = round.playerOnePoints; // Player One Points
