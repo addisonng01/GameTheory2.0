@@ -13,7 +13,7 @@ if (isset($_SESSION)) {
 
 // Check for POST request
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $mysqli = require __DIR__ . "./db.php";
+    $mysqli = require __DIR__ . '/db.php';
 
     $email = filter_var($_POST["email"], FILTER_VALIDATE_EMAIL);
     if (!$email) {
