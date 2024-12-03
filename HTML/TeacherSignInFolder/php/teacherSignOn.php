@@ -6,15 +6,24 @@
     $is_invalid = false;
 
     //Clears the session when the page is reached
-    session_start();
-    session_destroy();
-    session_start();
-
-    $passwordHash = password_hash($_POST["password"], PASSWORD_DEFAULT);
+    //session_start();
+    //session_destroy();
+    //session_start();
 
     if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
-        $mysqli = require __DIR__ ."./db.php";
+        session_start();
+        session_destroy();
+        session_start();
+
+        if (!empty($_POST["password"])) {
+            $passwordHash = password_hash($_POST["password"], PASSWORD_DEFAULT);
+        } else {
+            echo "Password is required.";
+            //$is_invalid = true;
+        }
+
+        $mysqli = require __DIR__ ."/db.php";
 
         $sql = sprintf("SELECT * FROM teacher_profile p
                         JOIN login_credential l
