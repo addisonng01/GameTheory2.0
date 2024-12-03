@@ -87,7 +87,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             <input id="signOnsubmit" name="signOnsubmit" class="input" onclick="return submitForm()" type="submit" value="Submit" /></form>
             <a href="studentCreateProfile.php" class="menu">Create New Account</a>
               </div>
-    <script src="../../../JavaScript/script.js"></script>
+    <script src="https://cssgametheory.com/CSSGametheory/JavaScript/script.js"></script>
 </body>
 </html>
 
