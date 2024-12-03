@@ -11,7 +11,7 @@ const PORT = process.env.PORT || 3000;
 // Middleware
 //trying cors implementation from https://www.npmjs.com/package/cors
 const corsOptions = {
-    origin: process.env.CORS_ORIGIN || 'PORT',
+    origin: process.env.CORS_ORIGIN || 'https://cssgametheory.com/',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'], 
     credentials: true
