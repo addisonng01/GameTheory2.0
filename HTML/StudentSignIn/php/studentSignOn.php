@@ -1,4 +1,8 @@
 <?php
+//error checking
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
 $is_invalid = false;
 
 // Session initialization
@@ -77,7 +81,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 
 
-    <form method="POST">
+    <form method="POST" action="studentSignOn.php">
         <div class="input-container">
            <label for="Email" class="input-label">Email</label>
             <input id="email" name="email" required/>
