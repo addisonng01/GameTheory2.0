@@ -4,7 +4,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
 async function fetchGameData() {
     try {
-        const response = await fetch('/api/game-data'); // Adjust the endpoint to your server
+        // Fetch game data for the current student session
+        const response = await fetch('/api/game-data-current'); // New endpoint to fetch data for the current student
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -32,7 +33,6 @@ async function fetchGameData() {
             Player with Highest Number of Red Cards: ${gameData.highestRed.name} - ${gameData.highestRed.count}<br/>
             Player with Lowest Number of Red Cards: ${gameData.lowestRed.name} - ${gameData.lowestRed.count}
         `;
-
         
     } catch (error) {
         console.error("Error fetching game data:", error);

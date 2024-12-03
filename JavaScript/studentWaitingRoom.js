@@ -4,7 +4,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
 async function fetchUsernames() {
     try {
-        const response = await fetch('/api/usernames'); // Adjust the endpoint as needed
+        // Fetch the usernames based on the current student's session
+        const response = await fetch('/api/usernames-current'); // New endpoint to fetch data based on the active session
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }

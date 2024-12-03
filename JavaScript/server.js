@@ -28,6 +28,208 @@ db.connect(err => {
     console.log('Connected to the MySQL database');
 });
 
+
+// Get all students
+app.get('/api/students', (req, res) => {
+    db.query('SELECT * FROM student_profile', (err, results) => {
+        if (err) {
+            console.error('Database query error:', err);
+            return res.status(500).send('Database query failed');
+        }
+        res.status(200).json(results);
+    });
+});
+
+// Assuming you're using Express.js
+
+app.get('/api/student-info-current', async (req, res) => {
+    try {
+        const studentId = req.session.student_id; // Assuming session contains the current student's ID
+
+        if (!studentId) {
+            return res.status(401).json({ message: "No active session found" });
+        }
+
+        // Query the student profile based on the session
+        const result = await db.query(`
+            SELECT first_nm, last_nm, email
+            FROM student_profile
+            WHERE student_id = ?`, [studentId]);
+
+        if (result.length === 0) {
+            return res.status(404).json({ message: "Student not found" });
+        }
+
+        res.json(result[0]); // Return the student's information as a JSON response
+    } catch (error) {
+        console.error("Error fetching student information:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+});
+
+// For getting all current users as a teacher
+
+app.get('/api/usernames-current', async (req, res) => {
+    try {
+        const studentId = req.session.student_id; // Assuming session contains the current student's ID
+
+        if (!studentId) {
+            return res.status(401).json({ message: "No active session found" });
+        }
+
+        // Query the session instance table for the current student
+        const result = await db.query(`
+            SELECT u.username
+            FROM login_credential AS lc
+            JOIN student_profile AS sp ON lc.teacher_id = sp.student_id
+            WHERE sp.student_id = ?`, [studentId]);
+
+        if (result.length === 0) {
+            return res.status(404).json({ message: "No usernames found for this student" });
+        }
+
+        // Extract the usernames from the result and send it as a JSON response
+        const usernames = result.map(item => item.username);
+        res.json(usernames); // Return the list of usernames
+    } catch (error) {
+        console.error("Error fetching usernames:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+});
+
+app.get('/api/game-data-current', async (req, res) => {
+    try {
+        const studentId = req.session.student_id; // Assuming session contains the current student's ID
+
+        if (!studentId) {
+            return res.status(401).json({ message: "No active session found" });
+        }
+
+        // Query to get game data specific to the logged-in student
+        const gameDataResult = await db.query(`
+            SELECT gs.game_id, gs.create_dt AS gameDate, g.game_title AS gameName, gs.total_rounds AS totalRounds,
+                   ss.total_players AS totalPlayers, ss.total_pairs AS totalPairs, 
+                   COUNT(rb.card_type) AS blackCardsPlayed, 
+                   AVG(rb.card_type = 'black') AS blackAverage,
+                   COUNT(rb.card_type) AS redCardsPlayed, 
+                   AVG(rb.card_type = 'red') AS redAverage
+            FROM game_session gs
+            JOIN game_catalog g ON gs.game_id = g.game_id
+            JOIN student_game_session ss ON gs.game_session_id = ss.game_session_id
+            LEFT JOIN rb_player_score rb ON rb.session_id = gs.session_id
+            WHERE ss.student_id = ? AND gs.is_active = 'Y'
+            GROUP BY gs.game_id`, [studentId]);
+
+        if (gameDataResult.length === 0) {
+            return res.status(404).json({ message: "No game data found for this student" });
+        }
+
+        const gameData = gameDataResult[0];
+
+        // Query for pairs and other player-related data
+        const pairsResult = await db.query(`
+            SELECT sp1.first_nm AS player1, sp2.first_nm AS player2
+            FROM student_profile sp1
+            JOIN student_profile sp2 ON sp1.student_id != sp2.student_id
+            JOIN student_game_session sg1 ON sg1.user_id = sp1.student_id
+            JOIN student_game_session sg2 ON sg2.user_id = sp2.student_id
+            WHERE sg1.game_session_id = ?`, [gameData.game_session_id]);
+
+        // Calculate highest/lowest score, red/black cards, and more
+        const playerStatsResult = await db.query(`
+            SELECT sp.first_nm, SUM(rb.score) AS totalScore, 
+                   COUNT(CASE WHEN rb.card_type = 'black' THEN 1 END) AS blackCount,
+                   COUNT(CASE WHEN rb.card_type = 'red' THEN 1 END) AS redCount
+            FROM rb_player_score rb
+            JOIN student_profile sp ON sp.student_id = rb.user_id
+            WHERE rb.game_session_id = ?
+            GROUP BY sp.first_nm
+            ORDER BY totalScore DESC LIMIT 1`, [gameData.game_session_id]);
+
+        // Return the game data, pairs, and player stats
+        res.json({
+            gameName: gameData.gameName,
+            gameDate: gameData.gameDate,
+            totalPlayers: gameData.totalPlayers,
+            totalPairs: gameData.totalPairs,
+            totalRounds: gameData.totalRounds,
+            pairs: pairsResult,
+            blackCardsPlayed: gameData.blackCardsPlayed,
+            blackAverage: gameData.blackAverage,
+            redCardsPlayed: gameData.redCardsPlayed,
+            redAverage: gameData.redAverage,
+            highestScorer: playerStatsResult[0]
+        });
+    } catch (error) {
+        console.error("Error fetching game data:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+});
+
+// Fetch Red-Black game data for the current session
+app.get('/api/red-black-game-data', async (req, res) => {
+    const { sessionId } = req.query;
+    try {
+        const gameData = await db.query(`
+            SELECT gs.game_date AS gameDate, sp1.first_nm AS playerOneName, sp2.first_nm AS playerTwoName
+            FROM game_session gs
+            JOIN red_black_session rbs ON gs.game_session_id = rbs.game_session_id
+            JOIN student_game_session sgs ON sgs.game_session_id = gs.game_session_id
+            JOIN student_profile sp1 ON sp1.student_id = sgs.player_one_id
+            JOIN student_profile sp2 ON sp2.student_id = sgs.player_two_id
+            WHERE gs.game_session_id = ?`, [sessionId]);
+
+        if (gameData.length === 0) {
+            return res.status(404).json({ message: "No game data found for this session" });
+        }
+
+        res.json(gameData[0]);
+    } catch (error) {
+        console.error("Error fetching Red Black game data:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+});
+
+// Fetch Wheat-Steel game data for the current session
+app.get('/api/wheat-steel-game-data', async (req, res) => {
+    const { sessionId } = req.query;
+    try {
+        const gameData = await db.query(`
+            SELECT gs.game_date AS gameDate, gs.team_name AS teamName
+            FROM game_session gs
+            JOIN wheat_steel_session wss ON gs.game_session_id = wss.game_session_id
+            WHERE gs.game_session_id = ?`, [sessionId]);
+
+        if (gameData.length === 0) {
+            return res.status(404).json({ message: "No game data found for this session" });
+        }
+
+        // Fetch round data for Wheat and Steel
+        const roundData = await db.query(`
+            SELECT round_number, wheat, wheat_trade, wheat_consume, steel, steel_trade, steel_consume
+            FROM wheat_steel_rounds
+            WHERE game_session_id = ?`, [sessionId]);
+
+        res.json({
+            gameDate: gameData[0].gameDate,
+            teamName: gameData[0].teamName,
+            ...roundData.reduce((acc, round) => {
+                acc[`round${round.round_number}Wheat`] = round.wheat;
+                acc[`round${round.round_number}WheatTrade`] = round.wheat_trade;
+                acc[`round${round.round_number}WheatConsume`] = round.wheat_consume;
+                acc[`round${round.round_number}Steel`] = round.steel;
+                acc[`round${round.round_number}SteelTrade`] = round.steel_trade;
+                acc[`round${round.round_number}SteelConsume`] = round.steel_consume;
+                return acc;
+            }, {})
+        });
+    } catch (error) {
+        console.error("Error fetching Wheat Steel game data:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+});
+
+
 // API endpoints
 app.get('/api/games', (req, res) => {
     db.query('SELECT * FROM game_catalog', (error, results) => {
@@ -90,6 +292,65 @@ app.get('/api/rb_player_scores', (req, res) => {
         res.status(200).json(results[0]);
     });
 });
+
+// GET /api/red-black-game?date={date} - Fetch data for a specific Red Black Card game session by date
+app.get('/api/red-black-game', async (req, res) => {
+    const { date } = req.query;
+
+    try {
+        // Fetch the Red Black game session data by date
+        const [gameSessionData] = await db.execute('SELECT * FROM red_black_session WHERE game_date = ?', [date]);
+
+        if (!gameSessionData.length) {
+            return res.status(404).json({ message: 'Game session not found for the specified date' });
+        }
+
+        const gameData = gameSessionData[0];
+
+        // Fetch player scores from the rb_player_score table
+        const [playerScores] = await db.execute('SELECT * FROM rb_player_score WHERE session_id = ?', [gameData.session_id]);
+
+        // Fetch rounds information from the red_black_card_params table
+        const [roundsData] = await db.execute('SELECT * FROM red_black_card_params WHERE session_id = ? ORDER BY round_number', [gameData.session_id]);
+
+        // Calculate totals for red and black cards and identify highest/lowest scores
+        const blackCardsTotal = roundsData.reduce((sum, round) => sum + round.black_cards, 0);
+        const redCardsTotal = roundsData.reduce((sum, round) => sum + round.red_cards, 0);
+        const highestScorePlayer = playerScores.reduce((max, player) => (player.score > max.score ? player : max), { score: -Infinity });
+        const lowestScorePlayer = playerScores.reduce((min, player) => (player.score < min.score ? player : min), { score: Infinity });
+        
+        const highestBlackCardsPlayer = roundsData.reduce((max, round) => (round.black_cards > max.count ? { name: round.player_name, count: round.black_cards } : max), { count: -Infinity });
+        const lowestBlackCardsPlayer = roundsData.reduce((min, round) => (round.black_cards < min.count ? { name: round.player_name, count: round.black_cards } : min), { count: Infinity });
+
+        const highestRedCardsPlayer = roundsData.reduce((max, round) => (round.red_cards > max.count ? { name: round.player_name, count: round.red_cards } : max), { count: -Infinity });
+        const lowestRedCardsPlayer = roundsData.reduce((min, round) => (round.red_cards < min.count ? { name: round.player_name, count: round.red_cards } : min), { count: Infinity });
+
+        // Prepare the response data
+        const gameResponse = {
+            gameDate: gameData.game_date,
+            players: playerScores.map(player => ({ name: player.player_name })),
+            pairs: playerScores.map(player => ({
+                playerOne: player.player_name,
+                playerTwo: playerScores.find(p => p.pair_id === player.pair_id && p.player_name !== player.player_name)?.player_name
+            })),
+            rounds: roundsData,
+            blackCardsTotal,
+            redCardsTotal,
+            highestScorePlayer,
+            lowestScorePlayer,
+            highestBlackCardsPlayer,
+            lowestBlackCardsPlayer,
+            highestRedCardsPlayer,
+            lowestRedCardsPlayer
+        };
+
+        res.status(200).json(gameResponse);
+    } catch (error) {
+        console.error("Error fetching game data:", error);
+        res.status(500).json({ message: 'Error fetching game data' });
+    }
+});
+
 
 // Endpoint to fetch Wheat-Steel game statistics
 app.get('/api/round_scores', (req, res) => {
@@ -403,6 +664,50 @@ app.get('/api/get-responses', (req, res) => {
         res.json(results);
     });
 });
+
+// GET /api/student-info - Fetch student information and game statistics
+app.get('/api/student-info', async (req, res) => {
+    const studentId = req.query.studentId; // Assuming studentId is passed as a query parameter
+
+    try {
+        // Fetch student information
+        const [studentData] = await db.execute('SELECT * FROM students WHERE student_id = ?', [studentId]);
+        if (!studentData.length) {
+            return res.status(404).json({ message: 'Student not found' });
+        }
+        const studentInfo = studentData[0];
+
+        // Fetch Red/Black game statistics for the student
+        const [redBlackData] = await db.execute('SELECT * FROM red_black_stats WHERE student_id = ?', [studentId]);
+        const redBlackStats = redBlackData[0] || { gamesPlayed: 0, highScore: 0, lowScore: 0, gpa: 0.0 };
+
+        // Fetch Wheat & Steel game statistics for the student
+        const [wheatSteelData] = await db.execute('SELECT * FROM wheat_steel_stats WHERE student_id = ?', [studentId]);
+        const wheatSteelStats = wheatSteelData[0] || { gamesPlayed: 0, highProduction: 0, goalsMet: 0, steelHighProduction: 0, steelGoalsMet: 0 };
+
+        // Prepare the response data
+        const studentResponse = {
+            firstName: studentInfo.first_name,
+            lastName: studentInfo.last_name,
+            email: studentInfo.email,
+            redBlackGamesPlayed: redBlackStats.gamesPlayed,
+            redBlackHighScore: redBlackStats.highScore,
+            redBlackLowScore: redBlackStats.lowScore,
+            redBlackGPA: redBlackStats.gpa,
+            wheatSteelGamesPlayed: wheatSteelStats.gamesPlayed,
+            wheatHighProduction: wheatSteelStats.highProduction,
+            wheatGoalsMet: wheatSteelStats.goalsMet,
+            steelHighProduction: wheatSteelStats.steelHighProduction,
+            steelGoalsMet: wheatSteelStats.steelGoalsMet
+        };
+
+        res.status(200).json(studentResponse);
+    } catch (error) {
+        console.error("Error fetching student info:", error);
+        res.status(500).json({ message: 'Error fetching student info' });
+    }
+});
+
 
 // Start server
 const server = app.listen(PORT, () => {
