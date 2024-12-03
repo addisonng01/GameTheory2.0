@@ -2,9 +2,8 @@
     $is_invalid = false;
 
     //Clears the session when the page is reached
-    if (isset($_SESSION)) {
-        session_destroy();
-    }
+    session_start();
+    session_destroy();
     session_start();
 
     $passwordHash = password_hash($_POST["password"], PASSWORD_DEFAULT);
