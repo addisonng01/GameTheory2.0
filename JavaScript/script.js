@@ -29,11 +29,6 @@ function submitForm(){ // this DOES trigger
     }
 }
 
-//test to see if this corrects error
-function closeDescriptionPopup() {
-    console.log("Popup closed");
-}
-
 function logInfo(){
     // automatically returns empty string if no value
     console.log(sessionStorage.getItem("username")); // and this is how we retrieve it
